@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
-import { HomeIcon, DocumentTextIcon, PencilIcon, XMarkIcon, ArrowRightEndOnRectangleIcon, SpeakerWaveIcon } from '@heroicons/react/24/solid';
+import { Link } from "react-router-dom";
+import {HomeIcon, DocumentTextIcon, PencilIcon, XMarkIcon, ArrowRightEndOnRectangleIcon, SpeakerWaveIcon } from '@heroicons/react/24/solid';
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   return (
     <div
-      className={`fixed top-0 h-screen bg-[#5E84C5] text-white p-6 transition-transform duration-300 z-50 ${
+      className={`fixed top-0 h-screen bg-[#5E84C5] text-white p-6 transition-transform duration-300 z-50 shadow-lg ${
                 isOpen ? 'translate-x-0' : '-translate-x-full'} w-64 lg:static lg:translate-x-0`}
+      style={{boxShadow: '4px 0 15px rgba(0, 0, 0, 0.4)'}}
     >
       <button
         onClick={toggleSidebar}
@@ -13,36 +15,52 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         <XMarkIcon className="w-7 h-7" />
       </button>
 
+      {/* Navigasi menu */}
       <ul className="mt-12 space-y-4">
         <li>
-          <a href="#" className="flex items-center space-x-2 hover:text-blue-950">
+          <Link
+            to="/beranda"
+            className="flex items-center space-x-2 hover:text-blue-950 transition-transform duration-200"
+          >
             <HomeIcon className="w-5 h-5" />
             <span>Beranda</span>
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="#" className="flex items-center space-x-2 hover:text-blue-950">
+          <Link
+            to="/riwayat-donasi"
+            className="flex items-center space-x-2 hover:text-blue-950 transition-transform duration-200"
+          >
             <DocumentTextIcon className="w-5 h-5" />
             <span>Riwayat Donasi</span>
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="#" className="flex items-center space-x-2 hover:text-blue-950">
+          <Link
+            to="/campaign-saya"
+            className="flex items-center space-x-2 hover:text-blue-950 transition-transform duration-200"
+          >
             <SpeakerWaveIcon className="w-5 h-5" />
             <span>Campaign Saya</span>
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="#" className="flex items-center space-x-2 hover:text-blue-950">
+          <Link
+            to="/edit-profile"
+            className="flex items-center space-x-2 hover:text-blue-950 transition-transform duration-200"
+          >
             <PencilIcon className="w-5 h-5" />
             <span>Edit Profile</span>
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="#" className="flex items-center space-x-2 hover:text-blue-950">
+          <Link
+            to="/keluar"
+            className="flex items-center space-x-2 hover:text-blue-950 transition-transform duration-200"
+          >
             <ArrowRightEndOnRectangleIcon className="w-5 h-5" />
             <span>Keluar</span>
-          </a>
+          </Link>
         </li>
       </ul>
     </div>
@@ -50,8 +68,8 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 };
 
 Sidebar.propTypes = {
-  isOpen: PropTypes.bool.isRequired, 
-  toggleSidebar: PropTypes.func.isRequired, 
+  isOpen: PropTypes.bool.isRequired,
+  toggleSidebar: PropTypes.func.isRequired,
 };
 
 export default Sidebar;
