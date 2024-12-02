@@ -1,15 +1,10 @@
-import PropTypes from 'prop-types';
-import { Bars3Icon, EnvelopeIcon, PhoneIcon, LockClosedIcon } from '@heroicons/react/24/solid';
 
-const ProfileContent = ({ toggleSidebar }) => {
+import {  EnvelopeIcon, PhoneIcon, LockClosedIcon } from '@heroicons/react/24/solid';
+
+const ProfileContent = () => {
   return (
     <div className="flex-1 flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100">
-      {/* Button side bar */}
-      <button
-        onClick={toggleSidebar}
-        className="absolute top-4 left-4 p-2 bg-[#5E84C5] rounded-md shadow hover:bg-[#4B6CA0] transition duration-300 focus:outline-none lg:hidden">
-        <Bars3Icon className="w-7 h-7 text-white" />
-      </button>
+      
 
       {/* Profile section */}
       <div className="flex flex-col items-center w-full max-w-2xl mt-8 bg-white p-6 rounded-lg shadow-lg">
@@ -43,8 +38,6 @@ const ProfileContent = ({ toggleSidebar }) => {
   );
 };
 
-ProfileContent.propTypes = {
-  toggleSidebar: PropTypes.func.isRequired,
-};
+
 
 export default ProfileContent;
