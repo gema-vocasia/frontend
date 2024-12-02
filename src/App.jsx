@@ -6,7 +6,6 @@ function App() {
 
   return (
     <>
-      {/* <h1>Membuat Halaman Login</h1> */}
       <main className="flex items-center justify-center min-h-screen">
         <card className=" w-full max-w-md p-7 rounded-lg shadow-md">
           <section>
@@ -15,23 +14,6 @@ function App() {
               aria-label="Profile Picture"
             ></div>
             <form className="space-y-3">
-              <div className="text-left">
-                <label
-                  htmlFor="full-name"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
-                  Nama Lengkap
-                </label>
-                <input
-                  type="text"
-                  id="full-name"
-                  name="full-name"
-                  placeholder="Nama Lengkap"
-                  required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
-                />
-              </div>
-
               <div className="text-left">
                 <label
                   htmlFor="email"
@@ -45,28 +27,9 @@ function App() {
                   name="email"
                   placeholder="Email"
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm "
+                  className="w-full px-3 py-2 mb-3 border border-gray-300 rounded-md text-sm "
                 />
-              </div>
 
-              <div className="text-left">
-                <label
-                  htmlFor="phone"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
-                  No Telepon
-                </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  placeholder="No Telepon"
-                  required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm "
-                />
-              </div>
-
-              <div className="text-left">
                 <label
                   htmlFor="password"
                   className="block text-sm font-medium text-gray-700 mb-1"
@@ -79,7 +42,7 @@ function App() {
                   name="password"
                   placeholder="Password"
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm "
+                  className="w-full px-3 py-2 mb-3 border border-gray-300 rounded-md text-sm "
                 />
               </div>
 
