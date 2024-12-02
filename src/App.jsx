@@ -9,11 +9,6 @@ function App() {
       {/* <h1>Membuat Halaman Login</h1> */}
       <main className="flex items-center justify-center min-h-screen">
         <card className=" w-full max-w-md p-7 rounded-lg shadow-md">
-          <header className=" mb-4">
-            <h2 className="text-center text-2xl font-semibold text-black">
-              Edit Profile
-            </h2>
-          </header>
           <section>
             <div
               className="w-24 h-24 bg-gray-300 rounded-full mx-auto mb-5"
@@ -88,18 +83,12 @@ function App() {
                 />
               </div>
 
-              <div className="flex justify-left gap-3">
-                <button
-                  type="button"
-                  className="px-4 py-2 bg-gray-400 text-white rounded-md text-sm hover:opacity-90"
-                >
-                  Batal
-                </button>
+              <div className="flex justify-center gap-3 mt-4">
                 <button
                   type="submit"
                   className="px-4 py-2 bg-blue-500 text-white rounded-md text-sm hover:opacity-90"
                 >
-                  Simpan
+                  login
                 </button>
               </div>
             </form>
