@@ -6,7 +6,7 @@ function App() {
 
   return (
     <>
-      {/* <h1>Membuat Halaman Login</h1> */}
+      {/* <h1>Membuat Halaman Register</h1> */}
       <main className="flex items-center justify-center min-h-screen">
         <card className=" w-full max-w-md p-7 rounded-lg shadow-md">
           <section>
