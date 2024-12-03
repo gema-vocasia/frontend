@@ -14,8 +14,8 @@ function App() {
 
 function Login() {
   return (
-    <main className="flex items-center justify-center min-h-screen">
-      <card className=" w-full max-w-md p-7 rounded-lg shadow-md">
+    <main className="flex items-center justify-center min-h-screen bg-gray-100">
+      <card className=" w-full max-w-md p-7 rounded-lg shadow-md bg-white">
         <PictureProfile />
         <Form />
       </card>
@@ -25,10 +25,13 @@ function Login() {
 
 function PictureProfile() {
   return (
-    <div
-      className="w-24 h-24 bg-gray-300 rounded-full mx-auto mb-5"
-      aria-label="Profile Picture"
-    ></div>
+    <>
+      <h1 className="text-center mb-5 text-3xl">WELLCOME IN GEMA WEBSITE</h1>
+      <div
+        className="w-24 h-24 bg-gray-300 rounded-full mx-auto mb-5"
+        aria-label="Profile Picture"
+      ></div>
+    </>
   );
 }
 
