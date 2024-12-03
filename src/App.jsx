@@ -1,18 +1,25 @@
-// import { useState } from "react";
-// import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   // const [count, setCount] = useState(0);
 
   return (
-    <>
-      <main className="flex items-center justify-center min-h-screen">
-        <card className=" w-full max-w-md p-7 rounded-lg shadow-md">
-          <PictureProfile />
-          <Form />
-        </card>
-      </main>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+function Login() {
+  return (
+    <main className="flex items-center justify-center min-h-screen">
+      <card className=" w-full max-w-md p-7 rounded-lg shadow-md">
+        <PictureProfile />
+        <Form />
+      </card>
+    </main>
   );
 }
 
