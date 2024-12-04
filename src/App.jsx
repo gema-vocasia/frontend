@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Profile from "./pages/Profile";
+import TentangKami from "./pages/TentangKami";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/TentangKami" element={<TentangKami />} />
       </Routes>
     </BrowserRouter>    
   );
