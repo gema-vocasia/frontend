@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import gambar1 from "./img/gambar1.png";
+
 function App() {
   // const [count, setCount] = useState(0);
 
@@ -18,9 +20,9 @@ function Login() {
       {/* Logo */}
       <div className="flex-1 bg-[#5E84C5] hidden sm:flex justify-center items-center">
         <img
-          src="img/gambar1.png"
+          src={gambar1}
           alt="Logo"
-          className="w-48 h-48 object-contain"
+          className="sm:w-[200px] md:w-[250px] lg:w-[350px]"
         />
       </div>
 
@@ -70,12 +72,9 @@ function Login() {
             </div>
 
             {/* Tombol Masuk */}
-            <div>
-              <button
-                type="submit"
-                className="w-full bg-[#5E84C5] text-white py-2 px-4 rounded-md hover:bg-[#5E84C5] transition"
-              >
-                Masuk
+            <div className="flex">
+              <button className=" w-full px-4 py-2 text-sm font-semibold text-white rounded bg-[#5E84C5] hover:bg-[#4B6CA0] transition-colors">
+                MASUK
               </button>
             </div>
           </form>
