@@ -1,18 +1,15 @@
-// import { useState } from "react";
-// import "./App.css";
+import gambar1 from "./img/gambar1.png"; // Path untuk logo
 
 function App() {
-  // const [count, setCount] = useState(0);
-
   return (
     <>
       <div className="min-h-screen flex">
         {/* Logo */}
         <div className="flex-1 bg-[#5E84C5] hidden sm:flex justify-center items-center">
           <img
-            src="img/gambar1.png"
+            src={gambar1}
             alt="Logo"
-            className="w-48 h-48 object-contain"
+            className="sm:w-[200px] md:w-[250px] lg:w-[350px]"
           />
         </div>
 
@@ -72,22 +69,6 @@ function App() {
                 />
               </div>
 
-              {/* Input NO KTP*/}
-              <div>
-                <label
-                  htmlFor="ktp"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Alamat Email
-                </label>
-                <input
-                  id="ktp"
-                  className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#5E84C5] focus:border-[#5E84C5]"
-                  placeholder="Masukkan alamat email"
-                  required
-                />
-              </div>
-
               {/* Input Kata Sandi */}
               <div>
                 <label
@@ -104,12 +85,31 @@ function App() {
                 />
               </div>
 
-              {/* Tombol Masuk */}
+              {/* Input NO KTP*/}
               <div>
-                <button
+                <label
+                  htmlFor="ktp"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Input KTP
+                </label>
+                <input
+                  type="file"
+                  id="ktp"
+                  accept=".png, .jpg, .jpeg, .pdf"
+                  className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm  focus:ring-[#5E84C5] focus:border-[#5E84C5]"
+                  placeholder="Masukkan Foto KTP"
+                  required
+                />
+              </div>
+
+              {/* Tombol Masuk */}
+              <div className="flex">
+                {/* <button
                   type="submit"
                   className="w-full bg-[#5E84C5] text-white py-2 px-4 rounded-md hover:bg-[#5E84C5] transition"
-                >
+                > */}
+                <button className=" w-full px-4 py-2 text-sm font-semibold text-white rounded bg-[#5E84C5] hover:bg-[#4B6CA0] transition-colors">
                   DAFTAR
                 </button>
               </div>
