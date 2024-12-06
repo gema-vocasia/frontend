@@ -1,11 +1,15 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { ArrowRightStartOnRectangleIcon, UserPlusIcon } from '@heroicons/react/24/solid';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
 
 const navigation = [
-  { name: 'Beranda', href: '#', current: false },
-  { name: 'Tentang Kami', href: '#', current: false },
-  { name: 'Donasikan', href: '#', current: false }
+  { name: 'Beranda', to: '/', current: false },
+  { name: 'Tentang Kami', to: '/tentang-kami', current: false },
+  { name: 'Donasikan', to: '/all-campaign', current: false },
+  { name: 'Lisensi', to: '/lisensi-gambar', current: false },
 ]
 
 function classNames(...classes) {
@@ -13,6 +17,9 @@ function classNames(...classes) {
 }
 
 const Navbar = () => {
+  const [isLoggedIn] = useState(true);
+  const navigate = useNavigate();
+  
   return (
     <Disclosure as="nav" className="bg-white shadow-md sticky top-0 z-50">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -40,25 +47,26 @@ const Navbar = () => {
             <div className="hidden sm:ml-6 sm:block ">
               <div className="flex space-x-4 ">
                 {navigation.map((item) => (
-                  <a
+                  <Link
                     key={item.name}
-                    href={item.href}
+                    to={item.to}
                     aria-current={item.current ? 'page' : undefined}
                     className={classNames(
-                      item.current ? 'bg-[#5E84C5] text-white' : 'text-black hover:bg-[#5E84C5] hover:text-white',
+                      item.current ? 'text-[#5E84C5]' : 'text-black hover:text-[#5E84C5]',
                       'rounded-md px-3 py-2 text-base font-medium',
                     )}
                   >
                     {item.name}
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>
           </div>
           
+          
+          {/* Profile dropdown */}
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            
-            {/* Profile dropdown */}
+            {isLoggedIn ? (
             <Menu as="div" className="relative ml-3">
               <div>
                 <MenuButton className="relative flex rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-[#5E84C5] focus:ring-offset-2 focus:ring-offset-white">
@@ -75,23 +83,39 @@ const Navbar = () => {
                 className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
               >
                 <MenuItem>
-                  <a
-                    href="#"
+                  <Link to="/profile"
                     className="block px-4 py-2 text-sm text-black data-[focus]:bg-gray-200 data-[focus]:outline-none"
                   >
                     Profil
-                  </a>
+                  </Link>
                 </MenuItem>
                 <MenuItem>
-                  <a
-                    href="#"
+                  <Link to="/login"
                     className="block px-4 py-2 text-sm text-black data-[focus]:bg-gray-200 data-[focus]:outline-none"
                   >
                     Keluar
-                  </a>
+                  </Link>
                 </MenuItem>
               </MenuItems>
             </Menu>
+          ) : ( 
+            <div className="hidden sm:flex space-x-4">
+                <button
+                  onClick={() => navigate('/login')}
+                  className="flex items-center rounded-lg bg-[#5E84C5] px-4 py-2 text-white hover:bg-[#476BA6] shadow-xl"
+                >
+                  <ArrowRightStartOnRectangleIcon className="mr-2 h-5 w-5" />
+                  Masuk
+                </button>
+                <button
+                  onClick={() => navigate('/register')}
+                  className="flex items-center rounded-lg bg-[#5E84C5] px-4 py-2 text-white hover:bg-[#476BA6] shadow-xl"
+                >
+                  <UserPlusIcon className="mr-2 h-5 w-5" />
+                  Daftar
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -103,16 +127,27 @@ const Navbar = () => {
             <DisclosureButton
               key={item.name}
               as="a"
-              href={item.href}
+              to={item.to}
               aria-current={item.current ? 'page' : undefined}
               className={classNames(
-                item.current ? 'bg-[#5E84C5] text-white' : 'text-black hover:bg-[#5E84C5] hover:text-white',
+                item.current ? 'text-[#5E84C5]' : 'text-black hover:text-[#5E84C5]',
                 'block rounded-md px-3 py-2 text-base font-medium',
               )}
             >
               {item.name}
             </DisclosureButton>
           ))}
+
+          {/* Jika belum login */}
+          {!isLoggedIn && (
+            <DisclosureButton
+              as="a"
+              to="/login"
+              className="block rounded-md px-3 py-2 text-base font-medium text-black hover:text-[#5E84C5]"
+            >
+              Masuk
+            </DisclosureButton>
+          )}
         </div>
       </DisclosurePanel>
     </Disclosure>
