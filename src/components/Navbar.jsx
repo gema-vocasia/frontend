@@ -1,6 +1,6 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import { ArrowRightStartOnRectangleIcon, UserPlusIcon } from '@heroicons/react/24/solid';
+import { ArrowRightStartOnRectangleIcon, UserPlusIcon, UserIcon, SpeakerWaveIcon, DocumentTextIcon, ArrowLeftEndOnRectangleIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
@@ -62,8 +62,7 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-          
-          
+           
           {/* Profile dropdown */}
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             {isLoggedIn ? (
@@ -83,16 +82,38 @@ const Navbar = () => {
                 className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
               >
                 <MenuItem>
-                  <Link to="/profile"
-                    className="block px-4 py-2 text-sm text-black data-[focus]:bg-gray-200 data-[focus]:outline-none"
+                  <Link
+                    to="/profile"
+                    className="flex items-center px-4 py-2 text-sm text-black data-[focus]:bg-gray-200 data-[focus]:outline-none"
                   >
+                    <UserIcon className="w-5 h-5 mr-3 text-[#5E84C5]" />
                     Profil
                   </Link>
                 </MenuItem>
                 <MenuItem>
-                  <Link to="/login"
-                    className="block px-4 py-2 text-sm text-black data-[focus]:bg-gray-200 data-[focus]:outline-none"
+                  <Link
+                    to="/kampanye-saya"
+                    className="flex items-center px-4 py-2 text-sm text-black data-[focus]:bg-gray-200 data-[focus]:outline-none"
                   >
+                    <SpeakerWaveIcon className="w-5 h-5 mr-3 text-[#5E84C5]" />
+                    Kampanye Saya
+                  </Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link
+                    to="/riwayat-donasi"
+                    className="flex items-center px-4 py-2 text-sm text-black data-[focus]:bg-gray-200 data-[focus]:outline-none"
+                  >
+                    <DocumentTextIcon className="w-5 h-5 mr-3 text-[#5E84C5]" />
+                    Riwayat Donasi
+                  </Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link
+                    to="/login"
+                    className="flex items-center px-4 py-2 text-sm text-black data-[focus]:bg-gray-200 data-[focus]:outline-none"
+                  >
+                    <ArrowLeftEndOnRectangleIcon className="w-5 h-5 mr-3 text-[#5E84C5]" />
                     Keluar
                   </Link>
                 </MenuItem>
@@ -137,8 +158,6 @@ const Navbar = () => {
               {item.name}
             </DisclosureButton>
           ))}
-
-          {/* Jika belum login */}
           {!isLoggedIn && (
             <DisclosureButton
               as="a"
