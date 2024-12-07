@@ -1,24 +1,14 @@
-import Sidebar from '../components/SideBar';
 import FormEditProfile from '../components/FormEditProfile';
-import { useState } from 'react';
+import Navbar from '../components/Navbar';
+import Footer from "../components/Footer";
 
 const EditProfile = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form submitted");
-  };
-
 
   return (
-    <div className="relative min-h-screen flex flex-col lg:flex-row">
-        <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar}/>
-        <FormEditProfile onSubmit={handleSubmit} toggleSidebar={toggleSidebar}/>
+    <div>
+        <Navbar />
+        <FormEditProfile />
+        <Footer />
     </div>
   );
 };

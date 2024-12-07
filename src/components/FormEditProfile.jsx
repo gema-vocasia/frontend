@@ -1,17 +1,15 @@
-import PropTypes from 'prop-types';
 import { CameraIcon } from '@heroicons/react/24/solid';
 
-const FormEditProfile = ({ onSubmit }) => {
+const FormEditProfile = () => {
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100">
-      <div className="w-full max-w-xl bg-white mt-8 p-6 rounded-lg shadow-xl">
-        
-        <div className="flex items-center justify-center mb-6">
-          <h1 className="text-2xl font-semibold text-[#5E84C5]">Edit Profile</h1>
+    <div className="flex flex-col items-center justify-center p-6 bg-gray-100">
+      <div className="w-full max-w-xl bg-white p-6 rounded-lg shadow-xl">
+        <div className="flex items-center justify-center mb-8">
+          <h1 className="text-2xl font-semibold text-black">Edit Profile</h1>
         </div>
         
-        <form onSubmit={onSubmit} className="space-y-6">
+        <form className="space-y-6">
           <div className="flex justify-center mb-6">
             <div className="relative">
               <img
@@ -19,13 +17,13 @@ const FormEditProfile = ({ onSubmit }) => {
                 alt="Profile"
                 className="w-32 h-32 rounded-full shadow-lg border-4 border-[#5E84C5]"
               />
-              <label className="absolute bottom-0 right-0 p-2 rounded-full shadow cursor-pointer bg-[#5E84C5] text-white hover:text-[#5E84C5] hover:bg-white border-2 border-[#5E84C5]">
+              <label className="absolute bottom-0 right-0 p-2 rounded-full shadow cursor-pointer bg-[#5E84C5] text-white hover:text-[#5E84C5] hover:bg-white border-2 border-[#5E84C5]
+              transition-transform duration-300 transform hover:scale-105">
                 <CameraIcon className="w-5 h-5" />
                 <input
                   type="file"
                   accept="image/*"
                   className="hidden"
-                  onChange={(e) => console.log(e.target.files[0])}
                 />
               </label>
             </div>
@@ -39,7 +37,6 @@ const FormEditProfile = ({ onSubmit }) => {
               className="w-full px-4 py-2 rounded-lg text-black border-2 border-[#5E84C5] focus:outline-none focus:ring focus:ring-blue-200"
             />
           </div>
-
           <div>
             <label className="block text-black mb-1">Email</label>
             <input
@@ -48,7 +45,6 @@ const FormEditProfile = ({ onSubmit }) => {
               className="w-full px-4 py-2 rounded-lg text-black border-2 border-[#5E84C5] focus:outline-none focus:ring focus:ring-blue-200"
             />
           </div>
-
           <div>
             <label className="block text-black mb-1">Nomor Telepon</label>
             <input
@@ -57,7 +53,6 @@ const FormEditProfile = ({ onSubmit }) => {
               className="w-full px-4 py-2 rounded-lg text-black border-2 border-[#5E84C5] focus:outline-none focus:ring focus:ring-blue-200"
             />
           </div>
-
           <div>
             <label className="block text-black mb-1">Password</label>
             <input
@@ -70,7 +65,8 @@ const FormEditProfile = ({ onSubmit }) => {
           <div className="flex justify-center">
             <button
               type="submit"
-              className="w-60 h-12 bg-[#5E84C5] text-white rounded-xl hover:bg-[#4B6CA0] transform hover:scale-105 transition duration-300 mt-6 text-lg font-semibold"
+              className="w-60 h-12 bg-[#5E84C5] text-white rounded-xl hover:bg-[#4B6CA0]
+              transform hover:scale-105 transition duration-300 mt-6 text-lg font-semibold"
             >
               Simpan
             </button>
@@ -81,9 +77,4 @@ const FormEditProfile = ({ onSubmit }) => {
   );
 };
 
-FormEditProfile.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};
-
 export default FormEditProfile;
-
