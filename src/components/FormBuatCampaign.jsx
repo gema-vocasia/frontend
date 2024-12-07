@@ -15,7 +15,7 @@ import "react-quill/dist/quill.snow.css";
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen p-4 bg-gray-100">
+    <div className="flex justify-center items-center p-6 bg-gray-100">
       <div className="w-full max-w-3xl bg-white m-8 p-8 rounded-lg shadow-xl">
         <h1 className="text-center text-2xl font-semibold text-black mb-6">
           Isi Data Dibawah Ini
@@ -134,7 +134,8 @@ import "react-quill/dist/quill.snow.css";
           <div className="flex justify-center">
             <button
               type="submit"
-              className="w-2/3 h-12 bg-[#5E84C5] text-white rounded-xl hover:bg-[#4B6CA0] transform hover:scale-105 transition duration-300 mt-6 text-lg font-semibold"
+              className="w-2/3 h-12 bg-[#5E84C5] text-white rounded-xl hover:bg-[#4B6CA0]
+              transform hover:scale-105 transition duration-300 mt-6 text-lg font-semibold"
             >
               Kirim
             </button>
