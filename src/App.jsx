@@ -22,34 +22,43 @@ function CampaignSaya() {
   const donasi = [
     {
       id: 1,
-      nama: "John Doe",
+
       kampanye: "Bantuan Pendidikan Anak",
       tanggalmulai: "2024-12-01",
       tanggalberakhir: "2025-05-05",
       jam: "23.59",
+      kategori: "Pendidikan",
       TargetDonasi: "Rp 500.000.000",
+      danamasuk: "Rp 500.000",
+      status: "sukses",
       pesan: "Semoga bermanfaat untuk pendidikan anak-anak.",
       gambar: RumahBaca, // Path gambar
     },
     {
       id: 2,
-      nama: "John Doe",
+
       kampanye: "Bantuan Pendidikan Anak",
       tanggalmulai: "2024-12-01",
       tanggalberakhir: "2025-05-05",
       jam: "23.59",
+      kategori: "Bencana Alam",
       TargetDonasi: "Rp 500.000.000.",
+      danamasuk: "Rp 500.000",
+      status: "pending",
       pesan: "Semoga amal ini menjadi berkah.",
       gambar: kesehatan, // Path gambar
     },
     {
       id: 3,
-      nama: "John Doe",
+
       kampanye: "Bantuan Pendidikan Anak",
       tanggalmulai: "2024-12-01",
       tanggalberakhir: "2025-05-05",
       jam: "23.59",
+      kategori: "Kesehatan",
       TargetDonasi: "Rp 500.000.000",
+      danamasuk: "Rp 500.000",
+      status: "sukses",
       pesan: "Doa terbaik untuk korban bencana.",
       gambar: banjirmedan, // Path gambar
     },
@@ -125,7 +134,7 @@ function CampaignSaya() {
                   <img
                     src={item.gambar}
                     alt={item.kampanye}
-                    className="w-60 h-60 object-cover rounded"
+                    className="w-96 h-96 object-cover rounded"
                   />
                 </div>
 
@@ -135,23 +144,74 @@ function CampaignSaya() {
                     {item.kampanye}
                   </h2>
                   <p className="text-lg text-gray-600">
-                    <span className="font-medium">Nama :</span> {item.nama}
-                  </p>
-                  <p className="text-lg text-gray-600">
                     <span className="font-medium">
                       Tanggal Mulai - Tanggal Berakhir :{" "}
                     </span>{" "}
                     {item.tanggalmulai} - {item.tanggalberakhir} --{" "}
                     <b> {item.jam} WIB</b>
                   </p>
-
+                  <p className="text-lg text-gray-600">
+                    <span className="font-medium">Kategori :</span>{" "}
+                    {item.kategori}
+                  </p>
                   <p className="text-lg text-gray-600">
                     <span className="font-medium">Target Donasi :</span>{" "}
                     {item.TargetDonasi}
                   </p>
+                  <p className="text-lg text-gray-600">
+                    <span className="font-medium">Donasi Masuk :</span>{" "}
+                    {item.danamasuk}
+                  </p>
+                  {/* Status */}
+                  <p className="text-lg text-gray-600">
+                    <span className="font-medium">Status :</span>{" "}
+                    <span
+                      className={`font-semibold ${
+                        item.status === "sukses"
+                          ? "text-green-500"
+                          : "text-yellow-500"
+                      }`}
+                    >
+                      {item.status}
+                    </span>
+                  </p>
                   {/* Pesan */}
                   <p className=" font-medium text-lg text-gray-800 ">
-                    Pesan Anda : <span className=" italic">{item.pesan} </span>
+                    Deskripsi :{" "}
+                    <span className=" italic">
+                      <p>
+                        Saat ini, ribuan anak di Indonesia terancam kehilangan
+                        akses pendidikan yang layak akibat keterbatasan biaya.
+                        Mereka adalah generasi penerus bangsa yang penuh
+                        semangat dan harapan, tetapi terkendala oleh kondisi
+                        ekonomi.Kami mengajak Anda untuk ikut berkontribusi
+                        dalam Gerakan Peduli Pendidikan dengan target
+                        penggalangan dana sebesar Rp500 juta dalam waktu 5 hari.
+                        Dana yang terkumpul akan digunakan untuk: 1.Membiayai
+                        kebutuhan pendidikan seperti buku, seragam, dan alat
+                        tulis. 2.Memberikan beasiswa kepada siswa-siswa
+                        berprestasi dari keluarga kurang mampu. 3. Mendukung
+                        akses digital seperti perangkat belajar dan koneksi
+                        internet.{" "}
+                      </p>
+                      <p>
+                        Setiap donasi Anda, sekecil apa pun, akan menjadi
+                        langkah besar untuk masa depan mereka. Mari bersama kita
+                        wujudkan impian mereka untuk terus belajar dan
+                        berkembang.
+                      </p>
+                      <p>
+                        Ayo donasi sekarang dan jadilah bagian dari perubahan!
+                      </p>
+                      <p>
+                        Bantu sebarkan informasi ini agar lebih banyak orang
+                        dapat tergerak untuk membantu.
+                      </p>
+                      <p>
+                        Setiap anak berhak bermimpi, dan Anda bisa menjadi
+                        alasan mereka untuk mewujudkannya.
+                      </p>
+                    </span>
                   </p>
                 </div>
               </div>
