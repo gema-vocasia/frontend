@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; 
+import { ArrowRightOnRectangleIcon, UserPlusIcon } from '@heroicons/react/24/solid';
 import logo from '../assets/logo.png';
 import SedekahPangan from '../assets/SedekahPangan.png';
 import Santunan from '../assets/Santunan.png';
-import SedekahMakanan from '../assets/SedekahMakanan.png';
+import SedekahMakanan from '../assets/SedekahMakanan.png'
 import KesehatanSatu from '../assets/KesehatanSatu.png';
 import KesehatanDua from '../assets/KesehatanDua.png';
 import KesehatanKetiga from '../assets/KesehatanKetiga.png';
@@ -16,7 +17,6 @@ import BantuRumahBaca from '../assets/BantuRumahBaca.png';
 import mangrove from '../assets/mangrove.png';
 import MenanamPohon from '../assets/MenanamPohon.jpg';
 import PengelolaanSampah from '../assets/PengelolaanSampah.png';
-
 
 const AllKampanye = () => {
   // Data Kategori Kampanye
@@ -49,33 +49,58 @@ const AllKampanye = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="fixed top-0 left-0 z-10 w-full p-4 bg-white border-b border-gray-300 shadow-lg">
-        <div className="flex items-center justify-between w-full px-4">
-          <div className="flex items-center">
-            <img src={logo} alt="Logo" className="w-12 h-12 mr-4" />
-            <nav className="flex gap-5">
-              <Link to="/" className="text-lg font-medium text-gray-800 hover:text-[#5E84C5] transition duration-300">
-                Beranda
-              </Link>
-              <Link to="/tentang-kami" className="text-lg font-medium text-gray-800 hover:text-[#5E84C5] transition duration-300">
-                Tentang Kami
-              </Link>
-              <Link to="/donasi" className="text-lg font-medium text-gray-800 hover:text-[#5E84C5] transition duration-300">
-                Donasikan
-              </Link>
-            </nav>
-          </div>
-          <div className="flex gap-2">
-            <button className="px-6 py-2 text-sm font-semibold text-white rounded-full bg-[#5E84C5] hover:bg-[#4B6CA0] transition duration-300">
-              Masuk
-            </button>
-            <button className="px-6 py-2 text-sm font-semibold text-white rounded-full bg-[#5E84C5] hover:bg-[#4B6CA0] transition duration-300">
-              Daftar
-            </button>
-          </div>
-        </div>
-      </header>
+     <header className="fixed top-0 left-0 z-10 w-full p-4 bg-white border-b border-gray-300">
+  <div className="flex items-center justify-between w-full px-4">
+    <div className="flex items-center">
+      <img src={logo} alt="Logo" className="w-10 h-10 mr-4" />
+      <nav className="flex gap-5">
+        <Link
+          to="/"
+          className={`text-lg font-medium p-2 rounded border-2 ${
+            location.pathname === '/'
+              ? 'bg-[#5E84C5] text-white border-[#5E84C5]' // Saat Beranda aktif
+              : 'text-black hover:bg-[#4B6CA0] hover:border-[#5E84C5] hover:text-white border-transparent' // Efek hover saat tidak aktif
+          }`}
+        >
+          Beranda
+        </Link>
+        <Link
+          to="/tentang-kami"
+          className={`text-lg font-medium p-2 rounded border-2 ${
+            location.pathname === '/tentang-kami'
+              ? 'bg-[#5E84C5] text-white border-[#5E84C5]' // Saat Tentang Kami aktif
+              : 'text-black hover:bg-[#4B6CA0] hover:border-[#5E84C5] hover:text-white border-transparent' // Efek hover saat tidak aktif
+          }`}
+        >
+          Tentang Kami
+        </Link>
+        <Link
+          to="/all-kampanye"
+          className={`text-lg font-medium p-2 rounded border-2 ${
+            location.pathname === '/all-kampanye'
+              ? 'bg-[#5E84C5] text-white border-[#5E84C5]' // Saat All Kampanye aktif
+              : 'text-black hover:bg-[#4B6CA0] hover:border-[#5E84C5] hover:text-white border-transparent' // Efek hover saat tidak aktif
+          }`}
+        >
+          Donasikan
+        </Link>
+      </nav>
+    </div>
+    <div className="flex gap-2">
+      {/* Tombol Masuk */}
+      <button className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white rounded bg-[#5E84C5] hover:bg-[#4B6CA0]">
+        <ArrowRightOnRectangleIcon className="w-5 h-5" />
+        Masuk
+      </button>
+      {/* Tombol Daftar */}
+      <button className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white rounded bg-[#5E84C5] hover:bg-[#4B6CA0]">
+        <UserPlusIcon className="w-5 h-5" />
+        Daftar
+      </button>
+    </div>
+  </div>
+</header>
+
 
       {/* Hero Section */}
       <div className="pt-24 text-center">
@@ -190,13 +215,13 @@ const AllKampanye = () => {
             <div className="max-w-[1200px] mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Explore Section */}
             <div>
-                <h4 className="mb-4 text-lg font-bold">Explore</h4>
-                <ul className="space-y-2">
-                <li><a href="#" className="text-white hover:underline">Beranda</a></li>
-                <li><a href="#" className="text-white hover:underline">Tentang kami</a></li>
-                <li><a href="#" className="text-white hover:underline">Donasikan</a></li>
-                </ul>
-            </div>
+  <h4 className="mb-4 text-lg font-bold">Explore</h4>
+  <ul className="space-y-2">
+    <li><a href="/" className="text-white hover:underline">Beranda</a></li>
+    <li><a href="/tentang-kami" className="text-white hover:underline">Tentang kami</a></li>
+    <li><a href="/all-kampanye" className="text-white hover:underline">Semua Kampanye</a></li>
+  </ul>
+</div>
 
             {/* Contact Us Section */}
             <div>
