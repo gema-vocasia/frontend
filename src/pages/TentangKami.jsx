@@ -1,42 +1,81 @@
-import React from 'react';
-import logo from '../assets/logo.png'; // Path untuk logo
-import hero from '../assets/hero.png'; // Path untuk gambar hero
-import whoweare from '../assets/whoweare.png'; // Path untuk gambar "Siapa Kami?"
-import missionImage from '../assets/mission.png'; // Path untuk gambar misi (pastikan file tersedia)
-import { Link } from 'react-router-dom'; 
+import React, { useState, useEffect } from 'react';
+import logo from '../assets/logo.png'; // Path for the logo
+import hero from '../assets/hero.png'; // Path for the hero image
+import whoweare from '../assets/whoweare.png'; // Path for the "Who We Are" image
+import missionImage from '../assets/mission.png'; // Path for the mission image (make sure the file exists)
+import { Link, useLocation } from 'react-router-dom';
+import membercowo from '../assets/membercowo.png';
+import membercewe from '../assets/membercewe.png';
+import { ArrowRightOnRectangleIcon, UserPlusIcon } from '@heroicons/react/24/solid'
+
 
 const TentangKami = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    // Set isOpen ke true ketika halaman /tentang-kami dibuka
+    if (location.pathname === "/tentang-kami") {
+      setIsOpen(true);
+    } else {
+      setIsOpen(false);
+    }
+  }, [location]);
+
   return (
     <div>
-      {/* Header */}
       <header className="fixed top-0 left-0 z-10 w-full p-4 bg-white border-b border-gray-300">
-        <div className="flex items-center justify-between w-full px-4">
-          <div className="flex items-center">
-            {/* Logo */}
-            <img src={logo} alt="Logo" className="w-10 h-10 mr-4" />
-            <nav className="flex gap-5">
-      <Link to="/" className="text-lg font-medium text-black hover:underline">
-        Beranda
-      </Link>
-      <Link to="/tentang-kami" className="text-lg font-medium text-black hover:underline">
-        Tentang Kami
-      </Link>
-      <Link to="/all-kampanye" className="text-lg font-medium text-black hover:underline">
-        Donasikan
-      </Link>
-    </nav>
-          </div>
-          {/* Buttons */}
-          <div className="flex gap-2">
-            <button className="px-4 py-2 text-sm font-semibold text-white rounded bg-[#5E84C5] hover:bg-[#4B6CA0] transition-colors">
-              Masuk
-            </button>
-            <button className="px-4 py-2 text-sm font-semibold text-white rounded bg-[#5E84C5] hover:bg-[#4B6CA0] transition-colors">
-              Daftar
-            </button>
-          </div>
-        </div>
-      </header>
+  <div className="flex items-center justify-between w-full px-4">
+    <div className="flex items-center">
+      {/* Logo */}
+      <img src={logo} alt="Logo" className="w-10 h-10 mr-4" />
+      <nav className="flex gap-5">
+        <Link
+          to="/"
+          className={`text-lg font-medium p-2 rounded border-2 ${
+            location.pathname === '/'
+              ? 'bg-[#5E84C5] text-white border-[#5E84C5]'
+              : 'text-black hover:bg-[#4B6CA0] hover:border-[#5E84C5] hover:text-white border-transparent'
+          }`}
+        >
+          Beranda
+        </Link>
+        <Link
+          to="/tentang-kami"
+          className={`text-lg font-medium p-2 rounded border-2 ${
+            location.pathname === '/tentang-kami'
+              ? 'bg-[#5E84C5] text-white border-[#5E84C5]'
+              : 'text-black hover:bg-[#4B6CA0] hover:border-[#5E84C5] hover:text-white border-transparent'
+          }`}
+        >
+          Tentang Kami
+        </Link>
+        <Link
+          to="/all-kampanye"
+          className={`text-lg font-medium p-2 rounded border-2 ${
+            location.pathname === '/all-kampanye'
+              ? 'bg-[#5E84C5] text-white border-[#5E84C5]'
+              : 'text-black hover:bg-[#4B6CA0] hover:border-[#5E84C5] hover:text-white border-transparent'
+          }`}
+        >
+          Donasikan
+        </Link>
+      </nav>
+    </div>
+
+    {/* Buttons */}
+    <div className="flex gap-2">
+      <button className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white rounded bg-[#5E84C5] hover:bg-[#4B6CA0] transition-colors">
+        <ArrowRightOnRectangleIcon className="w-5 h-5" />
+        Masuk
+      </button>
+      <button className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white rounded bg-[#5E84C5] hover:bg-[#4B6CA0] transition-colors">
+        <UserPlusIcon className="w-5 h-5" />
+        Daftar
+      </button>
+    </div>
+  </div>
+</header>
 
       {/* Hero Section */}
       <section className="relative w-full h-[400px] mt-[70px]">
@@ -110,103 +149,64 @@ const TentangKami = () => {
         </div>
       </section>
 
-      {/* Section: Galang Dana dan Donasi */}
-      <section className="w-full py-16 bg-white">
-        <div className="flex flex-col items-center justify-center mx-auto max-w-[800px] gap-6 md:flex-row">
-          {/* Card Galang Dana */}
-          <div
-            className="w-full p-6 rounded-lg shadow-lg md:w-[48%] flex flex-col items-center justify-between h-[220px]"
-            style={{ backgroundColor: '#5E84C5' }}>
-            <h3 className="text-2xl font-bold text-center text-white">Galang Dana</h3>
-            <button
-              className="flex items-center justify-center mt-4 font-medium text-blue-900 rounded-full hover:bg-blue-500"
-              style={{
-                backgroundColor: '#D3E3FF',
-                width: '206.28px',
-                height: '35.96px',
-                fontSize: '14px',
-              }}>
-              Buat Penggalangan
-            </button>
-          </div>
+      
 
-          {/* Card Donasi */}
-          <div
-            className="w-full p-6 rounded-lg shadow-lg md:w-[48%] flex flex-col items-center justify-between h-[220px]"
-            style={{ backgroundColor: '#D3E3FF' }}>
-            <h3 className="text-2xl font-bold text-center text-blue-900">
-              Donasikan Sebagian Harta Anda
-            </h3>
-            <button
-              className="flex items-center justify-center mt-4 font-medium text-white bg-blue-900 rounded-full hover:bg-blue-800"
-              style={{
-                width: '142px',
-                height: '36px',
-                fontSize: '14px',
-              }}>
-              Donasi
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Section: Tim Kami */}
       <section className="w-full py-16 bg-gray-50">
-        <div className="max-w-[1200px] mx-auto px-4 text-center">
-          <h2 className="mb-8 text-3xl font-bold text-gray-800">Tim Kami</h2>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
-            {/* Card 1 */}
-            <div className="flex flex-col items-center justify-center p-4 bg-gray-200 rounded-lg shadow-lg">
-              <div className="w-[120px] h-[160px] bg-gray-300 rounded-lg flex items-center justify-center">
-                <span className="text-gray-500">🖼️</span>
-              </div>
-              <p className="mt-4 text-sm font-medium text-gray-700">Lorem</p>
-            </div>
-            {/* Card 2 */}
-            <div className="flex flex-col items-center justify-center p-4 bg-gray-200 rounded-lg shadow-lg">
-              <div className="w-[120px] h-[160px] bg-gray-300 rounded-lg flex items-center justify-center">
-                <span className="text-gray-500">🖼️</span>
-              </div>
-              <p className="mt-4 text-sm font-medium text-gray-700">Lorem</p>
-            </div>
-            {/* Card 3 */}
-            <div className="flex flex-col items-center justify-center p-4 bg-gray-200 rounded-lg shadow-lg">
-              <div className="w-[120px] h-[160px] bg-gray-300 rounded-lg flex items-center justify-center">
-                <span className="text-gray-500">🖼️</span>
-              </div>
-              <p className="mt-4 text-sm font-medium text-gray-700">Lorem</p>
-            </div>
-            {/* Card 4 */}
-            <div className="flex flex-col items-center justify-center p-4 bg-gray-200 rounded-lg shadow-lg">
-              <div className="w-[120px] h-[160px] bg-gray-300 rounded-lg flex items-center justify-center">
-                <span className="text-gray-500">🖼️</span>
-              </div>
-              <p className="mt-4 text-sm font-medium text-gray-700">Lorem</p>
-            </div>
-            {/* Card 5 */}
-            <div className="flex flex-col items-center justify-center p-4 bg-gray-200 rounded-lg shadow-lg">
-              <div className="w-[120px] h-[160px] bg-gray-300 rounded-lg flex items-center justify-center">
-                <span className="text-gray-500">🖼️</span>
-              </div>
-              <p className="mt-4 text-sm font-medium text-gray-700">Lorem</p>
-            </div>
-          </div>
+  <div className="max-w-[1200px] mx-auto px-4 text-center">
+    <h2 className="mb-8 text-3xl font-bold text-gray-800">Tim Kami</h2>
+    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
+      {/* Card 1 */}
+      <div className="flex flex-col items-center justify-center p-4 bg-gray-200 rounded-lg shadow-lg">
+        <div className="w-[120px] h-[160px] bg-gray-300 rounded-lg flex items-center justify-center">
+          <img src={membercowo} alt="Team Member 1" className="object-cover w-full h-full rounded-lg" />
         </div>
-      </section>
+        <p className="mt-4 text-sm font-medium text-gray-700">Nama 1</p>
+      </div>
+      {/* Card 2 */}
+      <div className="flex flex-col items-center justify-center p-4 bg-gray-200 rounded-lg shadow-lg">
+        <div className="w-[120px] h-[160px] bg-gray-300 rounded-lg flex items-center justify-center">
+          <img src={membercowo} alt="Team Member 2" className="object-cover w-full h-full rounded-lg" />
+        </div>
+        <p className="mt-4 text-sm font-medium text-gray-700">Nama 2</p>
+      </div>
+      {/* Card 3 */}
+      <div className="flex flex-col items-center justify-center p-4 bg-gray-200 rounded-lg shadow-lg">
+        <div className="w-[120px] h-[160px] bg-gray-300 rounded-lg flex items-center justify-center">
+          <img src={membercowo} alt="Team Member 3" className="object-cover w-full h-full rounded-lg" />
+        </div>
+        <p className="mt-4 text-sm font-medium text-gray-700">Nama 3</p>
+      </div>
+      {/* Card 4 */}
+      <div className="flex flex-col items-center justify-center p-4 bg-gray-200 rounded-lg shadow-lg">
+        <div className="w-[120px] h-[160px] bg-gray-300 rounded-lg flex items-center justify-center">
+          <img src={membercewe} alt="Team Member 4" className="object-cover w-full h-full rounded-lg" />
+        </div>
+        <p className="mt-4 text-sm font-medium text-gray-700">Nama 4</p>
+      </div>
+      {/* Card 5 */}
+      <div className="flex flex-col items-center justify-center p-4 bg-gray-200 rounded-lg shadow-lg">
+        <div className="w-[120px] h-[160px] bg-gray-300 rounded-lg flex items-center justify-center">
+          <img src={membercewe} alt="Team Member 5" className="object-cover w-full h-full rounded-lg" />
+        </div>
+        <p className="mt-4 text-sm font-medium text-gray-700">Nama 5</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 
       {/* Footer Section */}
       <footer className="w-full text-white" style={{ backgroundColor: '#5E84C5' }}>
         <div className="max-w-[1200px] mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Explore Section */}
           <div>
-            <h4 className="mb-4 text-lg font-bold">Explore</h4>
-            <ul className="space-y-2">
-              <li><a href="#" className="text-white hover:underline">Beranda</a></li>
-              <li><a href="#" className="text-white hover:underline">Tentang kami</a></li>
-              <li><a href="#" className="text-white hover:underline">Donasikan</a></li>
+          <h4 className="mb-4 text-lg font-bold">Explore</h4>
+          <ul className="space-y-2">
+            <li><a href="/" className="text-white hover:underline">Beranda</a></li>
+            <li><a href="/tentang-kami" className="text-white hover:underline">Tentang kami</a></li>
+            <li><a href="/all-kampanye" className="text-white hover:underline">Semua Kampanye</a></li>
             </ul>
-          </div>
-
+</div>
           {/* Contact Us Section */}
           <div>
             <h4 className="mb-4 text-lg font-bold">Contact Us</h4>
