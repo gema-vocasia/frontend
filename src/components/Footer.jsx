@@ -1,5 +1,4 @@
 import { FaInstagram, FaFacebook, FaTiktok } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -9,10 +8,9 @@ const Footer = () => {
         <div className="text-center sm:text-left">
           <h3 className="font-bold mb-4">Jelajahi</h3>
           <ul className="space-y-2">
-            <li><Link to="/">Beranda</Link></li>
-            <li><Link to="/tentang-kami">Tentang Kami</Link></li>
-            <li><Link to="/all-campaign">Donasikan</Link></li>
-            <li><Link to="/lisensi-gambar">Lisensi</Link></li>
+            <li><a href ="#">Beranda</a></li>
+            <li><a href ="#">Tentang Kami</a></li>
+            <li><a href ="#">Donasikan</a></li>
           </ul>
         </div>
         
@@ -52,4 +50,3 @@ const Footer = () => {
 };
 
 export default Footer;
- 

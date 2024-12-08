@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import EditProfile from "./pages/EditProfile";
+import BuatCampaign from "./pages/BuatCampaign";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/edit-profile" element={<EditProfile />} />
+        <Route path="/buat-campaign" element={<BuatCampaign />} />
       </Routes>
     </BrowserRouter>    
   );
