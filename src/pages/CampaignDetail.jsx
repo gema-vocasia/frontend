@@ -17,12 +17,14 @@ import BantuRumahBaca from '../assets/BantuRumahBaca.png';
 import mangrove from '../assets/mangrove.png';
 import MenanamPohon from '../assets/MenanamPohon.jpg';
 import PengelolaanSampah from '../assets/PengelolaanSampah.png';
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
 
 
 const CampaignDetail = () => {
   const { id } = useParams();
   const [campaign, setCampaign] = useState(null);
   const [showFullDescription, setShowFullDescription] = useState(false);
+  const [showDonors, setShowDonors] = useState(false);
 
   useEffect(() => {
     const campaigns = [
@@ -387,7 +389,7 @@ const CampaignDetail = () => {
           <div className="absolute top-4 left-4 sm:left-6 md:left-8 lg:left-12">
             <button
               className="p-2 text-gray-800 bg-gray-200 rounded-full hover:bg-gray-300"
-              onClick={() => window.location.href = '/'}
+              onClick={() => window.location.href = '/all-kampanye'}
             >
               <ArrowLeftIcon className="w-8 h-8" /> {/* Ikon Diperbesar */}
             </button>
@@ -447,38 +449,86 @@ const CampaignDetail = () => {
   
             {/* Deskripsi Tujuan */}
             <div className="w-full p-4 mt-4 bg-white border border-gray-300 rounded-lg">
-              <h4 className="text-lg font-semibold text-[#5E84C5]">Apa yang Kami Tuju?</h4>
-              <p className={`mt-2 text-gray-700 ${showFullDescription ? "" : "line-clamp-3"}`}>
-                {campaign.description}
-              </p>
-              <button
-                onClick={() => setShowFullDescription(!showFullDescription)}
-                className="mt-2 px-4 py-2 bg-[#5E84C5] text-white font-bold rounded-lg hover:bg-[#4B6CA0]"
-              >
-                {showFullDescription ? "Lihat Lebih Sedikit" : "Lihat Selengkapnya"}
-              </button>
-            </div>
+  <h4 className="text-lg font-semibold text-[#5E84C5]">Apa yang Kami Tuju?</h4>
+  <p
+    className={`mt-2 text-gray-700 ${
+      showFullDescription ? "" : "line-clamp-3"
+    }`}
+  >
+    {campaign.description}
+  </p>
+  <span
+    onClick={() => setShowFullDescription(!showFullDescription)}
+    className="mt-2 block text-[#5E84C5] font-bold cursor-pointer hover:underline"
+  >
+    {showFullDescription ? "Lihat Lebih Sedikit" : "Lihat Selengkapnya"}
+  </span>
+</div>
+
   
             {/* Bagian Donatur */}
-            <div className="w-full p-4 mt-4 bg-white rounded-lg shadow">
-              <h2 className="text-lg font-semibold text-[#5E84C5]">Donatur</h2>
-              {campaign.donors.map((donor, index) => (
-                <div key={index} className="flex items-center pb-4 mt-4 border-b">
-                  <img
-                    src={donor.avatar}
-                    alt="Avatar"
-                    className="w-12 h-12 rounded-full"
-                  />
-                  <div className="ml-4">
-                    <p className="font-semibold text-gray-800">{donor.name}</p>
-                    <p className="text-sm text-gray-600">
-                      Berdonasi Rp {donor.amount.toLocaleString()}
-                    </p>
-                    <p className="text-sm italic text-gray-500">"{donor.message}"</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+
+{/* Bagian Donatur */}
+<div className="w-full p-4 mt-4 bg-white rounded-lg shadow">
+  <div className="flex items-center justify-between">
+    <h2 className="text-lg font-semibold text-[#5E84C5]">Donatur</h2>
+    <div
+      onClick={() => setShowDonors(!showDonors)}
+      className="text-[#5E84C5] cursor-pointer ml-2" // Tambahkan margin kiri untuk membuat jarak
+    >
+      {showDonors ? (
+        <ChevronUpIcon className="w-6 h-6" />
+      ) : (
+        <ChevronDownIcon className="w-6 h-6" />
+      )}
+    </div>
+  </div>
+  <div>
+    {/* Always show the first donor */}
+    {campaign.donors.slice(0, 1).map((donor, index) => (
+      <div key={index} className="flex items-center pb-4 mt-4 border-b">
+        <img
+          src={donor.avatar}
+          alt="Avatar"
+          className="w-12 h-12 rounded-full"
+        />
+        <div className="ml-4">
+          <p className="font-semibold text-gray-800">{donor.name}</p>
+          <p className="text-sm text-gray-600">
+            Berdonasi Rp {donor.amount.toLocaleString()}
+          </p>
+          <p className="text-sm italic text-gray-500">"{donor.message}"</p>
+        </div>
+      </div>
+    ))}
+  </div>
+  {showDonors && (
+    <div>
+      {/* Display all donors when 'showDonors' is true */}
+      {campaign.donors.slice(1).map((donor, index) => (
+        <div key={index} className="flex items-center pb-4 mt-4 border-b">
+          <img
+            src={donor.avatar}
+            alt="Avatar"
+            className="w-12 h-12 rounded-full"
+          />
+          <div className="ml-4">
+            <p className="font-semibold text-gray-800">{donor.name}</p>
+            <p className="text-sm text-gray-600">
+              Berdonasi Rp {donor.amount.toLocaleString()}
+            </p>
+            <p className="text-sm italic text-gray-500">"{donor.message}"</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  )}
+</div>
+
+
+
+
+
   
             {/* Tombol Donasi */}
             <div className="mt-6 text-center">
@@ -496,13 +546,14 @@ const CampaignDetail = () => {
         <div className="max-w-[1200px] mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Explore Section */}
           <div>
-            <h4 className="mb-4 text-lg font-bold">Explore</h4>
-            <ul className="space-y-2">
-              <li><a href="#" className="text-white hover:underline">Beranda</a></li>
-              <li><a href="#" className="text-white hover:underline">Tentang kami</a></li>
-              <li><a href="#" className="text-white hover:underline">Donasikan</a></li>
-            </ul>
-          </div>
+  <h4 className="mb-4 text-lg font-bold">Explore</h4>
+  <ul className="space-y-2">
+    <li><a href="/" className="text-white hover:underline">Beranda</a></li>
+    <li><a href="/tentang-kami" className="text-white hover:underline">Tentang kami</a></li>
+    <li><a href="/all-kampanye" className="text-white hover:underline">Semua Kampanye</a></li>
+  </ul>
+</div>
+
 
           {/* Contact Us Section */}
           <div>
