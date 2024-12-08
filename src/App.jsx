@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Donasi from "./pages/Donasi";
+import EditProfile from "./pages/EditProfile";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-      <Route path="/donasi" element={<Donasi />} />
+        <Route path="/edit-profile" element={<EditProfile />} />
       </Routes>
     </BrowserRouter>    
   );
