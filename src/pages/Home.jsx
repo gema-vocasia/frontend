@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'; // Gunakan XMarkIcon untuk v2
-import logo from '../assets/logo.png'; // Path ke gambar logo
-import home from '../assets/home.png'; // Path ke gambar hero
+import { ArrowRightOnRectangleIcon, UserPlusIcon, XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/solid'; // Gunakan XMarkIcon untuk v2
+import logo from '../assets/logo.png'; // Path to the logo image
+import home from '../assets/home.png'; // Path to the hero image
 import { Link } from 'react-router-dom';
-import cerita from '../assets/cerita.png';
+import cerita from '../assets/cerita.png'; 
 import SedekahPangan from '../assets/SedekahPangan.png';
 import Santunan from '../assets/Santunan.png';
 import KesehatanDua from '../assets/KesehatanDua.png';
 import Lewatobi from '../assets/Lewatobi.jpg';
 import GunungLewotobi from '../assets/GunungLewotobi.png';
 import BanjirMedan from '../assets/BanjirMedan.png';
+
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -105,28 +106,58 @@ const Home = () => {
 
   return (
     <div>
-      {/* Header */}
       <header className="fixed top-0 left-0 z-10 w-full p-4 bg-white border-b border-gray-300">
-        <div className="flex items-center justify-between w-full px-4">
-          <div className="flex items-center">
-            <img src={logo} alt="Logo" className="w-10 h-10 mr-4" />
-            <nav className="flex gap-5">
-              <a href="#" className="text-lg font-medium text-black hover:underline">Beranda</a>
-              <Link to="/tentang-kami" className="text-lg font-medium text-black hover:underline">Tentang Kami</Link>
-              <Link to="/all-kampanye" className="text-lg font-medium text-black hover:underline">Donasikan</Link>
-            </nav>
-          </div>
-          <div className="flex gap-2">
-            <button className="px-4 py-2 text-sm font-semibold text-white rounded bg-[#5E84C5] hover:bg-[#4B6CA0]">
-              Masuk
-            </button>
-            <button className="px-4 py-2 text-sm font-semibold text-white rounded bg-[#5E84C5] hover:bg-[#4B6CA0]">
-              Daftar
-            </button>
-          </div>
-        </div>
-      </header>
+  <div className="flex items-center justify-between w-full px-4">
+    <div className="flex items-center">
+      {/* Logo */}
+      <img src={logo} alt="Logo" className="w-10 h-10 mr-4" />
+      <nav className="flex gap-5">
+        <Link
+          to="/"
+          className={`text-lg font-medium p-2 rounded border-2 ${
+            location.pathname === '/'
+              ? 'bg-[#5E84C5] text-white border-[#5E84C5]' // Saat Beranda aktif
+              : 'text-black hover:bg-[#4B6CA0] hover:border-[#5E84C5] hover:text-white border-transparent' // Efek hover saat tidak aktif
+          }`}
+        >
+          Beranda
+        </Link>
+        <Link
+          to="/tentang-kami"
+          className={`text-lg font-medium p-2 rounded border-2 ${
+            location.pathname === '/tentang-kami'
+              ? 'bg-[#5E84C5] text-white border-[#5E84C5]' // Saat Tentang Kami aktif
+              : 'text-black hover:bg-[#4B6CA0] hover:border-[#5E84C5] hover:text-white border-transparent' // Efek hover saat tidak aktif
+          }`}
+        >
+          Tentang Kami
+        </Link>
+        <Link
+          to="/all-kampanye"
+          className={`text-lg font-medium p-2 rounded border-2 ${
+            location.pathname === '/all-kampanye'
+              ? 'bg-[#5E84C5] text-white border-[#5E84C5]' // Saat All Kampanye aktif
+              : 'text-black hover:bg-[#4B6CA0] hover:border-[#5E84C5] hover:text-white border-transparent' // Efek hover saat tidak aktif
+          }`}
+        >
+          Donasikan
+        </Link>
+      </nav>
+    </div>
 
+    {/* Buttons */}
+    <div className="flex gap-2">
+      <button className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white rounded bg-[#5E84C5] hover:bg-[#4B6CA0]">
+        <ArrowRightOnRectangleIcon className="w-5 h-5" />
+        Masuk
+      </button>
+      <button className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white rounded bg-[#5E84C5] hover:bg-[#4B6CA0]">
+        <UserPlusIcon className="w-5 h-5" />
+        Daftar
+      </button>
+    </div>
+  </div>
+</header>
       {/* Hero Section */}
       <div className="relative mt-0">
         <div className="w-screen h-[500px] overflow-hidden">
@@ -156,22 +187,26 @@ const Home = () => {
       </div>
 
       {/* Section: Galang Dana dan Donasi */}
+{/* Section: Galang Dana dan Donasi */}
 {searchQuery === '' && (
-  <section className="w-full py-16 bg-white">
+  <section className="w-full py-16 bg-gray-100">
     <div className="flex flex-col items-center justify-center mx-auto max-w-[800px] gap-6 md:flex-row">
       {/* Card Galang Dana */}
       <div
-        className="w-full p-6 rounded-lg shadow-lg md:w-[48%] flex flex-col items-center justify-between h-[220px]"
+        className="w-full p-6 rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 md:w-[48%] flex flex-col items-center justify-between h-[240px]"
         style={{ backgroundColor: '#5E84C5' }}
       >
-        <h3 className="text-2xl font-bold text-center text-white">Galang Dana</h3>
+        <h3 className="text-2xl font-bold text-center text-white">
+          Galang Dana
+        </h3>
         <button
-          className="flex items-center justify-center mt-4 font-medium text-blue-900 rounded-full hover:bg-blue-500"
+          className="flex items-center justify-center mt-4 font-medium text-blue-900 transition-all rounded-full hover:bg-blue-600 hover:text-white"
           style={{
             backgroundColor: '#D3E3FF',
-            width: '206.28px',
-            height: '35.96px',
+            width: '210px',
+            height: '40px',
             fontSize: '14px',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
           }}
         >
           Buat Penggalangan
@@ -180,7 +215,7 @@ const Home = () => {
 
       {/* Card Donasi */}
       <div
-        className="w-full p-6 rounded-lg shadow-lg md:w-[48%] flex flex-col items-center justify-between h-[220px]"
+        className="w-full p-6 rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 md:w-[48%] flex flex-col items-center justify-between h-[240px]"
         style={{ backgroundColor: '#D3E3FF' }}
       >
         <h3 className="text-2xl font-bold text-center text-blue-900">
@@ -188,11 +223,12 @@ const Home = () => {
         </h3>
         <Link to="/all-kampanye"> {/* Arahkan ke halaman kampanye */}
           <button
-            className="flex items-center justify-center mt-4 font-medium text-white bg-blue-900 rounded-full hover:bg-blue-800"
+            className="flex items-center justify-center mt-4 font-medium text-white transition-all bg-blue-900 rounded-full hover:bg-blue-700"
             style={{
-              width: '142px',
-              height: '36px',
+              width: '150px',
+              height: '40px',
               fontSize: '14px',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
             }}
           >
             Donasi
@@ -202,6 +238,7 @@ const Home = () => {
     </div>
   </section>
 )}
+
 
 
       {/* Conditional Sections */}
@@ -409,13 +446,13 @@ const Home = () => {
         <div className="max-w-[1200px] mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Explore Section */}
           <div>
-            <h4 className="mb-4 text-lg font-bold">Explore</h4>
-            <ul className="space-y-2">
-              <li><a href="#" className="text-white hover:underline">Beranda</a></li>
-              <li><a href="#" className="text-white hover:underline">Tentang kami</a></li>
-              <li><a href="#" className="text-white hover:underline">Donasikan</a></li>
-            </ul>
-          </div>
+  <h4 className="mb-4 text-lg font-bold">Explore</h4>
+  <ul className="space-y-2">
+    <li><a href="/" className="text-white hover:underline">Beranda</a></li>
+    <li><a href="/tentang-kami" className="text-white hover:underline">Tentang kami</a></li>
+    <li><a href="/all-kampanye" className="text-white hover:underline">Semua Kampanye</a></li>
+  </ul>
+</div>
 
           {/* Contact Us Section */}
           <div>
