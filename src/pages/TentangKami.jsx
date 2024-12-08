@@ -1,4 +1,3 @@
-import React from 'react';
 import logo from '../assets/logo.png'; // Path untuk logo
 import hero from '../assets/hero.png'; // Path untuk gambar hero
 import whoweare from '../assets/whoweare.png'; // Path untuk gambar "Siapa Kami?"
