@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import CampaignTitle from '../atoms/CampaignCardTitle';
 import CampaignCardList from '../atoms/CampaignCardList';
+
 const CampaignSectionContent = ({ title, cards }) => {
   return (
     <div>
