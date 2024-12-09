@@ -1,10 +1,14 @@
 import {createBrowserRouter} from "react-router-dom";
-import { Donasi, Profile, BuatCampaign, EditProfile, Home } from "../pages";
+import { Donasi, Profile, BuatCampaign, EditProfile, Home, AllCampaign } from "../pages";
 
 export const routes = createBrowserRouter([
     {
         path: "/",
         element: <Home />,
+    },
+    {
+        path: "/all-campaign",
+        element: <AllCampaign />,
     },
     {
         path: "/home",
