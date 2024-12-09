@@ -1,0 +1,453 @@
+<main className="pt-20 pb-10 px-4">
+        <div className=" max-6xl gap-5 mx-auto space-y-6">
+          {donasi.length === 0 ? (
+            <p className="text-center text-gray-500">
+              Belum ada riwayat donasi.
+            </p>
+          ) : (
+            donasi.map((item) => (
+              <div
+                key={item.id}
+                className="flex items-start max-[720px]:flex-col max-[720px]:items-center p-4 bg-white shadow-md rounded-md border border-gray-300 gap-4"
+              >
+                {/* Gambar */}
+                <div className="flex-shrink-0 ">
+                  <img
+                    src={item.gambar}
+                    alt={item.kampanye}
+                    className="w-96 h-96 object-cover rounded"
+                  />
+                </div>
+
+                {/* Detail Donasi */}
+                <div className="flex-1 p-1">
+                  <h2 className="text-3xl font-semibold text-gray-800 pb-3">
+                    {item.kampanye}
+                  </h2>
+                  <p className="text-lg text-gray-600">
+                    <span className="font-medium">
+                      Tanggal Mulai - Tanggal Berakhir :{" "}
+                    </span>{" "}
+                    {item.tanggalmulai} - {item.tanggalberakhir} --{" "}
+                    <b> {item.jam} WIB</b>
+                  </p>
+                  <p className="text-lg text-gray-600">
+                    <span className="font-medium">Kategori :</span>{" "}
+                    {item.kategori}
+                  </p>
+                  <p className="text-lg text-gray-600">
+                    <span className="font-medium">Target Donasi :</span>{" "}
+                    {item.TargetDonasi}
+                  </p>
+                  <p className="text-lg text-gray-600">
+                    <span className="font-medium">Donasi Masuk :</span>{" "}
+                    {item.danamasuk}
+                  </p>
+                  {/* Status */}
+                  <p className="text-lg text-gray-600">
+                    <span className="font-medium">Status :</span>{" "}
+                    <span
+                      className={`font-semibold ${
+                        item.status === "sukses"
+                          ? "text-green-500"
+                          : "text-yellow-500"
+                      }`}
+                    >
+                      {item.status}
+                    </span>
+                  </p>
+                  {/* Pesan */}
+                  <p className=" font-medium text-lg text-gray-800 ">
+                    Deskripsi :{" "}
+                    <span className=" italic">
+                      <p>
+                        Saat ini, ribuan anak di Indonesia terancam kehilangan
+                        akses pendidikan yang layak akibat keterbatasan biaya.
+                        Mereka adalah generasi penerus bangsa yang penuh
+                        semangat dan harapan, tetapi terkendala oleh kondisi
+                        ekonomi.Kami mengajak Anda untuk ikut berkontribusi
+                        dalam Gerakan Peduli Pendidikan dengan target
+                        penggalangan dana sebesar Rp500 juta dalam waktu 5 hari.
+                        Dana yang terkumpul akan digunakan untuk: 1.Membiayai
+                        kebutuhan pendidikan seperti buku, seragam, dan alat
+                        tulis. 2.Memberikan beasiswa kepada siswa-siswa
+                        berprestasi dari keluarga kurang mampu. 3. Mendukung
+                        akses digital seperti perangkat belajar dan koneksi
+                        internet.{" "}
+                      </p>
+                      <p>
+                        Setiap donasi Anda, sekecil apa pun, akan menjadi
+                        langkah besar untuk masa depan mereka. Mari bersama kita
+                        wujudkan impian mereka untuk terus belajar dan
+                        berkembang.
+                      </p>
+                      <p>
+                        Ayo donasi sekarang dan jadilah bagian dari perubahan!
+                      </p>
+                      <p>
+                        Bantu sebarkan informasi ini agar lebih banyak orang
+                        dapat tergerak untuk membantu.
+                      </p>
+                      <p>
+                        Setiap anak berhak bermimpi, dan Anda bisa menjadi
+                        alasan mereka untuk mewujudkannya.
+                      </p>
+                    </span>
+                  </p>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </main>
+
+
+
+
+
+
+
+      <!-- revisi 1 -->
+
+       <main className="pt-20 pb-10 px-4 bg-gray-100">
+        <div className="max-w-6xl mx-auto space-y-6">
+          {donasi.length === 0 ? (
+            <p className="text-center text-gray-500 italic">
+              Belum ada riwayat donasi.
+            </p>
+          ) : (
+            donasi.map((item) => (
+              <div
+                key={item.id}
+                className="flex items-start flex-col md:flex-row bg-white shadow-lg rounded-lg border border-gray-200 overflow-hidden"
+              >
+                {/* Gambar */}
+                <div className="w-full md:w-1/3">
+                  <img
+                    src={item.gambar}
+                    alt={item.kampanye}
+                    className="w-full h-64 md:h-full object-cover"
+                  />
+                </div>
+
+                {/* Detail Donasi */}
+                <div className="flex-1 p-6">
+                  <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                    {item.kampanye}
+                  </h2>
+                  <div className="space-y-2 text-gray-700">
+                    <p>
+                      <span className="font-medium">
+                        Tanggal Mulai - Tanggal Berakhir:
+                      </span>{" "}
+                      {item.tanggalmulai} - {item.tanggalberakhir}{" "}
+                      <b>{item.jam} WIB</b>
+                    </p>
+                    <p>
+                      <span className="font-medium">Kategori:</span>{" "}
+                      {item.kategori}
+                    </p>
+                    <p>
+                      <span className="font-medium">Target Donasi:</span>{" "}
+                      {item.TargetDonasi}
+                    </p>
+                    <p>
+                      <span className="font-medium">Donasi Masuk:</span>{" "}
+                      {item.danamasuk}
+                    </p>
+                    <p>
+                      <span className="font-medium">Status:</span>{" "}
+                      <span
+                        className={`font-semibold ${
+                          item.status === "sukses"
+                            ? "text-green-600"
+                            : "text-yellow-600"
+                        }`}
+                      >
+                        {item.status}
+                      </span>
+                    </p>
+                  </div>
+
+                  {/* Deskripsi */}
+                  <div className="mt-6">
+                    <h3 className="text-lg font-medium text-gray-800 mb-2">
+                      Deskripsi:
+                    </h3>
+                    <div className="text-gray-600 space-y-2 text-sm">
+                      <p>
+                        Saat ini, ribuan anak di Indonesia terancam kehilangan
+                        akses pendidikan yang layak akibat keterbatasan biaya.
+                        Mereka adalah generasi penerus bangsa yang penuh
+                        semangat dan harapan, tetapi terkendala oleh kondisi
+                        ekonomi.
+                      </p>
+                      <p>
+                        Kami mengajak Anda untuk ikut berkontribusi dalam
+                        Gerakan Peduli Pendidikan dengan target penggalangan
+                        dana sebesar Rp500 juta dalam waktu 5 hari. Dana yang
+                        terkumpul akan digunakan untuk:
+                      </p>
+                      <ul className="list-disc ml-5">
+                        <li>
+                          Membiayai kebutuhan pendidikan seperti buku, seragam,
+                          dan alat tulis.
+                        </li>
+                        <li>
+                          Memberikan beasiswa kepada siswa-siswa berprestasi
+                          dari keluarga kurang mampu.
+                        </li>
+                        <li>
+                          Mendukung akses digital seperti perangkat belajar dan
+                          koneksi internet.
+                        </li>
+                      </ul>
+                      <p>
+                        Setiap donasi Anda, sekecil apa pun, akan menjadi
+                        langkah besar untuk masa depan mereka. Mari bersama kita
+                        wujudkan impian mereka untuk terus belajar dan
+                        berkembang.
+                      </p>
+                      <p>
+                        Ayo donasi sekarang dan jadilah bagian dari perubahan!
+                        Bantu sebarkan informasi ini agar lebih banyak orang
+                        dapat tergerak untuk membantu.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </main>
+
+
+      <!-- revisi 2 -->
+
+ <main className="pt-20 pb-10 px-4 bg-gradient-to-b from-gray-100 to-gray-200">
+        <div className="max-w-6xl mx-auto space-y-8">
+          {donasi.length === 0 ? (
+            <p className="text-center text-gray-500 italic text-lg">
+              Belum ada riwayat donasi.
+            </p>
+          ) : (
+            donasi.map((item) => (
+              <div
+                key={item.id}
+                className="group flex flex-col md:flex-row bg-white shadow-lg rounded-lg border border-gray-300 overflow-hidden transition transform hover:-translate-y-2 hover:shadow-2xl"
+              >
+                {/* Gambar */}
+                <div className="w-full md:w-1/3">
+                  <img
+                    src={item.gambar}
+                    alt={item.kampanye}
+                    className="w-full h-64 md:h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+
+                {/* Detail Donasi */}
+                <div className="flex-1 p-6">
+                  <h2 className="text-2xl font-bold text-gray-800 mb-4 group-hover:text-[#5E84C5] transition-colors">
+                    {item.kampanye}
+                  </h2>
+                  <div className="space-y-2 text-gray-700">
+                    <p>
+                      <span className="font-medium">
+                        Tanggal Mulai - Tanggal Berakhir:
+                      </span>{" "}
+                      {item.tanggalmulai} - {item.tanggalberakhir}{" "}
+                      <b>{item.jam} WIB</b>
+                    </p>
+                    <p>
+                      <span className="font-medium">Kategori:</span>{" "}
+                      {item.kategori}
+                    </p>
+                    <p>
+                      <span className="font-medium">Target Donasi:</span>{" "}
+                      {item.TargetDonasi}
+                    </p>
+                    <p>
+                      <span className="font-medium">Donasi Masuk:</span>{" "}
+                      {item.danamasuk}
+                    </p>
+                    <p>
+                      <span className="font-medium">Status:</span>{" "}
+                      <span
+                        className={`font-semibold ${
+                          item.status === "sukses"
+                            ? "text-green-600"
+                            : "text-yellow-600"
+                        }`}
+                      >
+                        {item.status}
+                      </span>
+                    </p>
+                  </div>
+
+                  {/* Deskripsi */}
+                  <div className="mt-6">
+                    <h3 className="text-lg font-medium text-gray-800 mb-2">
+                      Deskripsi:
+                    </h3>
+                    <div className="text-gray-600 space-y-2 text-sm">
+                      <p>
+                        Saat ini, ribuan anak di Indonesia terancam kehilangan
+                        akses pendidikan yang layak akibat keterbatasan biaya.
+                        Mereka adalah generasi penerus bangsa yang penuh
+                        semangat dan harapan, tetapi terkendala oleh kondisi
+                        ekonomi.
+                      </p>
+                      <p>
+                        Kami mengajak Anda untuk ikut berkontribusi dalam
+                        Gerakan Peduli Pendidikan dengan target penggalangan
+                        dana sebesar Rp500 juta dalam waktu 5 hari. Dana yang
+                        terkumpul akan digunakan untuk:
+                      </p>
+                      <ul className="list-disc ml-5">
+                        <li>
+                          Membiayai kebutuhan pendidikan seperti buku, seragam,
+                          dan alat tulis.
+                        </li>
+                        <li>
+                          Memberikan beasiswa kepada siswa-siswa berprestasi
+                          dari keluarga kurang mampu.
+                        </li>
+                        <li>
+                          Mendukung akses digital seperti perangkat belajar dan
+                          koneksi internet.
+                        </li>
+                      </ul>
+                      <p>
+                        Setiap donasi Anda, sekecil apa pun, akan menjadi
+                        langkah besar untuk masa depan mereka. Mari bersama kita
+                        wujudkan impian mereka untuk terus belajar dan
+                        berkembang.
+                      </p>
+                      <p>
+                        Ayo donasi sekarang dan jadilah bagian dari perubahan!
+                        Bantu sebarkan informasi ini agar lebih banyak orang
+                        dapat tergerak untuk membantu.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </main>
+
+
+      <!-- revisi 3 -->
+
+<main className="pt-20 pb-10 px-4 bg-gradient-to-b from-gray-50 to-gray-100">
+        <div className="max-w-6xl mx-auto space-y-12">
+          {donasi.length === 0 ? (
+            <p className="text-center text-gray-500 italic text-lg">
+              Belum ada riwayat donasi.
+            </p>
+          ) : (
+            donasi.map((item) => (
+              <div
+                key={item.id}
+                className="relative bg-white shadow-lg rounded-lg overflow-hidden border border-gray-300 transition transform hover:scale-105 hover:shadow-2xl"
+              >
+                {/* Gambar */}
+                <div className="relative w-full h-64 overflow-hidden">
+                  <img
+                    src={item.gambar}
+                    alt={item.kampanye}
+                    className="absolute inset-0 w-full h-full object-cover rounded-t-lg transition-transform duration-300 hover:scale-110"
+                  />
+                </div>
+
+                {/* Detail Donasi */}
+                <div className="p-6 space-y-4">
+                  <h2 className="text-2xl font-bold text-gray-800 hover:text-[#5E84C5] transition-colors">
+                    {item.kampanye}
+                  </h2>
+                  <div className="text-gray-700 space-y-2">
+                    <p>
+                      <span className="font-medium">
+                        Tanggal Mulai - Tanggal Berakhir:
+                      </span>{" "}
+                      {item.tanggalmulai} - {item.tanggalberakhir}{" "}
+                      <b>{item.jam} WIB</b>
+                    </p>
+                    <p>
+                      <span className="font-medium">Kategori:</span>{" "}
+                      {item.kategori}
+                    </p>
+                    <p>
+                      <span className="font-medium">Target Donasi:</span>{" "}
+                      {item.TargetDonasi}
+                    </p>
+                    <p>
+                      <span className="font-medium">Donasi Masuk:</span>{" "}
+                      {item.danamasuk}
+                    </p>
+                    <p>
+                      <span className="font-medium">Status:</span>{" "}
+                      <span
+                        className={`font-semibold ${
+                          item.status === "sukses"
+                            ? "text-green-600"
+                            : "text-yellow-600"
+                        }`}
+                      >
+                        {item.status}
+                      </span>
+                    </p>
+                  </div>
+
+                  {/* Deskripsi */}
+                  <div className="text-gray-600">
+                    <h3 className="text-lg font-medium text-gray-800 mb-2">
+                      Deskripsi:
+                    </h3>
+                    <p>
+                      Saat ini, ribuan anak di Indonesia terancam kehilangan
+                      akses pendidikan yang layak akibat keterbatasan biaya.
+                      Mereka adalah generasi penerus bangsa yang penuh semangat
+                      dan harapan, tetapi terkendala oleh kondisi ekonomi.
+                    </p>
+                    <p>
+                      Kami mengajak Anda untuk ikut berkontribusi dalam Gerakan
+                      Peduli Pendidikan dengan target penggalangan dana sebesar
+                      Rp500 juta dalam waktu 5 hari. Dana yang terkumpul akan
+                      digunakan untuk:
+                    </p>
+                    <ul className="list-disc ml-5 space-y-1">
+                      <li>
+                        Membiayai kebutuhan pendidikan seperti buku, seragam,
+                        dan alat tulis.
+                      </li>
+                      <li>
+                        Memberikan beasiswa kepada siswa-siswa berprestasi dari
+                        keluarga kurang mampu.
+                      </li>
+                      <li>
+                        Mendukung akses digital seperti perangkat belajar dan
+                        koneksi internet.
+                      </li>
+                    </ul>
+                    <p>
+                      Setiap donasi Anda, sekecil apa pun, akan menjadi langkah
+                      besar untuk masa depan mereka. Mari bersama kita wujudkan
+                      impian mereka untuk terus belajar dan berkembang.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Call-to-Action */}
+                <div className="p-4 bg-[#5E84C5] text-center text-white">
+                  <button className="px-6 py-2 bg-white text-[#5E84C5] font-semibold rounded-md hover:bg-[#4d74b5] hover:text-white transition">
+                    Donasi Sekarang
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </main>
