@@ -1,13 +1,9 @@
 import {createBrowserRouter} from "react-router-dom";
-import { Donasi, Profile, BuatCampaign, EditProfile, Home } from "../pages";
+import { Donasi, Profile, BuatCampaign, EditProfile, Home, CampaignDetail } from "../pages";
 
 export const routes = createBrowserRouter([
     {
         path: "/",
-        element: <Home />,
-    },
-    {
-        path: "/home",
         element: <Home />,
     },
     {
@@ -25,5 +21,9 @@ export const routes = createBrowserRouter([
     {
         path: "/profile",
         element: <Profile />,
+    },
+    {
+        path: "/campaign-detail/:id",
+        element: <CampaignDetail />,
     }
 ])

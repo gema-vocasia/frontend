@@ -8,10 +8,9 @@ const CardImage = ({ src, alt }) => {
   );
 };
 
-// Define prop types for CardImage
 CardImage.propTypes = {
-  src: PropTypes.string.isRequired, // Expecting a required string for the image source URL
-  alt: PropTypes.string.isRequired, // Expecting a required string for the alt text
+  src: PropTypes.string.isRequired, 
+  alt: PropTypes.string.isRequired,
 };
 
 export default CardImage;
