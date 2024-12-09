@@ -1,6 +1,6 @@
-import Navbar from '../components/Navbar';
-import Footer from "../components/Footer";
-import ProfileContent from '../components/ProfileContent';
+import Navbar from '../components//organisms/Navbar';
+import Footer from "../components/organisms/Footer";
+import ProfileContent from "../components/organisms/ProfileContent";
 
 const Profile = () => {
 
@@ -14,5 +14,3 @@ const Profile = () => {
 };
 
 export default Profile;
-
-

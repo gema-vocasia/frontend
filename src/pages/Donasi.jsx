@@ -1,17 +1,18 @@
-import Footer from "../components/Footer";
-import FormDonasi from "../components/FormDonasi";
-import Hero from "../components/Hero";
-import Navbar from "../components/Navbar";
-import bgFotoDonasi from "../assets/bg-foto-donasi.png";
+import Navbar from '../components//organisms/Navbar';
+import Footer from "../components/organisms/Footer";
+import FormDonasi from "../components/organisms/FormDonasi";
+import Hero from '../components/organisms/Hero';
+import bgFotoDonasi from "../assets/images/bg-foto-donasi.png";
 
 const Donasi = () => {
-
+    
     return (
         <div>
             <Navbar />
-            <Hero 
-                imageSrc={bgFotoDonasi}
-                title={`Donasikan\n Sebagian Harta Anda`}
+            <Hero
+                title="Setetes Kebaikan untuk Sejuta Harapan"
+                subtitle="Bergabunglah dalam misi kemanusiaan ini"
+                image={bgFotoDonasi}
             />
             <FormDonasi />
             <Footer />

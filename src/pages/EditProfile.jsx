@@ -1,6 +1,6 @@
-import FormEditProfile from '../components/FormEditProfile';
-import Navbar from '../components/Navbar';
-import Footer from "../components/Footer";
+import Navbar from '../components//organisms/Navbar';
+import Footer from "../components/organisms/Footer";
+import FormEditProfile from "../components/organisms/FormEditProfile";
 
 const EditProfile = () => {
 

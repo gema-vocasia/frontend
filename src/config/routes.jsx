@@ -1,22 +1,10 @@
 import {createBrowserRouter} from "react-router-dom";
-import { Donasi, Profile, BuatCampaign, EditProfile, TentangKami, Home, Login, Register } from "../pages";
+import { Donasi, Profile, BuatCampaign, EditProfile, Home } from "../pages";
 
 export const routes = createBrowserRouter([
     {
         path: "/",
-        element: "LinganguLingganguWazai",
-    },
-    {
-        path: "/login",
-        element: <Login />,
-    },
-    {
-        path: "/register",
-        element: <Register />,
-    },
-    {
-        path: "/tentang-kami",
-        element: <TentangKami />,
+        element: <Home />,
     },
     {
         path: "/home",
