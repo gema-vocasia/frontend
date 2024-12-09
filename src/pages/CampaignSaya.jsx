@@ -1,22 +1,10 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-// import TentangKami from "./pages/TentangKami";
-import logo from "./img/logo.jpg";
-import banjirmedan from "./img/BanjirMedan.png";
-import RumahBaca from "./img/BantuRumahBaca.png";
-import kesehatan from "./img/KesehatanDua.png";
-import hero from "./img/hero.png";
+import logo from "../assets/logo.jpg";
+import banjirmedan from "../assets/img/BanjirMedan.png";
+import RumahBaca from "../assets/img/BantuRumahBaca.png";
+import kesehatan from "../assets/img/KesehatanDua.png";
+import hero from "../assets/img/hero.png";
 
 import { Link } from "react-router-dom";
-
-function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/campaignsaya" element={<CampaignSaya />} />
-      </Routes>
-    </BrowserRouter>
-  );
-}
 
 function CampaignSaya() {
   const donasi = [
@@ -336,4 +324,4 @@ function CampaignSaya() {
   );
 }
 
-export default App;
+export default CampaignSaya;
