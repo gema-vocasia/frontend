@@ -5,6 +5,7 @@ import FormSandi from "./FormSandi.jsx";
 import FormTelephone from "./FormTelephone.jsx";
 import Tombol from "./Tombol.jsx";
 import LinkDaftarMasuk from "./LinkDaftarMasuk.jsx";
+import InputKtp from "./InputKTP.jsx";
 
 function SectionRegister() {
   return (
@@ -15,6 +16,7 @@ function SectionRegister() {
           <FormName />
           <FormEmail />
           <FormTelephone />
+          <InputKtp />
           <FormSandi />
           <Tombol />
         </form>
