@@ -1,5 +1,5 @@
-import {createBrowserRouter} from "react-router-dom";
-import { Donasi, Profile, BuatCampaign, EditProfile, Home } from "../pages";
+import { createBrowserRouter } from "react-router-dom";
+import { Donasi, Profile, BuatCampaign, EditProfile, Home, ImageLicensePage } from "../pages";
 
 export const routes = createBrowserRouter([
     {
@@ -25,5 +25,9 @@ export const routes = createBrowserRouter([
     {
         path: "/profile",
         element: <Profile />,
-    }
-])
+    },
+    {
+        path: "/lisensi-gambar",
+        element: <ImageLicensePage />,
+    },
+]);
