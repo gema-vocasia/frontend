@@ -17,11 +17,8 @@ CampaignSection.propTypes = {
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      collected: PropTypes.number.isRequired,
-      target: PropTypes.number.isRequired,
-      fundraiser: PropTypes.string.isRequired,
-      image: PropTypes.string.isRequired,
+      category: PropTypes.string.isRequired,
+      photo: PropTypes.string.isRequired,
     })
   ).isRequired,
 };
