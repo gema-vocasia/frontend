@@ -8,7 +8,6 @@ import CampaignDescription from "../molecules/CampaignDescription";
 const CampaignDetailContent = ({
   campaign,
   showFullDescription,
-  toggleShowFullDescription,
 }) => {
   return (
     <div className="w-full p-4">
@@ -25,7 +24,6 @@ const CampaignDetailContent = ({
       <CampaignDescription
         description={campaign.description}
         showFullDescription={showFullDescription}
-        toggleShow={toggleShowFullDescription}
       />
     </div>
   );
@@ -44,7 +42,6 @@ CampaignDetailContent.propTypes = {
     description: PropTypes.string.isRequired,
   }).isRequired,
   showFullDescription: PropTypes.bool.isRequired,
-  toggleShowFullDescription: PropTypes.func.isRequired,
 };
 
 export default CampaignDetailContent;

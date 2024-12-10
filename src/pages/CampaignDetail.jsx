@@ -1,11 +1,9 @@
-import Navbar from "../components/organisms/Navbar";
-import Footer from "../components/organisms/Footer";
 import BackButton from "../components/atoms/BackButton";
 import Button from "../components/atoms/Button";
 import CampaignDetailContent from "../components/organisms/CampaignDetailContent";
 import CampaignDonorSection from "../components/organisms/CampaignDonorSection";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import SedekahPangan from '../assets/images/SedekahPangan.png';
 import Santunan from '../assets/images/Santunan.png';
 import SedekahMakanan from '../assets/images/SedekahMakanan.png';
@@ -26,8 +24,9 @@ import PengelolaanSampah from '../assets/images/PengelolaanSampah.png';
 const CampaignDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const [campaign, setCampaign] = useState(null);
-  const [showFullDescription, setShowFullDescription] = useState(false);
+  const [showFullDescription] = useState(false);
   const [showDonors, setShowDonors] = useState(false);
 
 
@@ -385,21 +384,29 @@ const CampaignDetail = () => {
     );
   }
 
+  
+    const handleBack = () => {
+      if (location.state?.from) {
+        navigate(location.state.from);
+      } else {
+        navigate("/");
+      }
+    };
+
   return (
-    <div className="relative w-full min-h-screen bg-gray-100">
-        <Navbar />
-      <main className="bg-gray-100">
-        <div className="absolute top-28 left-4 z-20 sm:left-4 md:left-8 lg:left-12">
-            <BackButton onClick={() => navigate("/all-campaign")} />
+    <div className="relative w-full min-h-screen bg-white">
+
+      <main className="m-4 p-2">
+        <div className="absolute top-8 z-10 sm:left-4 md:left-8 lg:left-12">
+            <BackButton onClick={handleBack} />
         </div>
 
         {/* Konten Detail Kampanye */}
         <CampaignDetailContent
           campaign={campaign}
           showFullDescription={showFullDescription}
-          toggleShowFullDescription={() =>
-            setShowFullDescription(!showFullDescription)
-          }
+          
+          
         />
 
         {/* Bagian Donatur */}
@@ -416,7 +423,7 @@ const CampaignDetail = () => {
         </Button>
         </div>
       </main>
-      <Footer />
+
     </div>
   );
 };

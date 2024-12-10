@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
 
 const DonorList = ({ donors, showDonors, toggleShow }) => (
-  <div className="w-full p-4 mt-4 bg-white rounded-lg shadow">
+  <div className="w-full p-4 mt-4 bg-white rounded-lg shadow-lg">
     <div className="flex items-center justify-between">
       <h2 className="text-lg font-semibold text-[#5E84C5]">Donatur</h2>
       <div onClick={toggleShow} className="text-[#5E84C5] cursor-pointer ml-2">
