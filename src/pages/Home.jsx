@@ -1,9 +1,10 @@
-import { useState } from "react";
-import Navbar from "../components//organisms/Navbar";
+import { useState, useEffect } from "react";
+import Navbar from "../components/organisms/Navbar";
 import Footer from "../components/organisms/Footer";
 import Hero from "../components/organisms/Hero";
 import CampaignSection from "../components/organisms/CampaignSection";
 import StorySection from "../components/organisms/StorySection";
+import campaignStore from "../store/campaignStore";
 import SedekahPangan from "../assets/images/SedekahPangan.png";
 import Santunan from "../assets/images/Santunan.png";
 import KesehatanDua from "../assets/images/KesehatanDua.png";
@@ -11,60 +12,33 @@ import BanjirMedan from "../assets/images/BanjirMedan.png";
 import cerita from "../assets/images/cerita.png";
 import herohome from "../assets/images/heroHome.png";
 
-
 const Home = () => {
+  const { campaign, getCampaigns } = campaignStore();
   const [searchQuery, setSearchQuery] = useState("");
+
+  // Fetch data campaigns saat komponen di-mount
+  // useEffect(() => {
+  //   getCampaigns();
+  // }, []);
+
+  // Filter berdasarkan pencarian
+  // Filter berdasarkan pencarian
+  const filteredData = campaign.filter((item) => {
+    const title = item.title || ""; // Default ke string kosong jika undefined
+    const category = item.category || ""; // Default ke string kosong jika undefined
+    return (
+      title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      category.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
+
+  const filteredUrgentData = filteredData.filter((card) => card.isUrgent);
+
+  const filteredLatestData = filteredData.filter((card) => !card.isUrgent);
 
   const clearSearch = () => {
     setSearchQuery("");
   };
-
-  const cardData = [
-    {
-      id: 1,
-      title: "Sedekah Pangan Tuntaskan Kelaparan",
-      progress: 10,
-      totalDonation: 6500000,
-      targetAmount: 65000000,
-      category: "Kegiatan Sosial",
-      isUrgent: false,
-      photo: SedekahPangan,
-    },
-    {
-      id: 2,
-      title: "Santunan dan Doa bersama anak Yatim Akhir Tahun",
-      progress: 3,
-      totalDonation: 2174000,
-      targetAmount: 71800000,
-      category: "Kegiatan Sosial",
-      isUrgent: true,
-      photo: Santunan,
-    },
-    {
-      id: 3,
-      title: "Kesehatan untuk Semua",
-      progress: 5,
-      totalDonation: 1000000,
-      targetAmount: 10000000,
-      category: "Kesehatan",
-      isUrgent: false,
-      photo: KesehatanDua,
-    },
-    {
-      id: 4,
-      title: "Banjir Medan Membutuhkan Bantuan",
-      progress: 20,
-      totalDonation: 1500000,
-      targetAmount: 10000000,
-      category: "Bencana Alam",
-      isUrgent: true,
-      photo: BanjirMedan,
-    },
-  ];
-
-  const filteredUrgentData = cardData.filter((card) => card.isUrgent);
-
-  const filteredLatestData = cardData.filter((card) => !card.isUrgent);
 
   return (
     <div>

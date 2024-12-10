@@ -3,14 +3,15 @@ import PropTypes from "prop-types";
 
 // Komponen CampaignCard
 const CampaignCard = ({ campaign }) => {
+  const imageUrl = `http://localhost:8080/api/v1/files/${campaign.photo}`;
   return (
     <div
       key={campaign._id}
       className="flex flex-col p-6 mb-8 transition transform bg-white border border-gray-300 rounded-lg shadow-xl hover:scale-105 hover:shadow-2xl"
     >
-      <div className="flex items-center justify-center w-full h-48 mb-6 overflow-hidden bg-gray-200 rounded">
+      <div className="flex items-center justify-center w-full h-60 mb-6 overflow-hidden bg-gray-200 rounded">
         <img
-          src={campaign.photo}
+          src={imageUrl}
           alt={campaign.title}
           className="object-cover w-full h-full"
         />
