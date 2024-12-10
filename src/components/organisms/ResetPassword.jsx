@@ -58,19 +58,27 @@ const ResetPassword = () => {
       return;
     }
 
+    // Validasi panjang password
+    if (newPassword.length < 8) {
+      setMessage("Password minimal 8 karakter.");
+      return;
+    }
+
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:8080/api/v1/user/verifyreset",
         {
-          email,
-          resetString,
-          newPassword,
+          email: email,
+          resetString: resetString,
+          newPassword: newPassword,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
       );
 
-      console.log("Response data:", response.data);
-
-      // Hapus data dari localStorage
       localStorage.removeItem("resetString");
       localStorage.removeItem("email");
 
@@ -83,7 +91,10 @@ const ResetPassword = () => {
         "Error resetting password:",
         error.response?.data?.error || error.message
       );
-      setMessage("Gagal mengatur ulang password. Coba lagi.");
+      setMessage(
+        error.response?.data?.error ||
+          "Gagal mengatur ulang password. Coba lagi."
+      );
     }
   };
 

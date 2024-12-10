@@ -44,7 +44,7 @@ const FormLogin = () => {
     try {
       const user = await login(email, password);
       console.log("Logged in user:", user);
-      setLoginAttempts(0); // Reset login attempts
+      setLoginAttempts(0);
       navigate("/home");
     } catch (error) {
       console.error("Login error:", error.message);
