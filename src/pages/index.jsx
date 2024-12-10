@@ -7,6 +7,8 @@ import Login from "./Login";
 import Register from "./Register";
 import LupaSandi from "./ForgotPassword";
 import Resetpass from "./ResetPassword";
+import Riwayat from "./Riwayat";
+import CampaignSaya from "./CampaignSaya";
 export {
   Donasi,
   Profile,
@@ -17,4 +19,6 @@ export {
   Register,
   LupaSandi,
   Resetpass,
+  Riwayat,
+  CampaignSaya,
 };
