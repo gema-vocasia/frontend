@@ -15,7 +15,7 @@ const FormLogin = () => {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const [loginAttempts, setLoginAttempts] = useState(0);
 
   const validate = () => {
     const newErrors = {};
@@ -44,10 +44,16 @@ const FormLogin = () => {
     try {
       const user = await login(email, password);
       console.log("Logged in user:", user);
+      setLoginAttempts(0); // Reset login attempts
       navigate("/home");
     } catch (error) {
       console.error("Login error:", error.message);
       setErrors({ general: "Email atau password salah." });
+
+      setLoginAttempts((prev) => prev + 1);
+      if (loginAttempts + 1 >= 3) {
+        navigate(`/forgot-password?email=${encodeURIComponent(email)}`);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -83,30 +89,21 @@ const FormLogin = () => {
                   Password
                 </label>
                 <a
-                  href="/forgot-password"
+                  href={`/forgot-password?email=${encodeURIComponent(email)}`}
                   className="text-sm text-[#5E84C5] hover:underline"
                 >
                   Lupa Password?
                 </a>
               </div>
-              <div className="relative">
-                <FormField
-                  label=""
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  value={password}
-                  placeholder="Masukan Password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  error={errors.password}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-2/4 transform -translate-y-2/4 text-gray-500"
-                >
-                  {" "}
-                </button>
-              </div>
+              <FormField
+                label=""
+                type="password"
+                name="password"
+                value={password}
+                placeholder="Masukan Password"
+                onChange={(e) => setPassword(e.target.value)}
+                error={errors.password}
+              />
             </div>
 
             {errors.general && (

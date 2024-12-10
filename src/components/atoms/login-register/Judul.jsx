@@ -6,7 +6,7 @@ function Judul() {
       <img src={logo} alt="Logo" className="h-16 w-16 rounded-full" />
       <div className="flex flex-col leading-tight">
         {" "}
-        <h1 className="font-semibold text-[#5E84C5] tracking-wide text-2xl md:text-4xl">
+        <h1 className="font-semibold text-[#2088CE] tracking-wide text-2xl md:text-4xl">
           GEMA
           <br />
         </h1>

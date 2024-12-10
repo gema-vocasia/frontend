@@ -5,6 +5,49 @@ import { saveAccessToken, removeAccessToken } from "../utils/tokenManager";
 export const useAuth = create((set) => ({
   user: null,
 
+  register: async (userData) => {
+    try {
+      const { name, email, phoneNumber, password } = userData;
+
+      if (!name || !email || !phoneNumber || !password) {
+        throw new Error("Semua field harus diisi");
+      }
+
+      const response = await axiosInstance.post("/user/register", {
+        name,
+        email,
+        phoneNumber,
+        password,
+      });
+      saveAccessToken(response.data.token);
+
+      // Save user data to local storage
+      const registeredUser = response.data.user;
+      localStorage.setItem("user", JSON.stringify(registeredUser));
+
+      // Update store state
+      set({ user: registeredUser });
+
+      return registeredUser;
+    } catch (error) {
+      // Handle specific error cases
+      console.error("Registration failed:", error.response?.data || error);
+
+      // Throw a more user-friendly error
+      if (error.response?.data?.message) {
+        throw new Error(error.response.data.message);
+      } else if (error.response?.data?.errors) {
+        // Handle validation errors from backend
+        const errorMessages = error.response.data.errors
+          .map((err) => err.msg)
+          .join(", ");
+        throw new Error(errorMessages);
+      } else {
+        throw new Error("Registrasi gagal. Silakan coba lagi.");
+      }
+    }
+  },
+
   login: async (email, password) => {
     try {
       const data = await axiosInstance.post("/user/login", {

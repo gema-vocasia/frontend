@@ -3,6 +3,7 @@ import {
   Donasi,
   Register,
   LupaSandi,
+  Resetpass,
   Login,
   Profile,
   BuatCampaign,
@@ -22,6 +23,10 @@ export const routes = createBrowserRouter([
   {
     path: "/forgot-password",
     element: <LupaSandi />,
+  },
+  {
+    path: "/reset-password",
+    element: <Resetpass />,
   },
   {
     path: "/register",

@@ -6,6 +6,7 @@ import Home from "./Home";
 import Login from "./Login";
 import Register from "./Register";
 import LupaSandi from "./ForgotPassword";
+import Resetpass from "./ResetPassword";
 export {
   Donasi,
   Profile,
@@ -15,4 +16,5 @@ export {
   Login,
   Register,
   LupaSandi,
+  Resetpass,
 };
