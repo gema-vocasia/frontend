@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 const CampaignCard = ({ campaign }) => {
   return (
     <div
-      key={campaign.id}
+      key={campaign._id}
       className="flex flex-col p-6 mb-8 transition transform bg-white border border-gray-300 rounded-lg shadow-xl hover:scale-105 hover:shadow-2xl"
     >
       <div className="flex items-center justify-center w-full h-48 mb-6 overflow-hidden bg-gray-200 rounded">
@@ -56,7 +56,7 @@ const CampaignCard = ({ campaign }) => {
         </button>
 
         <Link
-          to={`/campaign-detail/${campaign.id}`}
+          to={`/campaign-detail/${campaign._id}`}
           className="flex-1 px-6 py-2 text-[#5E84C5] bg-white border border-[#5E84C5] rounded-full hover:bg-[#E6ECF5] transition duration-300 flex items-center justify-center"
         >
           Detail
@@ -69,7 +69,7 @@ const CampaignCard = ({ campaign }) => {
 // Validasi properti dengan PropTypes
 CampaignCard.propTypes = {
   campaign: PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    _id: PropTypes.number.isRequired,
     photo: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     category: PropTypes.string.isRequired,
