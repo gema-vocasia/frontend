@@ -37,7 +37,7 @@ export const routes = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: "/donasi",
+    path: "/donasi/:campaignId",
     element: <Donasi />,
   },
   {
