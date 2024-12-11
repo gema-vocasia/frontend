@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import FormField from "../molecules/FormField";
 import CheckboxField from "../molecules/CheckboxField";
 import Button from "../atoms/Button";
-import { credential } from "../../config/credential/constant";
+import { credential } from "../../config/credential/const";
 
 const FormDonasi = () => {
   const { campaignId } = useParams();
