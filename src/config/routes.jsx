@@ -9,12 +9,17 @@ import {
   BuatCampaign,
   EditProfile,
   Home,
+  CampaignDetail
 } from "../pages";
 
 export const routes = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+  },
+  {
+    path: "/campaign/:id",
+    element: <CampaignDetail />,
   },
   {
     path: "/login",

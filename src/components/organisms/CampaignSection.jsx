@@ -15,7 +15,7 @@ CampaignSection.propTypes = {
   title: PropTypes.string.isRequired,
   cards: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired,
+      id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
       collected: PropTypes.number.isRequired,
