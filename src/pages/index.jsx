@@ -7,6 +7,7 @@ import Login from "./Login";
 import Register from "./Register";
 import LupaSandi from "./ForgotPassword";
 import Resetpass from "./ResetPassword";
+import TentangKami from "./TentangKami";
 export {
   Donasi,
   Profile,
@@ -17,4 +18,5 @@ export {
   Register,
   LupaSandi,
   Resetpass,
+  TentangKami,
 };
