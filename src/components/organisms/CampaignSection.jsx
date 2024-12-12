@@ -15,13 +15,10 @@ CampaignSection.propTypes = {
   title: PropTypes.string.isRequired,
   cards: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired,
+      _id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      collected: PropTypes.number.isRequired,
-      target: PropTypes.number.isRequired,
-      fundraiser: PropTypes.string.isRequired,
-      image: PropTypes.string.isRequired,
+      category: PropTypes.string.isRequired,
+      photo: PropTypes.string.isRequired,
     })
   ).isRequired,
 };

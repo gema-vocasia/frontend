@@ -2,13 +2,12 @@ import axios from "axios";
 import { getAccessToken } from "../utils/tokenManager";
 
 const config = {
-  baseURL: "http://localhost:8080/api/v1",
-  headers: {
-    "Content-Type": "application/json",
-  },
+  BASE_URL: "http://localhost:8080", // URL yang benar
 };
 
-export const axiosInstance = axios.create(config);
+export const axiosInstance = axios.create({
+  baseURL: config.BASE_URL, // Gunakan baseURL yang sudah benar
+});
 
 axiosInstance.interceptors.request.use(
   (config) => {

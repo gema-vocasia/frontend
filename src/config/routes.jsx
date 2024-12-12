@@ -9,13 +9,18 @@ import {
   BuatCampaign,
   EditProfile,
   Home,
-  CampaignDetail
+  CampaignDetail,
+  AllKampanye,
 } from "../pages";
 
 export const routes = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+  },
+  {
+    path: "/all-campaign",
+    element: <AllKampanye />,
   },
   {
     path: "/campaign/:id",
