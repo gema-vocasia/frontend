@@ -60,7 +60,7 @@ const categoryStore = create((set) => ({
   // Get All Categories
   getCategories: async () => {
     try {
-      const res = await api.get("/api/v1/categories");
+      const res = await api.get("/categories");
       console.log(res.data);
       set({ category: res.data.categories });
     } catch (error) {

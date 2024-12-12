@@ -7,7 +7,7 @@ const campaignStore = create((set) => ({
   // Get All Campaigns
   getCampaigns: async () => {
     try {
-      const res = await api.get("/api/v1/campaigns");
+      const res = await api.get("/campaigns");
       set({ campaign: res.data });
     } catch (error) {
       console.error(error);
@@ -17,7 +17,7 @@ const campaignStore = create((set) => ({
   getCampaignByUserId: async () => {
 
     try {
-      const res = await api.get(`/api/v1/campaigns/user/`);
+      const res = await api.get(`/campaigns/user/`);
       set({ campaignByUserId: res.data });
     } catch (error) {
       console.error(error);

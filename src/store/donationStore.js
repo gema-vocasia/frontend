@@ -8,7 +8,7 @@ const donationStore = create((set) => ({
   // Mendapatkan donations berdasarkan User ID
   getDonationsByUserId: async (userId) => {
     try {
-      const res = await api.get(`/api/v1/donations/user/${userId}`);
+      const res = await api.get(`/donations/user/${userId}`);
       console.log(res.data);
       set({ donationsByUserId: res.data.donations }); // Menyimpan donations berdasarkan userId
     } catch (error) {
@@ -19,7 +19,7 @@ const donationStore = create((set) => ({
   // Mendapatkan donations berdasarkan Campaign ID
   getDonationsByCampaignId: async (campaignId) => {
     try {
-      const res = await api.get(`/api/v1/donations/${campaignId}`);
+      const res = await api.get(`/donations/${campaignId}`);
       console.log(res.data);
       set({ donationsByCampaignId: res.data.donations }); // Menyimpan donations berdasarkan campaignId
     } catch (error) {
