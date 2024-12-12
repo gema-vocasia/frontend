@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { redirect, useParams } from "react-router-dom";
 import axios from "axios";
 import { donation } from "../../config/donation";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +7,8 @@ import FormField from "../molecules/FormField";
 import CheckboxField from "../molecules/CheckboxField";
 import Button from "../atoms/Button";
 import { credential } from "../../config/credential/const";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const FormDonasi = () => {
   const { campaignId } = useParams();
@@ -63,8 +65,17 @@ const FormDonasi = () => {
         }
       } catch (error) {
         if (!didCancel) {
-          console.error("Error fetching kamapanye detail :", error);
-          setError("Gagal memuat detail kampanye");
+          toast.error("Gagal memuat detail kampanye", {
+            position: "top-right",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+          navigate("/");
+          setError(error);
+          console.error("Error fetching kampanye detail:", error);
           setLoading(false);
         }
       }
@@ -99,20 +110,52 @@ const FormDonasi = () => {
 
     window.snap.pay(transactionToken, {
       onSuccess: function (result) {
-        // Send success data to your backend if needed
+        toast.success("Pembayaran berhasil!", {
+          position: "top-right",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
         console.log("Payment successful");
+        navigate("/");
         console.log(result);
       },
       onPending: function (result) {
-        alert("Waiting for your payment!");
+        // Ganti alert dengan toast.info
+        toast.info("Menunggu pembayaran!", {
+          position: "top-right",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
         console.log(result);
       },
       onError: function (result) {
-        alert("Payment failed!");
+        // Ganti alert dengan toast.error
+        toast.error("Pembayaran gagal!", {
+          position: "top-right",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
         console.log(result);
       },
       onClose: function () {
-        alert("You closed the popup without finishing the payment.");
+        // Ganti alert dengan toast.warning
+        toast.warning("Anda menutup popup sebelum menyelesaikan pembayaran.", {
+          position: "top-right",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       },
     });
   };
@@ -134,7 +177,15 @@ const FormDonasi = () => {
       navigate("/");
     } catch (error) {
       console.error("Error submitting donation:", error.message);
-      alert("Gagal mengirim donasi. Silakan coba lagi.");
+      // Ganti alert dengan toast.error
+      toast.error("Gagal mengirim donasi. Silakan coba lagi.", {
+        position: "top-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -163,6 +214,7 @@ const FormDonasi = () => {
 
   return (
     <div className="flex justify-center items-center p-6 bg-gray-100">
+      <ToastContainer />
       <div className="w-full max-w-3xl bg-white m-8 p-8 rounded-lg shadow-xl">
         {campaignDetails && (
           <div className="flex flex-col md:flex-row mb-10">
