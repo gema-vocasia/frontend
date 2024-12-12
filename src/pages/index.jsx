@@ -10,6 +10,8 @@ import Resetpass from "./ResetPassword";
 import CampaignDetail from "./CampaignDetail";
 import AllKampanye from "./AllKampanye";
 
+import Riwayat from "./Riwayat";
+import CampaignSaya from "./CampaignSaya";
 export {
   Donasi,
   Profile,
@@ -21,5 +23,7 @@ export {
   LupaSandi,
   Resetpass,
   CampaignDetail,
-  AllKampanye
+  AllKampanye,
+  Riwayat,
+  CampaignSaya,
 };
