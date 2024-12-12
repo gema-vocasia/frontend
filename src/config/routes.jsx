@@ -9,6 +9,7 @@ import {
   BuatCampaign,
   EditProfile,
   Home,
+  Faq,
 } from "../pages";
 
 export const routes = createBrowserRouter([
@@ -51,5 +52,9 @@ export const routes = createBrowserRouter([
   {
     path: "/profile",
     element: <Profile />,
+  },
+  {
+    path: "/faq",
+    element: <Faq />,
   },
 ]);
