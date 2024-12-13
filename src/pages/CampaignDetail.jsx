@@ -76,10 +76,7 @@ const CampaignDetail = () => {
         </div>
 
         <CampaignDetailContent
-          campaign={{
-            ...thisCampaign,
-            userId: thisCampaign.userId.toString(),
-          }}
+          campaign={thisCampaign}
           showFullDescription={showFullDescription}
         />
 

@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 const CampaignCard = ({ campaign }) => {
   console.log(campaign);
   const navigate = useNavigate();
+  const imageUrl = `http://localhost:8080/api/v1/files/${campaign.photo}`;
 
   return (
     <div
@@ -14,7 +15,7 @@ const CampaignCard = ({ campaign }) => {
     >
       <div className="relative flex items-center justify-center w-full h-60 mb-6 overflow-hidden bg-gray-200 rounded">
         <img
-          src={campaign.photo}
+          src={imageUrl}
           alt={campaign.title}
           className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110"
         />

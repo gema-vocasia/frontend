@@ -232,6 +232,7 @@ const FormDonasi = () => {
     return <div>{error}</div>;
   }
 
+  const imageUrl = `http://localhost:8080/api/v1/files/${campaignDetails.photo}`;
   return (
     <div className="flex justify-center items-center p-6 bg-gray-100">
       <ToastContainer />
@@ -244,7 +245,7 @@ const FormDonasi = () => {
           <div className="flex flex-col md:flex-row items-start bg-white shadow-lg rounded-lg p-6 mb-10">
             {campaignDetails.photo && (
               <img
-                src={campaignDetails.photo}
+                src={imageUrl}
                 alt={campaignDetails.title}
                 className="w-full md:w-1/3 h-64 object-cover rounded-lg mb-4 md:mb-0"
               />
