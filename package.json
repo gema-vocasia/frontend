@@ -13,6 +13,7 @@
     "-": "^0.0.1",
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.2.0",
+    "aos": "^2.3.4",
     "axios": "^1.7.9",
     "css": "^3.0.0",
     "prop-types": "^15.8.1",
