@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCampaignStore } from "../../store/campaignStore"; 
-import useCategoryStore from "../../store/categoryStore"
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import FormField from "../molecules/FormField";
@@ -11,7 +10,7 @@ import Select from "../atoms/Select";
 import Button from "../atoms/Button";
 import Label from "../atoms/Label";
 import Swal from "sweetalert2"
-import { useUserStore } from "../../store/userStore";
+import { useUsersPosts } from "../../config/useUser";
 
 const FormBuatCampaign = () => {
   const [thumbnail, setThumbnail] = useState(null);
@@ -23,14 +22,20 @@ const FormBuatCampaign = () => {
   const [deskripsi, setDeskripsi] = useState("");
   const [currentStep, setCurrentStep] = useState(0);
   const { createCampaign, isLoading } = useCampaignStore();
-  const { category, getCategories } = useCategoryStore();
-  const { isKYC, fetchUser } = useUserStore();
+  const { isKYC, fetchUser } = useUsersPosts();
   const navigate = useNavigate();
 
   useEffect(() => {
-    getCategories();
     fetchUser();
-  }, [getCategories, fetchUser]);
+  }, [fetchUser]);
+
+  const kategoriOption = [
+    { title: "Sosial", id: "675871348a20f72572d483ad" },
+    { title: "Kesehatan", id: "675871348a20f72572d483ae" },
+    { title: "Bencana Alam", id: "675871348a20f72572d483af" },
+    { title: "Pendidikan", id: "675871348a20f72572d483b0" },
+    { title: "Lingkungan", id: "675871348a20f72572d483b1" },
+  ];
 
   const calculateDateDifference = (startDate, endDate) => {
     const start = new Date(startDate);
@@ -104,7 +109,7 @@ const FormBuatCampaign = () => {
         text: 'Kampanye Anda telah berhasil dibuat!',
         confirmButtonText: 'OK'
       });
-      navigate("/campaign-saya");
+      navigate("/campaignsaya");
     } catch (error) {
       alert(error || "Terjadi kesalahan saat membuat kampanye");
     }
@@ -192,7 +197,7 @@ const FormBuatCampaign = () => {
               <Select 
                 kategori={kategori} 
                 setKategori={setKategori} 
-                options={category.map((cat) => ({ value: cat._id, label: cat.title }))} 
+                options={kategoriOption.map((cat) => ({ value: cat.id, label: cat.title }))} 
               />
             </>
           )}
@@ -262,7 +267,7 @@ const FormBuatCampaign = () => {
                   <strong>Kategori: </strong>
                   <span>
                     {
-                      category.find((cat) => cat._id === kategori)?.title || "Kategori tidak ditemukan"
+                      kategoriOption.find((cat) => cat.id === kategori)?.title || "Kategori tidak ditemukan"
                     }
                   </span>
                 </div>
