@@ -13,6 +13,7 @@ const Footer = () => {
             <li><Link to="/tentang-kami">Tentang Kami</Link></li>
             <li><Link to="/all-campaign">Donasikan</Link></li>
             <li><Link to="/lisensi-gambar">Lisensi</Link></li>
+            <li><Link to="/faq">FAQ</Link></li>
           </ul>
         </div>
         

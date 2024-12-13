@@ -1,20 +1,28 @@
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { useState } from 'react';
 import Logo from '../atoms/Logo';
 import MenuLink from '../molecules/MenuLink.';
 import ProfileMenu from '../molecules/ProfileMenu';
 import { LoginButton, RegisterButton } from '../atoms/ButtonIcon';
+import { useAuth } from '../../config/auth'
+import { Link, useLocation } from 'react-router-dom';
 
 const navigation = [
-  { name: 'Beranda', to: '/', current: false },
-  { name: 'Tentang Kami', to: '/tentang-kami', current: false },
-  { name: 'Donasikan', to: '/all-campaign', current: false },
-  { name: 'Lisensi', to: '/lisensi-gambar', current: false },
+  { name: 'Beranda', to: '/' },
+  { name: 'Tentang Kami', to: '/tentang-kami' },
+  { name: 'Donasikan', to: '/all-campaign' },
+  { name: 'Lisensi', to: '/lisensi-gambar' },
 ];
 
 const Navbar = () => {
-  const [isLoggedIn] = useState(false);
+  const { user } = useAuth(); 
+  const isLoggedIn = !!user; 
+
+  const location = useLocation();
+  const updatedNavigation = navigation.map((item) => ({
+    ...item,
+    current: location.pathname === item.to
+  }));
   
   return (
     <Disclosure as="nav" className="bg-white shadow-md sticky top-0 z-50">
@@ -32,7 +40,7 @@ const Navbar = () => {
             <Logo />
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
-                {navigation.map((item) => (
+                {updatedNavigation.map((item) => (
                   <MenuLink key={item.name} to={item.to} name={item.name} current={item.current} />
                 ))}
               </div>
@@ -40,8 +48,9 @@ const Navbar = () => {
           </div>
 
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <ProfileMenu isLoggedIn={isLoggedIn} />
-            {!isLoggedIn && (
+            {isLoggedIn ? (
+              <ProfileMenu isLoggedIn={isLoggedIn} />
+            ) : (
               <div className="hidden sm:flex space-x-4">
                 <LoginButton />
                 <RegisterButton />
@@ -53,10 +62,9 @@ const Navbar = () => {
 
       <DisclosurePanel className="sm:hidden">
         <div className="space-y-1 px-2 pb-3 pt-2">
-          {navigation.map((item) => (
-            <DisclosureButton
+          {updatedNavigation.map((item) => (
+            <Link
               key={item.name}
-              as="a"
               to={item.to}
               aria-current={item.current ? 'page' : undefined}
               className={`${
@@ -64,16 +72,15 @@ const Navbar = () => {
               } block rounded-md px-3 py-2 text-base font-medium`}
             >
               {item.name}
-            </DisclosureButton>
+            </Link>
           ))}
           {!isLoggedIn && (
-            <DisclosureButton
-              as="a"
+            <Link
               to="/login"
               className="block rounded-md px-3 py-2 text-base font-medium text-black hover:text-[#5E84C5]"
             >
               Masuk
-            </DisclosureButton>
+            </Link>
           )}
         </div>
       </DisclosurePanel>
