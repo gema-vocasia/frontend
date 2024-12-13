@@ -12,13 +12,14 @@ import AllKampanye from "./AllKampanye";
 
 import Riwayat from "./Riwayat";
 import CampaignSaya from "./CampaignSaya";
-import TentangKami from "./TentangKami";
+import TentangKami from "./TentangKami";import ImageLicensePage from "./ImageLicensePage";
+
 export {
   Donasi,
   Profile,
   BuatCampaign,
   EditProfile,
-  Home,
+  Home, ImageLicensePage,
   Login,
   Register,
   LupaSandi,

@@ -13,13 +13,18 @@ import {
   AllKampanye,
   Riwayat,
   CampaignSaya,
-  TentangKami
+  TentangKami,
+  ImageLicensePage
 } from "../pages";
 
 export const routes = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+  },
+  {
+    path: "/tentang-kami",
+    element: <ImageLicensePage />,
   },
   {
     path: "/all-campaign",
