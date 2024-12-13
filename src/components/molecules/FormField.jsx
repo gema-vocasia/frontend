@@ -21,7 +21,7 @@ const FormField = ({
   };
 
   return (
-    <div className=" text-md md:text-xl">
+    <div>
       <Label>{label}</Label>
       <div className="relative">
         <Input

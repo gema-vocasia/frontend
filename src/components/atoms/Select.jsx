@@ -1,12 +1,26 @@
 import PropTypes from 'prop-types';
 
-const Select = ({ options, onChange }) => (
+const Select = ({ kategori, setKategori, options }) => (
   <select
-    onChange={onChange}
-    className="w-full p-3 rounded-lg text-black border-2 border-[#5E84C5] focus:outline-none focus:ring focus:ring-blue-200"
+    value={kategori}
+    onChange={(e) => setKategori(e.target.value)}
+    required
+    style={{
+      width: '100%',
+      padding: '14px',
+      borderRadius: '8px',
+      border: '2px solid #5E84C5',
+      fontSize: '16px',
+      outline: 'none',
+      marginTop: '5px',
+      boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+    }}
   >
-    {options.map((option, index) => (
-      <option key={index} value={option.value}>
+    <option value="" disabled>
+      Pilih Kategori
+    </option>
+    {options.map((option) => (
+      <option key={option.value} value={option.value}>
         {option.label}
       </option>
     ))}
@@ -14,13 +28,14 @@ const Select = ({ options, onChange }) => (
 );
 
 Select.propTypes = {
+  kategori: PropTypes.string.isRequired,
+  setKategori: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({
-      value: PropTypes.string.isRequired,  
-      label: PropTypes.string.isRequired,  
+      value: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
     })
-  ).isRequired, 
-  onChange: PropTypes.func.isRequired, 
+  ).isRequired,
 };
 
 export default Select;

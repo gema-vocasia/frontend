@@ -9,6 +9,11 @@ const DateField = ({ label, onChange }) => (
       type="date"
       onChange={onChange}
     />
+    {label === "Tanggal Berakhir" && (
+      <p className="text-sm text-gray-500 mt-2">
+        Minimal durasi kampanye 30 hari
+      </p>
+    )}
   </div>
 );
 
