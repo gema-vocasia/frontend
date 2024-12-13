@@ -205,10 +205,13 @@ const FormBuatCampaign = () => {
           {currentStep === 3 && (
             <FormField
               label="Target Donasi"
-              type="number"
+              type="text"
               placeholder="Masukkan Target Donasi"
               value={targetDonasi}
-              onChange={(e) => setTargetDonasi(e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value.replace(/[^0-9]/g, ''); 
+                setTargetDonasi(`Rp ${value}`);
+              }}
             />
           )}
 
