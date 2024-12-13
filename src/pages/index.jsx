@@ -9,7 +9,6 @@ import LupaSandi from "./ForgotPassword";
 import Resetpass from "./ResetPassword";
 import CampaignDetail from "./CampaignDetail";
 import AllKampanye from "./AllKampanye";
-
 import Riwayat from "./Riwayat";
 import CampaignSaya from "./CampaignSaya";
 import TentangKami from "./TentangKami";import ImageLicensePage from "./ImageLicensePage";
