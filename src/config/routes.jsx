@@ -13,6 +13,7 @@ import {
   AllKampanye,
   Riwayat,
   CampaignSaya,
+  TentangKami
 } from "../pages";
 
 export const routes = createBrowserRouter([
@@ -71,5 +72,9 @@ export const routes = createBrowserRouter([
   {
     path: "/riwayat",
     element: <Riwayat />,
+  },
+  {
+    path: "/tentang-kami",
+    element: <TentangKami />,
   },
 ]);

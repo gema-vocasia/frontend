@@ -12,6 +12,7 @@ import AllKampanye from "./AllKampanye";
 
 import Riwayat from "./Riwayat";
 import CampaignSaya from "./CampaignSaya";
+import TentangKami from "./TentangKami";
 export {
   Donasi,
   Profile,
@@ -26,4 +27,5 @@ export {
   AllKampanye,
   Riwayat,
   CampaignSaya,
+  TentangKami,
 };
