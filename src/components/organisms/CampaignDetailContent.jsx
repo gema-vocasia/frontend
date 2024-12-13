@@ -6,18 +6,15 @@ import FundraiserInfo from "../atoms/FundraiserInfo";
 import CampaignDescription from "../molecules/CampaignDescription";
 
 const CampaignDetailContent = ({ campaign, showFullDescription }) => {
-  console.log("Campaign user:", campaign.userId);
+  const imageUrl = `http://localhost:8080/api/v1/files/${campaign.photo}`;
+  console.log("Campaign user:", campaign.userId.name);
   return (
     <div className="w-full p-4">
-      <CampaignImage src={campaign.photo} alt={campaign.title} />
+      <CampaignImage src={imageUrl} alt={campaign.title} />
       <CampaignTitle title={campaign.title} />
       <CampaignProgressInfo campaign={campaign} />
       <FundraiserInfo
-        fundraiser={
-          typeof campaign.userId === "object"
-            ? campaign.userId.name || "Tidak Diketahui"
-            : "Tidak Diketahui"
-        }
+        fundraiser={campaign.userId?.name}
       />
       <CampaignDescription
         description={campaign.description}
