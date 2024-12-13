@@ -39,8 +39,6 @@ const StorySection = ({ image, title }) => {
 StorySection.propTypes = {
   image: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  description1: PropTypes.string.isRequired,
 };
 
 export default StorySection;

@@ -82,10 +82,9 @@ CampaignCard.propTypes = {
     _id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     photo: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    categoryId: PropTypes.string.isRequired,
+    categoryId: PropTypes.object.isRequired,
     totalDonation: PropTypes.number.isRequired,
     targetAmount: PropTypes.number.isRequired,
-    progress: PropTypes.number.isRequired,
   }).isRequired,
 };
 

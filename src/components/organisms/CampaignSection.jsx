@@ -17,7 +17,7 @@ CampaignSection.propTypes = {
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
-      category: PropTypes.string.isRequired,
+      category: PropTypes.string,
       photo: PropTypes.string.isRequired,
     })
   ).isRequired,

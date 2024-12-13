@@ -6,43 +6,12 @@ import Left from "../atoms/login-register/Left";
 import LinkDaftarMasuk from "../atoms/login-register/LinkDaftarMasuk.jsx";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../config/auth.js";
-import { toast } from "react-toastify";
-import { useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const FormLogin = () => {
-  useEffect(() => {
-    // Cek pesan sukses
-    const successMessage = localStorage.getItem("registrationSuccess");
-    if (successMessage) {
-      toast.success(successMessage, {
-        position: "top-right",
-        autoClose: 4000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
-      localStorage.removeItem("registrationSuccess");
-    }
-
-    // Cek pesan error
-    const errorMessage = localStorage.getItem("registrationError");
-    if (errorMessage) {
-      toast.error(errorMessage, {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      localStorage.removeItem("registrationError");
-    }
-  }, []);
   const navigate = useNavigate();
   const { login } = useAuth();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -68,6 +37,7 @@ const FormLogin = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
     if (!validate()) return;
 
     setIsLoading(true);
@@ -79,8 +49,20 @@ const FormLogin = () => {
       setLoginAttempts(0);
       navigate("/home");
     } catch (error) {
-      console.error("Login error:", error.message);
-      setErrors({ general: "Email atau password salah." });
+      console.error("Login error:", error);
+      console.error("Login error message:", error.message);
+
+      if (error.message === "User Not Verified") {
+        toast.error("Email belum diverifikasi, silakan cek email Anda", {
+          position: "top-right",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
 
       setLoginAttempts((prev) => prev + 1);
       if (loginAttempts + 1 >= 3) {
@@ -93,6 +75,7 @@ const FormLogin = () => {
 
   return (
     <div className="flex flex-col md:flex-row h-screen">
+      <ToastContainer />
       <Left />
       <div
         className="flex-1 flex flex-col items-center justify-center p-8"

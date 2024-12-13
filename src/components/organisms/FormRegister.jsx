@@ -9,6 +9,7 @@ import "aos/dist/aos.css";
 import AOS from "aos";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Swal from "sweetalert2";
 
 const FormRegistrasi = () => {
   const navigate = useNavigate();
@@ -70,13 +71,12 @@ const FormRegistrasi = () => {
       });
 
       console.log("Registered user:", user);
-      toast.success("Pembayaran berhasil!", {
-        position: "top-right",
-        autoClose: 4000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Your work has been saved",
+        showConfirmButton: false,
+        timer: 1500,
       });
       navigate("/login");
     } catch (error) {

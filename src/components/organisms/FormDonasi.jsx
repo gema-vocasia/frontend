@@ -119,7 +119,7 @@ const FormDonasi = () => {
           draggable: true,
         });
         console.log("Payment successful");
-        navigate("/");
+
         console.log(result);
       },
       onPending: function (result) {
@@ -158,6 +158,7 @@ const FormDonasi = () => {
         });
       },
     });
+    navigate("/");
   };
 
   const handleSubmit = async (e) => {
@@ -177,7 +178,6 @@ const FormDonasi = () => {
       navigate("/");
     } catch (error) {
       console.error("Error submitting donation:", error.message);
-      // Ganti alert dengan toast.error
       toast.error("Gagal mengirim donasi. Silakan coba lagi.", {
         position: "top-right",
         autoClose: 4000,
@@ -195,7 +195,6 @@ const FormDonasi = () => {
     const accessToken = localStorage.getItem("accessToken");
 
     if (!accessToken) {
-      // Tampilkan notifikasi toast
       toast.error("Anda belum login, silakan masuk untuk berdonasi.", {
         position: "top-right",
         autoClose: 2500,

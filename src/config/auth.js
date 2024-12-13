@@ -51,15 +51,31 @@ export const useAuth = create((set) => ({
         email,
         password,
       });
-      console.log("API Response:", data);
+
+      // Cek status verifikasi dari response
+      if (!data.data.user.verified) {
+        // Pastikan melempar error dengan pesan spesifik
+        throw new Error("Email belum diverifikasi");
+      }
+
       saveAccessToken(data.data.token);
       const userData = data.data.user;
       localStorage.setItem("user", JSON.stringify(userData));
       set({ user: userData });
       return userData;
     } catch (error) {
-      console.error("Login failed:", error.response?.data || error);
-      throw new Error("Invalid email or password");
+      // Tangani error dengan spesifik
+      if (error.response) {
+        // Error dari server
+        if (error.response.data.message === "NOT_VERIFIED") {
+          throw new Error("Email belum diverifikasi");
+        }
+        throw new Error(error.response.data.message || "Login gagal");
+      } else if (error.message === "Email belum diverifikasi") {
+        throw error;
+      } else {
+        throw new Error("Login gagal. Silakan coba lagi.");
+      }
     }
   },
 
