@@ -1,54 +1,57 @@
 import FormField from "../molecules/FormField";
 import Button from "../atoms/Button";
-import {CameraIcon} from "@heroicons/react/24/solid";
-import {useEffect, useState} from "react";
-import {getAccessToken} from "../../utils/tokenManager.js";
-import {axiosInstance as api} from "../../config/axiosInstance.js";
-import {FilePond, registerPlugin} from 'react-filepond'
-import 'filepond/dist/filepond.min.css'
+import { CameraIcon } from "@heroicons/react/24/solid";
+import { useEffect, useState } from "react";
+import { getAccessToken } from "../../utils/tokenManager.js";
+import { axiosInstance as api } from "../../config/axiosInstance.js";
+import { FilePond, registerPlugin } from "react-filepond";
+import "filepond/dist/filepond.min.css";
 
-
-import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation'
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
+import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import Label from "../atoms/Label";
 
-registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview)
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 const FormEditProfile = () => {
   const [formDataPayload, setFormDataPayload] = useState({
-    name: '',
-    email: '',
-    phoneNumber: '',
-    password: '',
+    name: "",
+    email: "",
+    phoneNumber: "",
+    password: "",
   });
-  const [accessToken, setAccessToken] = useState('');
+  const [accessToken, setAccessToken] = useState("");
   const [file, setFile] = useState();
-  const [oldFile, setOldFile] = useState('');
+  const [oldFile, setOldFile] = useState("");
   const [isKYC, setIsKYC] = useState();
-  const [previewUrl, setPreviewUrl] = useState('');
+  const [previewUrl, setPreviewUrl] = useState("");
 
   useEffect(() => {
     setAccessToken(getAccessToken());
-  }, [])
+  }, []);
 
   async function fetchCurrentUser() {
     try {
       const data = await api.get("/user/profile");
-      setPreviewUrl(`http://localhost:8080/api/v1/files/${data.data.photo_url}`)
+      setPreviewUrl(
+        `http://localhost:8080/api/v1/files/${data.data.photo_url}`
+      );
       setFormDataPayload({
         name: data.data.name,
         email: data.data.email,
         phoneNumber: data.data.phoneNumber,
       }); // Directly use data from interceptor
-      setIsKYC(data.data.isKYC)
-      setOldFile(data.data.nationalIdentityCard)
+      setIsKYC(data.data.isKYC);
+      setOldFile(data.data.nationalIdentityCard);
       if (data.data.nationalIdentityCard) {
-        setFile([{
-          source: `http://localhost:8080/api/v1/files/${data.data.nationalIdentityCard}`,
-          options: {type: 'input'},
-          name: data.data.name,
-        }])
+        setFile([
+          {
+            source: `http://localhost:8080/api/v1/files/${data.data.nationalIdentityCard}`,
+            options: { type: "input" },
+            name: data.data.name,
+          },
+        ]);
       }
       return data;
     } catch (error) {
@@ -58,13 +61,13 @@ const FormEditProfile = () => {
   }
 
   useEffect(() => {
-    fetchCurrentUser()
+    fetchCurrentUser();
   }, [accessToken]);
 
   async function triggerUpdateUser(e) {
     e.preventDefault();
     if (file.length === 0) {
-      alert("Mohon masukkan foto KTP Anda!")
+      alert("Mohon masukkan foto KTP Anda!");
     }
 
     try {
@@ -72,22 +75,29 @@ const FormEditProfile = () => {
       for (let [key, val] of Object.entries(formDataPayload)) {
         formDataPayloadUpdate.set(key, val);
       }
-      delete formDataPayloadUpdate['photoUrl'];
-      const axiosResponse = await api.put("/user/profile", formDataPayloadUpdate, {
-        headers: {
-          "Content-Type": "multipart/form-data", // Pastikan ini otomatis ditangani
-        }
-      });
-      const formDataFile = new FormData();
-      if (oldFile === '' || file[0].file.name !== oldFile) {
-        formDataFile.append("nationalIdentityCard", file[0].file);
-        const axiosUploadFileResponse = await api.post("/user/upload", formDataFile, {
+      delete formDataPayloadUpdate["photoUrl"];
+      const axiosResponse = await api.put(
+        "/user/profile",
+        formDataPayloadUpdate,
+        {
           headers: {
             "Content-Type": "multipart/form-data", // Pastikan ini otomatis ditangani
+          },
+        }
+      );
+      const formDataFile = new FormData();
+      if (oldFile === "" || file[0].file.name !== oldFile) {
+        formDataFile.append("nationalIdentityCard", file[0].file);
+        const axiosUploadFileResponse = await api.post(
+          "/user/upload",
+          formDataFile,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data", // Pastikan ini otomatis ditangani
+            },
           }
-        });
-        console.log(axiosUploadFileResponse)
-
+        );
+        console.log(axiosUploadFileResponse);
       }
 
       console.log(axiosResponse.data);
@@ -98,23 +108,23 @@ const FormEditProfile = () => {
   }
 
   const onChangeHandler = (e) => {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
     setFormDataPayload((prevState) => {
       return {
         ...prevState,
-        [name]: value
-      }
-    })
-  }
+        [name]: value,
+      };
+    });
+  };
 
   const onChangeFileHandler = (e) => {
     const file = e.target.files[0];
     setFormDataPayload((prevState) => {
       return {
         ...prevState,
-        'profilePhoto': file
-      }
-    })
+        profilePhoto: file,
+      };
+    });
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
@@ -138,23 +148,52 @@ const FormEditProfile = () => {
                 alt="Profile"
                 className="w-32 h-32 rounded-full shadow-lg border-4 border-[#5E84C5]"
               />
-              <label className="absolute bottom-0 right-0 p-2 rounded-full shadow cursor-pointer bg-[#5E84C5] text-white hover:text-[#5E84C5] hover:bg-white border-2 border-[#5E84C5]
-              transition-transform duration-300 transform hover:scale-105">
-                <CameraIcon className="w-5 h-5"/>
-                <input type="file" accept="image/*" className="hidden" onChange={onChangeFileHandler}/>
+              <label
+                className="absolute bottom-0 right-0 p-2 rounded-full shadow cursor-pointer bg-[#5E84C5] text-white hover:text-[#5E84C5] hover:bg-white border-2 border-[#5E84C5]
+              transition-transform duration-300 transform hover:scale-105"
+              >
+                <CameraIcon className="w-5 h-5" />
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={onChangeFileHandler}
+                />
               </label>
             </div>
           </div>
-          <FormField label="Nama" name={'name'} type="text" placeholder="Nama Lengkap" value={formDataPayload?.name}
-                     onChange={onChangeHandler}/>
-          <FormField label="Email" name={'email'} type="email" placeholder="Alamat Email"
-                     value={formDataPayload?.email} disabled={true}
-                     onChange={onChangeHandler}/>
-          <FormField label="Nomor Telepon" name={'phoneNumber'} type="tel" placeholder="Nomor Telepon"
-                     value={formDataPayload?.phoneNumber}
-                     onChange={onChangeHandler}/>
-          <FormField label="Password" name={'password'} type="password" placeholder="Password Baru"
-                     onChange={onChangeHandler}/>
+          <FormField
+            label="Nama"
+            name={"name"}
+            type="text"
+            placeholder="Nama Lengkap"
+            value={formDataPayload?.name}
+            onChange={onChangeHandler}
+          />
+          <FormField
+            label="Email"
+            name={"email"}
+            type="email"
+            placeholder="Alamat Email"
+            value={formDataPayload?.email}
+            disabled={true}
+            onChange={onChangeHandler}
+          />
+          <FormField
+            label="Nomor Telepon"
+            name={"phoneNumber"}
+            type="tel"
+            placeholder="Nomor Telepon"
+            value={formDataPayload?.phoneNumber}
+            onChange={onChangeHandler}
+          />
+          <FormField
+            label="Password"
+            name={"password"}
+            type="password"
+            placeholder="Password Baru"
+            onChange={onChangeHandler}
+          />
           <div className={"text-md md:text-xl"}>
             <Label>Foto KTP</Label>
           </div>
@@ -168,7 +207,9 @@ const FormEditProfile = () => {
             labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
           />
           <div className="flex justify-center">
-            <Button type="submit" onClick={triggerUpdateUser}>Simpan</Button>
+            <Button type="submit" onClick={triggerUpdateUser}>
+              Simpan
+            </Button>
           </div>
         </form>
       </div>

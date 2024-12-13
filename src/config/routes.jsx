@@ -14,7 +14,7 @@ import {
   Riwayat,
   CampaignSaya,
   TentangKami,
-  ImageLicensePage
+  ImageLicensePage,
 } from "../pages";
 
 export const routes = createBrowserRouter([
@@ -38,6 +38,7 @@ export const routes = createBrowserRouter([
     path: "/login",
     element: <Login />,
   },
+
   {
     path: "/forgot-password",
     element: <LupaSandi />,
@@ -75,7 +76,7 @@ export const routes = createBrowserRouter([
     element: <CampaignSaya />,
   },
   {
-    path: "/riwayat",
+    path: "/riwayat-donasi",
     element: <Riwayat />,
   },
   {
