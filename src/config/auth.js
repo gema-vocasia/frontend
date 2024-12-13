@@ -30,14 +30,11 @@ export const useAuth = create((set) => ({
 
       return registeredUser;
     } catch (error) {
-      // Handle specific error cases
       console.error("Registration failed:", error.response?.data || error);
 
-      // Throw a more user-friendly error
       if (error.response?.data?.message) {
         throw new Error(error.response.data.message);
       } else if (error.response?.data?.errors) {
-        // Handle validation errors from backend
         const errorMessages = error.response.data.errors
           .map((err) => err.msg)
           .join(", ");

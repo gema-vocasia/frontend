@@ -1,7 +1,15 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 const HeroTitle = ({ title }) => {
-  return <h1 className="text-4xl font-bold text-[#2088CE]">{title}</h1>;
+  return (
+    <h1
+      className="text-5xl font-extrabold text-[#2088CE] drop-shadow-lg"
+      data-aos="fade-down"
+      data-aos-duration="1000"
+    >
+      {title}
+    </h1>
+  );
 };
 
 HeroTitle.propTypes = {

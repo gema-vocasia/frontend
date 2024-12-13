@@ -1,9 +1,9 @@
-import PropTypes from 'prop-types';
-import CampaignSectionContent from '../molecules/CampaignSectionContent';
+import PropTypes from "prop-types";
+import CampaignSectionContent from "../molecules/CampaignSectionContent";
 
 const CampaignSection = ({ title, cards }) => {
   return (
-    <section className="py-10 bg-gray-100">
+    <section className="my-5" data-aos="fade-up" data-aos-duration="1000">
       <div className="container px-4 mx-auto">
         <CampaignSectionContent title={title} cards={cards} />
       </div>

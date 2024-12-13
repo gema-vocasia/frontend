@@ -1,11 +1,11 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 const CampaignImage = ({ src, alt }) => (
-  <div className="flex justify-center w-full mt-4">
+  <div className="flex justify-center items-center w-full h-full">
     <img
       src={src}
       alt={alt}
-      className="object-cover sm:w-2/3 sm:h-48 md:w-1/2 md:h-44 lg:w-1/3 lg:h-48"
+      className="object-contain w-full h-auto sm:w-2/3 md:w-1/2 lg:w-1/3 rounded-lg shadow-lg"
     />
   </div>
 );

@@ -25,7 +25,7 @@ export const routes = createBrowserRouter([
     element: <AllKampanye />,
   },
   {
-    path: "/campaign/:id",
+    path: "/campaign/:campaignId",
     element: <CampaignDetail />,
   },
   {

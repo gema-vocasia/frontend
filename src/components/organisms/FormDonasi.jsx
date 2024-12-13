@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { redirect, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { donation } from "../../config/donation";
 import { useNavigate } from "react-router-dom";
@@ -192,6 +192,26 @@ const FormDonasi = () => {
   };
 
   const handleNext = () => {
+    const accessToken = localStorage.getItem("accessToken");
+
+    if (!accessToken) {
+      // Tampilkan notifikasi toast
+      toast.error("Anda belum login, silakan masuk untuk berdonasi.", {
+        position: "top-right",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 3100);
+      return;
+    }
+
+    // Validasi langkah dan lanjutkan jika valid
     if (currentStep === 1 && !isStep1Valid) return;
     if (currentStep === 2 && !isStep2Valid) return;
     setCurrentStep((prev) => prev + 1);
@@ -215,9 +235,13 @@ const FormDonasi = () => {
   return (
     <div className="flex justify-center items-center p-6 bg-gray-100">
       <ToastContainer />
-      <div className="w-full max-w-3xl bg-white m-8 p-8 rounded-lg shadow-xl">
+      <div
+        className="w-full max-w-3xl bg-white m-8 p-8 rounded-lg shadow-xl"
+        data-aos="fade-up"
+        data-aos-duration="1000"
+      >
         {campaignDetails && (
-          <div className="flex flex-col md:flex-row mb-10">
+          <div className="flex flex-col md:flex-row items-start bg-white shadow-lg rounded-lg p-6 mb-10">
             {campaignDetails.photo && (
               <img
                 src={campaignDetails.photo}
@@ -225,23 +249,25 @@ const FormDonasi = () => {
                 className="w-full md:w-1/3 h-64 object-cover rounded-lg mb-4 md:mb-0"
               />
             )}
-            <div className="flex flex-col items-start w-full md:w-2/3 md:pl-4">
-              <h1 className="text-2xl  md:text-4xl font-semibold text-gray-700 mb-3">
+            <div className="flex flex-col items-start w-full md:w-2/3 md:pl-6">
+              <h1 className="text-3xl md:text-4xl font-semibold text-gray-800 mb-4">
                 {campaignDetails.title}
               </h1>
-              <p className="text-xl md:text-xl text-[#5E84C5] mb-3">
-                {campaignDetails.userId?.name || "Tidak diketahui"}
+              <p className="text-lg md:text-xl text-blue-500 font-medium mb-4">
+                Oleh: {campaignDetails.userId?.name || "Tidak diketahui"}
               </p>
-              <p className="text-left text-gray-600">
-                Target: Rp{" "}
-                {new Intl.NumberFormat("id-ID").format(
-                  campaignDetails.targetAmount
-                )}
+              <p className="text-gray-700 text-base md:text-lg mb-2">
+                <strong>Target Donasi:</strong>{" "}
+                <span className="font-semibold text-green-600">
+                  Rp{" "}
+                  {new Intl.NumberFormat("id-ID").format(
+                    campaignDetails.targetAmount
+                  )}
+                </span>
               </p>
             </div>
           </div>
         )}
-
         <form onSubmit={handleSubmit} className="space-y-6">
           {currentStep === 1 && (
             <>
@@ -325,29 +351,51 @@ const FormDonasi = () => {
               </div>
             </>
           )}
-
           {currentStep === 3 && (
-            <>
-              <h2 className="text-xl font-semibold text-black mb-4">
+            <div>
+              <h2 className="text-2xl font-semibold text-black mb-6">
                 Ringkasan Donasi Anda
               </h2>
-              <div className="space-y-4">
-                <p>
-                  <strong>Kampanye:</strong>{" "}
-                  {campaignDetails?.title || "Tidak diketahui"}
-                </p>
-                <p>
-                  <strong>Nama:</strong> {formData.name || "Belum diisi"}
-                </p>
-                <p>
-                  <strong>Jumlah Donasi:</strong>{" "}
-                  {`Rp ${parseInt(formData.amount || 0)}`}
-                </p>
-                <p>
-                  <strong>Pesan:</strong>{" "}
-                  {formData.comment || "Tidak ada pesan"}
-                </p>
+
+              <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
+                <div className="flex items-center">
+                  <p className="text-lg font-medium pr-2">
+                    <strong>Kampanye :</strong>
+                  </p>
+                  <p className="text-lg">
+                    {campaignDetails?.title || "Tidak diketahui"}
+                  </p>
+                </div>
+
+                <div className="flex items-center ">
+                  <p className="text-lg font-medium pr-2">
+                    <strong>Nama : </strong>
+                  </p>
+                  <p className="text-lg">{formData.name || "Belum diisi"}</p>
+                </div>
+
+                <div className="flex items-center">
+                  <p className="text-lg font-medium pr-2">
+                    <strong>Jumlah Donasi :</strong>
+                  </p>
+                  <p className="text-lg font-semibold text-green-600">
+                    {new Intl.NumberFormat("id-ID", {
+                      style: "currency",
+                      currency: "IDR",
+                    }).format(formData.amount || 0)}
+                  </p>
+                </div>
+
+                <div className="flex items-center">
+                  <p className="text-lg font-medium pr-2">
+                    <strong>Pesan :</strong>
+                  </p>
+                  <p className="text-lg">
+                    {formData.comment || "Tidak ada pesan"}
+                  </p>
+                </div>
               </div>
+
               <div className="flex justify-between mt-6">
                 <Button
                   type="button"
@@ -368,7 +416,7 @@ const FormDonasi = () => {
                   {isSubmitting ? "Mengirim..." : "Konfirmasi dan Donasi"}
                 </Button>
               </div>
-            </>
+            </div>
           )}
         </form>
       </div>

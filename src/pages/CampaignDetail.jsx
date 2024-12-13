@@ -6,35 +6,56 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import campaignStore from "../store/campaignStore";
 import donationStore from "../store/donationStore";
+import "react-toastify/dist/ReactToastify.css";
 
 const CampaignDetail = () => {
-  const { id } = useParams();
+  const { campaignId } = useParams();
+  console.log(campaignId);
   const navigate = useNavigate();
   const location = useLocation();
-  const { campaign, getCampaign } = campaignStore();
-  const { donationByCampaignId, getDonationsByCampaignId } = donationStore();
+  const { getCampaignById } = campaignStore();
+  const { donationByCampaignId } = donationStore();
   const [thisCampaign, setThisCampaign] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [showFullDescription] = useState(false);
   const [showDonors, setShowDonors] = useState(false);
 
-  // Update state only when `id` or `campaign` changes
   useEffect(() => {
-    const selectedCampaign = campaign.find(
-      (campaign) => campaign._id === id
+    const fetchCampaign = async () => {
+      try {
+        console.log("Fetching campaign with ID:", campaignId);
+        setLoading(true);
+        const data = await getCampaignById(campaignId);
+        setThisCampaign(data);
+        console.log("Fetched campaign:", data);
+      } catch (error) {
+        console.error("Error fetching campaign by ID:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (campaignId) {
+      fetchCampaign();
+    }
+  }, [campaignId, getCampaignById]);
+
+  // Tampilkan loading
+  if (loading) {
+    return (
+      <div style={{ textAlign: "center", padding: "20px" }}>
+        Memuat kampanye...
+      </div>
     );
-    setThisCampaign(selectedCampaign || null);
+  }
 
-    // Mengambil donations berdasarkan _id campaign
-    // if (selectedCampaign) {
-    //   getDonationsByCampaignId(selectedCampaign._id);
-    // }
-  }, [id, campaign, getDonationsByCampaignId]); // Dependency array memastikan ini dijalankan hanya saat `id` atau `campaign` berubah
-
-  console.log(donationByCampaignId);
   if (!thisCampaign) {
     return (
       <div style={{ textAlign: "center", padding: "20px" }}>
-        Campaign not found
+        Kampanye tidak ditemukan
+        <Button onClick={() => navigate("/")} className="mt-4">
+          Kembali ke Beranda
+        </Button>
       </div>
     );
   }
@@ -54,22 +75,27 @@ const CampaignDetail = () => {
           <BackButton onClick={handleBack} />
         </div>
 
-        {/* Konten Detail Kampanye */}
         <CampaignDetailContent
-          campaign={thisCampaign}
+          campaign={{
+            ...thisCampaign,
+            userId: thisCampaign.userId.toString(),
+          }}
           showFullDescription={showFullDescription}
         />
 
         {/* Bagian Donatur */}
         <CampaignDonorSection
-          donors={donationByCampaignId} // Menggunakan donationsByCampaignId
+          donors={donationByCampaignId}
           showDonors={showDonors}
           toggleShowDonors={() => setShowDonors(!showDonors)}
         />
 
         {/* Tombol Donasi */}
         <div className="mt-8 mb-12 text-center">
-          <Button onClick={() => navigate("/donasi")} className="w-2/6">
+          <Button
+            onClick={() => navigate(`/donasi/${thisCampaign._id}`)}
+            className="w-2/6"
+          >
             Donasi Sekarang
           </Button>
         </div>

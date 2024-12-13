@@ -29,7 +29,6 @@ const Home = () => {
     );
   });
 
-
   const filteredUrgentData = filteredData.filter((card) => card.isUrgent);
 
   const filteredLatestData = filteredData.filter((card) => !card.isUrgent);
@@ -42,7 +41,6 @@ const Home = () => {
     <div>
       <Navbar />
 
-      {/* Hero Section */}
       <Hero
         title="KEBAIKANMU HARI INI"
         subtitle="SENYUM MEREKA SELAMANYA"
@@ -82,11 +80,7 @@ const Home = () => {
 
       {/* Story Section */}
       <section className="mt-6 pt-6 pb-6 bg-white">
-        <StorySection
-          image={cerita}
-          title="Cerita Kami"
-          description="Kami di sini untuk membantu mereka yang kehilangan harapan. Dengan sedikit kebaikanmu hari ini, senyum mereka akan bertahan selamanya. Bergabunglah dalam misi kami untuk menciptakan dunia yang lebih baik!"
-        />
+        <StorySection image={cerita} title="Cerita Kami" />
       </section>
 
       <Footer />

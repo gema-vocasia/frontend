@@ -11,23 +11,27 @@ const AllKampanye = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   // Fetch campaigns and categories when the component mounts
-  // useEffect(() => {
-  //   getCampaigns();
-  //   getCategories();
-  // }, [getCampaigns, getCategories]);
+  useEffect(() => {
+    getCampaigns();
+    getCategories();
+  }, [getCampaigns, getCategories]);
 
-  // Filter kampanye berdasarkan kategori yang dipilih
   const filteredCategories = campaign.filter(
-    (item) => selectedCategory === "All" || item.categoryId === selectedCategory
+    (item) =>
+      selectedCategory === "All" || item.categoryId?._id === selectedCategory
   );
 
   return (
-    <div className="min-h-screen bg-white">
+    <div>
       {/* Navbar */}
       <Navbar />
 
       {/* Hero Section */}
-      <div className="pt-24 text-center">
+      <div
+        className="pt-24 text-center"
+        data-aos="zoom-in"
+        data-aos-duration="1500"
+      >
         <h1 className="text-4xl font-bold text-black">Kampanye Kami</h1>
         <p className="mt-2 text-lg text-gray-600">
           Kami hadir untuk membantu mereka yang membutuhkan
@@ -35,9 +39,13 @@ const AllKampanye = () => {
       </div>
 
       {/* Filter Section */}
-      <div className="px-6 pt-10 md:px-16">
+      <div className="px-6 pt-10 md:px-16" data-aos="fade-up">
         {/* Category Filter */}
-        <div className="flex justify-center mb-6">
+        <div
+          className="flex justify-center mb-6"
+          data-aos="zoom-in"
+          data-aos-duration="1500"
+        >
           <div className="flex flex-wrap gap-4 justify-center md:justify-start">
             <button
               onClick={() => setSelectedCategory("All")}
@@ -68,13 +76,13 @@ const AllKampanye = () => {
         {/* Kampanye Section */}
         <div className="space-y-8">
           {filteredCategories.length === 0 ? (
-            <p className="text-lg text-center text-gray-500">
+            <p className="text-lg text-center text-gray-500 h-screen">
               Kampanye yang Anda cari tidak ditemukan.
             </p>
           ) : (
             category.map((cat) => {
               const filteredItems = filteredCategories.filter(
-                (item) => item.categoryId === cat._id
+                (item) => item.categoryId && item.categoryId._id === cat._id
               );
 
               if (filteredItems.length === 0) return null;
@@ -82,12 +90,18 @@ const AllKampanye = () => {
               return (
                 <div key={cat._id}>
                   {/* Category Title */}
-                  <h2 className="mb-4 text-2xl font-bold text-black">
+                  <h2
+                    className="mb-4 text-2xl font-bold text-black"
+                    data-aos="fade-up"
+                  >
                     {cat.title}
                   </h2>
 
                   {/* Campaign List */}
-                  <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                  <div
+                    className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 "
+                    data-aos="fade-up"
+                  >
                     {filteredItems.map((campaign) => (
                       <CampaignCard key={campaign._id} campaign={campaign} />
                     ))}
@@ -99,8 +113,8 @@ const AllKampanye = () => {
         </div>
 
         {/* Footer Section */}
-        <Footer />
       </div>
+      <Footer />
     </div>
   );
 };

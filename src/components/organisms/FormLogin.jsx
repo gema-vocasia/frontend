@@ -6,8 +6,40 @@ import Left from "../atoms/login-register/Left";
 import LinkDaftarMasuk from "../atoms/login-register/LinkDaftarMasuk.jsx";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../config/auth.js";
+import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 const FormLogin = () => {
+  useEffect(() => {
+    // Cek pesan sukses
+    const successMessage = localStorage.getItem("registrationSuccess");
+    if (successMessage) {
+      toast.success(successMessage, {
+        position: "top-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      localStorage.removeItem("registrationSuccess");
+    }
+
+    // Cek pesan error
+    const errorMessage = localStorage.getItem("registrationError");
+    if (errorMessage) {
+      toast.error(errorMessage, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      localStorage.removeItem("registrationError");
+    }
+  }, []);
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -62,24 +94,46 @@ const FormLogin = () => {
   return (
     <div className="flex flex-col md:flex-row h-screen">
       <Left />
-      <div className="flex-1 flex flex-col items-center justify-center p-8">
-        <div className="w-full max-w-md p-8 rounded-lg">
+      <div
+        className="flex-1 flex flex-col items-center justify-center p-8"
+        data-aos="fade-down"
+        data-aos-duration="1500"
+      >
+        <div
+          className="w-full max-w-md p-8 rounded-lg"
+          data-aos="fade-up"
+          data-aos-duration="1000"
+        >
           <Judul />
-          <h1 className="flex justify-center text-2xl md:text-4xl font-bold text-[#5E84C5]">
-            MASUK
+          <h1
+            className="text-xl md:text-3xl font-bold text-[#5E84C5] text-center "
+            data-aos="zoom-in"
+            data-aos-duration="1200"
+          >
+            SELAMAT DATANG KEMBALI!
           </h1>
-          <form className="space-y-4" onSubmit={handleLogin}>
-            <FormField
-              label="Email"
-              type="email"
-              name="email"
-              value={email}
-              placeholder="Masukan Email"
-              onChange={(e) => setEmail(e.target.value)}
-              error={errors.email}
-            />
+          <form className="space-y-4 mt-6" onSubmit={handleLogin}>
+            <div
+              data-aos="fade-up"
+              data-aos-duration="1000"
+              data-aos-delay="200"
+            >
+              <FormField
+                label="Email"
+                type="email"
+                name="email"
+                value={email}
+                placeholder="Masukan Email"
+                onChange={(e) => setEmail(e.target.value)}
+                error={errors.email}
+              />
+            </div>
 
-            <div>
+            <div
+              data-aos="fade-up"
+              data-aos-duration="1000"
+              data-aos-delay="400"
+            >
               <div className="flex items-center justify-between mb-1">
                 <label
                   id="pass"
@@ -107,12 +161,22 @@ const FormLogin = () => {
             </div>
 
             {errors.general && (
-              <p className="text-red-500 text-sm text-center">
+              <p
+                className="text-red-500 text-sm text-center"
+                data-aos="fade-up"
+                data-aos-duration="1000"
+                data-aos-delay="600"
+              >
                 {errors.general}
               </p>
             )}
 
-            <div className="flex justify-center">
+            <div
+              className="flex justify-center"
+              data-aos="fade-up"
+              data-aos-duration="1000"
+              data-aos-delay="800"
+            >
               <Button
                 type="submit"
                 className="w-full py-2 text-white bg-[#5E84C5] hover:bg-[#4A6F98] rounded-lg"
@@ -122,7 +186,9 @@ const FormLogin = () => {
               </Button>
             </div>
           </form>
-          <LinkDaftarMasuk />
+          <div>
+            <LinkDaftarMasuk />
+          </div>
         </div>
       </div>
     </div>
