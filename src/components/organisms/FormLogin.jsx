@@ -84,7 +84,7 @@ const FormLogin = () => {
                 <label
                   id="pass"
                   htmlFor="password"
-                  className="block text-black text-md md:text-xl"
+                  className="block text-black "
                 >
                   Password
                 </label>
