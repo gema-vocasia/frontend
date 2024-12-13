@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
-import { UserIcon, SpeakerWaveIcon, DocumentTextIcon, ArrowLeftEndOnRectangleIcon } from '@heroicons/react/24/solid';
+import { UserIcon, SpeakerWaveIcon, DocumentTextIcon, ArrowLeftEndOnRectangleIcon, ClipboardDocumentIcon } from '@heroicons/react/24/solid';
 import { Link } from 'react-router-dom';
 
 const ProfileMenu = ({ isLoggedIn }) => (
@@ -27,13 +27,19 @@ const ProfileMenu = ({ isLoggedIn }) => (
           </Link>
         </MenuItem>
         <MenuItem>
-          <Link to="/kampanye-saya" className="flex items-center px-4 py-2 text-sm text-black">
+          <Link to="/buat-campaign" className="flex items-center px-4 py-2 text-sm text-black">
+            <ClipboardDocumentIcon className="w-5 h-5 mr-3 text-[#5E84C5]" />
+            Buat Kampanye
+          </Link>
+        </MenuItem>
+        <MenuItem>
+          <Link to="/campaignsaya" className="flex items-center px-4 py-2 text-sm text-black">
             <SpeakerWaveIcon className="w-5 h-5 mr-3 text-[#5E84C5]" />
             Kampanye Saya
           </Link>
         </MenuItem>
         <MenuItem>
-          <Link to="/riwayat-donasi" className="flex items-center px-4 py-2 text-sm text-black">
+          <Link to="/riwayat" className="flex items-center px-4 py-2 text-sm text-black">
             <DocumentTextIcon className="w-5 h-5 mr-3 text-[#5E84C5]" />
             Riwayat Donasi
           </Link>
