@@ -7,12 +7,17 @@ import "aos/dist/aos.css";
 import "./index.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useAuth } from "./config/auth";
 
 const App = () => {
+  const initialize = useAuth((state) => state.initialize);
+  useEffect(() => {
+    initialize();
+  }, []);
+
   useEffect(() => {
     AOS.init({
       duration: 1000,
-      // easing: "ease-in-out",
       once: false,
     });
   }, []);

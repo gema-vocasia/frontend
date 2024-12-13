@@ -2,8 +2,22 @@ import { create } from "zustand";
 import { axiosInstance } from "./axiosInstance";
 import { saveAccessToken, removeAccessToken } from "../utils/tokenManager";
 
-export const useAuth = create((set) => ({
+export const useAuth = create((set, get) => ({
   user: null,
+
+  initialize: () => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        set({ user: parsedUser });
+      } catch (error) {
+        console.error("Failed to parse user from localStorage", error);
+        localStorage.removeItem("user");
+        set({ user: null });
+      }
+    }
+  },
 
   register: async (userData) => {
     try {
@@ -88,14 +102,21 @@ export const useAuth = create((set) => ({
   // Optional: Add a method to refresh user data
   refreshUser: async () => {
     try {
-      const data = await axiosInstance.get("/user/profile");
-      const userData = data;
+      const response = await axiosInstance.get("/user/profile");
+      const userData = response.data; // Pastikan ini sesuai struktur response
+
       localStorage.setItem("user", JSON.stringify(userData));
       set({ user: userData });
       return userData;
     } catch (error) {
       console.error("Failed to refresh user:", error.response?.data || error);
-      throw error; // Optionally rethrow to handle in the calling component
+
+      // Jika gagal (misal token invalid), logout
+      if (error.response?.status === 401) {
+        get().logout(); // Panggil method logout
+      }
+
+      throw error;
     }
   },
 }));
