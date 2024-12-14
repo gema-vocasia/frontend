@@ -2,8 +2,22 @@ import { create } from "zustand";
 import { axiosInstance } from "./axiosInstance";
 import { saveAccessToken, removeAccessToken } from "../utils/tokenManager";
 
-export const useAuth = create((set) => ({
+export const useAuth = create((set, get) => ({
   user: null,
+
+  initialize: () => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        set({ user: parsedUser });
+      } catch (error) {
+        console.error("Failed to parse user from localStorage", error);
+        localStorage.removeItem("user");
+        set({ user: null });
+      }
+    }
+  },
 
   register: async (userData) => {
     try {
@@ -30,14 +44,11 @@ export const useAuth = create((set) => ({
 
       return registeredUser;
     } catch (error) {
-      // Handle specific error cases
       console.error("Registration failed:", error.response?.data || error);
 
-      // Throw a more user-friendly error
       if (error.response?.data?.message) {
         throw new Error(error.response.data.message);
       } else if (error.response?.data?.errors) {
-        // Handle validation errors from backend
         const errorMessages = error.response.data.errors
           .map((err) => err.msg)
           .join(", ");
@@ -54,15 +65,31 @@ export const useAuth = create((set) => ({
         email,
         password,
       });
-      console.log("API Response:", data);
+
+      // Cek status verifikasi dari response
+      if (!data.data.user.verified) {
+        // Pastikan melempar error dengan pesan spesifik
+        throw new Error("Email belum diverifikasi");
+      }
+
       saveAccessToken(data.data.token);
       const userData = data.data.user;
       localStorage.setItem("user", JSON.stringify(userData));
       set({ user: userData });
       return userData;
     } catch (error) {
-      console.error("Login failed:", error.response?.data || error);
-      throw new Error("Invalid email or password");
+      // Tangani error dengan spesifik
+      if (error.response) {
+        // Error dari server
+        if (error.response.data.message === "NOT_VERIFIED") {
+          throw new Error("Email belum diverifikasi");
+        }
+        throw new Error(error.response.data.message || "Login gagal");
+      } else if (error.message === "Email belum diverifikasi") {
+        throw error;
+      } else {
+        throw new Error("Login gagal. Silakan coba lagi.");
+      }
     }
   },
 
@@ -75,14 +102,21 @@ export const useAuth = create((set) => ({
   // Optional: Add a method to refresh user data
   refreshUser: async () => {
     try {
-      const data = await axiosInstance.get("/user/profile");
-      const userData = data;
+      const response = await axiosInstance.get("/user/profile");
+      const userData = response.data; // Pastikan ini sesuai struktur response
+
       localStorage.setItem("user", JSON.stringify(userData));
       set({ user: userData });
       return userData;
     } catch (error) {
       console.error("Failed to refresh user:", error.response?.data || error);
-      throw error; // Optionally rethrow to handle in the calling component
+
+      // Jika gagal (misal token invalid), logout
+      if (error.response?.status === 401) {
+        get().logout(); // Panggil method logout
+      }
+
+      throw error;
     }
   },
 }));

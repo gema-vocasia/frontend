@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 const FundraiserInfo = ({ fundraiser }) => (
   <div className="w-full mt-4 bg-[#f0f4f8] border border-[#5E84C5] p-4 rounded-lg shadow-lg">
@@ -10,5 +10,4 @@ const FundraiserInfo = ({ fundraiser }) => (
 FundraiserInfo.propTypes = {
   fundraiser: PropTypes.string.isRequired,
 };
-
 export default FundraiserInfo;

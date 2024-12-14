@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
-import Card from '../organisms/Card';
+import PropTypes from "prop-types";
+import Card from "../organisms/Card";
 
 const CampaignCardList = ({ cards }) => {
   return (

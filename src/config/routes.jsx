@@ -9,7 +9,12 @@ import {
   BuatCampaign,
   EditProfile,
   Home,
-  CampaignDetail
+  CampaignDetail,
+  AllKampanye,
+  Riwayat,
+  CampaignSaya,
+  TentangKami,
+  ImageLicensePage,
 } from "../pages";
 
 export const routes = createBrowserRouter([
@@ -18,13 +23,22 @@ export const routes = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: "/campaign/:id",
+    path: "/tentang-kami",
+    element: <ImageLicensePage />,
+  },
+  {
+    path: "/all-campaign",
+    element: <AllKampanye />,
+  },
+  {
+    path: "/campaign/:campaignId",
     element: <CampaignDetail />,
   },
   {
     path: "/login",
     element: <Login />,
   },
+
   {
     path: "/forgot-password",
     element: <LupaSandi />,
@@ -42,7 +56,7 @@ export const routes = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: "/donasi",
+    path: "/donasi/:campaignId",
     element: <Donasi />,
   },
   {
@@ -56,5 +70,17 @@ export const routes = createBrowserRouter([
   {
     path: "/profile",
     element: <Profile />,
+  },
+  {
+    path: "/campaignsaya",
+    element: <CampaignSaya />,
+  },
+  {
+    path: "/riwayat-donasi",
+    element: <Riwayat />,
+  },
+  {
+    path: "/tentang-kami",
+    element: <TentangKami />,
   },
 ]);

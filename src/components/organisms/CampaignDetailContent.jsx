@@ -1,26 +1,21 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import CampaignImage from "../molecules/CampaignImage";
 import CampaignTitle from "../atoms/CampaignTitle";
 import CampaignProgressInfo from "../molecules/CampaignProgressInfo";
 import FundraiserInfo from "../atoms/FundraiserInfo";
 import CampaignDescription from "../molecules/CampaignDescription";
 
-const CampaignDetailContent = ({
-  campaign,
-  showFullDescription,
-}) => {
+const CampaignDetailContent = ({ campaign, showFullDescription }) => {
+  const imageUrl = `http://localhost:8080/api/v1/files/${campaign.photo}`;
+  console.log("Campaign user:", campaign.userId.name);
   return (
     <div className="w-full p-4">
-      <CampaignImage src={campaign.image} alt={campaign.name} />
-      <CampaignTitle title={campaign.name} />
-      <CampaignProgressInfo
-        collected={campaign.collected}
-        goal={campaign.goal}
-        progress={campaign.progress}
-        startDate={campaign.startDate}
-        endDate={campaign.endDate}
+      <CampaignImage src={imageUrl} alt={campaign.title} />
+      <CampaignTitle title={campaign.title} />
+      <CampaignProgressInfo campaign={campaign} />
+      <FundraiserInfo
+        fundraiser={campaign.userId?.name}
       />
-      <FundraiserInfo fundraiser={campaign.fundraiser} />
       <CampaignDescription
         description={campaign.description}
         showFullDescription={showFullDescription}
@@ -31,14 +26,15 @@ const CampaignDetailContent = ({
 
 CampaignDetailContent.propTypes = {
   campaign: PropTypes.shape({
-    image: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    collected: PropTypes.number.isRequired,
-    goal: PropTypes.number.isRequired,
-    progress: PropTypes.number.isRequired,
+    photo: PropTypes.string,
+    title: PropTypes.string.isRequired,
+    totalDonation: PropTypes.number.isRequired,
+    userId: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    }).isRequired,
+    targetAmount: PropTypes.number.isRequired,
     startDate: PropTypes.string.isRequired,
     endDate: PropTypes.string.isRequired,
-    fundraiser: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
   }).isRequired,
   showFullDescription: PropTypes.bool.isRequired,
