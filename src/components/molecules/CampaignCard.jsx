@@ -15,7 +15,7 @@ const CampaignCard = ({ campaign }) => {
     >
       <div className="relative flex items-center justify-center w-full h-60 mb-6 overflow-hidden bg-gray-200 rounded">
         <img
-          src={imageUrl}
+          src={campaign.photo || imageUrl}
           alt={campaign.title}
           className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110"
         />

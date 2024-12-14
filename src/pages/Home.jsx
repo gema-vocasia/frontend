@@ -7,6 +7,7 @@ import StorySection from "../components/organisms/StorySection";
 import campaignStore from "../store/campaignStore";
 import cerita from "../assets/images/cerita.png";
 import herohome from "../assets/images/heroHome.png";
+import DonationCampaign from "../components/organisms/DonasiCampaign";
 
 const Home = () => {
   const { campaign, getCampaigns } = campaignStore();
@@ -50,7 +51,7 @@ const Home = () => {
         image={herohome}
         showSearch={true}
       />
-
+      <DonationCampaign />
       {/* Campaign Section */}
       {filteredUrgentData.length > 0 || filteredLatestData.length > 0 ? (
         <>
