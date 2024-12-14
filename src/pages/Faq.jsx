@@ -1,12 +1,12 @@
 import Footer from "../components/organisms/Footer";
-import MainFaq from "../components/organisms/MainFaq";
+import CardFaq from "../components/organisms/CardFaq";
 import Navbar from "../components/organisms/Navbar";
 
 const Faq = () => {
   return (
     <>
       <Navbar />
-      <MainFaq />
+      <CardFaq />
       <Footer />
     </>
   );
