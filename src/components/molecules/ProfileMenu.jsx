@@ -5,6 +5,7 @@ import {
   SpeakerWaveIcon,
   DocumentTextIcon,
   ArrowLeftOnRectangleIcon,
+  DocumentPlusIcon
 } from "@heroicons/react/24/solid";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../config/auth";
@@ -55,6 +56,19 @@ const ProfileMenu = ({ isLoggedIn }) => {
             >
               <SpeakerWaveIcon className="w-5 h-5 mr-3 text-[#5E84C5]" />
               Kampanye Saya
+            </Link>
+          )}
+        </MenuItem>
+        <MenuItem>
+          {({ active }) => (
+            <Link
+              to="/buat-campaign"
+              className={`${
+                active ? "bg-gray-100" : ""
+              } flex items-center px-4 py-2 text-sm text-black`}
+            >
+              <DocumentPlusIcon className="w-5 h-5 mr-3 text-[#5E84C5]" />
+              Buat Kampanye
             </Link>
           )}
         </MenuItem>
