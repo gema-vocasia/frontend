@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const CampaignCard = ({ campaign }) => {
-  console.log(campaign);
+  console.log(campaign.photo);
   const navigate = useNavigate();
   const imageUrl = `http://localhost:8080/api/v1/files/${campaign.photo}`;
 

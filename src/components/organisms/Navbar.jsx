@@ -7,7 +7,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Logo from "../atoms/Logo";
 import MenuLink from "../molecules/MenuLink.";
 import ProfileMenu from "../molecules/ProfileMenu";
-import { LoginButton, RegisterButton } from "../atoms/ButtonIcon";
+import { LoginRegisterButton } from "../atoms/ButtonIcon";
 import { useAuth } from "../../config/auth";
 import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -24,11 +24,8 @@ const Navbar = () => {
   const isLoggedIn = !!user;
 
   useEffect(() => {
-    // Coba refresh user data saat komponen mount
     if (user) {
-      refreshUser().catch(() => {
-        // Jika refresh gagal, user akan otomatis logout di interceptor
-      });
+      refreshUser().catch(() => {});
     }
   }, []);
   const location = useLocation();
@@ -76,8 +73,7 @@ const Navbar = () => {
               <ProfileMenu isLoggedIn={isLoggedIn} />
             ) : (
               <div className="hidden sm:flex space-x-4">
-                <LoginButton />
-                <RegisterButton />
+                <LoginRegisterButton />
               </div>
             )}
           </div>
