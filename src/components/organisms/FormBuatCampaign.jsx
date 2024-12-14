@@ -122,7 +122,7 @@ const FormBuatCampaign = () => {
         text: 'Kampanye Anda telah berhasil dibuat!',
         confirmButtonText: 'OK'
       });
-      navigate("/campaignsaya");
+      navigate("/kampanye-saya");
     } catch (error) {
       alert(error || "Terjadi kesalahan saat membuat kampanye");
     }
