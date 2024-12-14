@@ -11,11 +11,13 @@ import Button from "../atoms/Button";
 import Label from "../atoms/Label";
 import Swal from "sweetalert2"
 import { useUsersPosts } from "../../config/useUser";
+import axios from "axios";
 
 const FormBuatCampaign = () => {
   const [thumbnail, setThumbnail] = useState(null);
   const [judul, setJudul] = useState("");
-  const [kategori, setKategori] = useState("");
+  const [kategori, setKategori] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [targetDonasi, setTargetDonasi] = useState("");
   const [tanggalMulai, setTanggalMulai] = useState("");
   const [tanggalBerakhir, setTanggalBerakhir] = useState("");
@@ -29,13 +31,17 @@ const FormBuatCampaign = () => {
     fetchUser();
   }, [fetchUser]);
 
-  const kategoriOption = [
-    { title: "Sosial", id: "675871348a20f72572d483ad" },
-    { title: "Kesehatan", id: "675871348a20f72572d483ae" },
-    { title: "Bencana Alam", id: "675871348a20f72572d483af" },
-    { title: "Pendidikan", id: "675871348a20f72572d483b0" },
-    { title: "Lingkungan", id: "675871348a20f72572d483b1" },
-  ];
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/v1/categories") 
+      .then((response) => {
+        const fetchedCategories = response.data.data.categories;
+        setKategori(fetchedCategories);
+      })
+      .catch((error) => {
+        console.error("Error fetching categories:", error);
+      });
+  }, []);
 
   const calculateDateDifference = (startDate, endDate) => {
     const start = new Date(startDate);
@@ -64,7 +70,7 @@ const FormBuatCampaign = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!isKYC) {
+    if (isKYC == false) {
       Swal.fire({
         icon: "error",
         title: "Verifikasi Diperlukan",
@@ -93,7 +99,7 @@ const FormBuatCampaign = () => {
     
     const campaignData = {
       title: judul,
-      categoryId: kategori,
+      categoryId: selectedCategory,
       targetAmount: parseInt(targetDonasi, 10),
       startDate: tanggalMulai,
       endDate: tanggalBerakhir,
@@ -158,6 +164,10 @@ const FormBuatCampaign = () => {
     setCurrentStep(currentStep - 1);
   };
 
+  const cleanHTML = (html) => {
+    return html.replace(/<\/?p[^>]*>/g, '').replace(/<br\s*\/?>/g, '').trim();
+  };  
+
   return (
     <div className="flex justify-center items-center p-6 bg-gray-100">
       <div className="w-full max-w-3xl bg-white m-8 p-8 rounded-lg shadow-xl">
@@ -193,11 +203,11 @@ const FormBuatCampaign = () => {
 
           {currentStep === 2 && (
             <>
-              <Label>Kategori</Label>
-              <Select 
-                kategori={kategori} 
-                setKategori={setKategori} 
-                options={kategoriOption.map((cat) => ({ value: cat.id, label: cat.title }))} 
+              <label>Kategori</label>
+              <Select
+                kategori={kategori}
+                selectedCategory={selectedCategory}
+                setSelectedCategory={setSelectedCategory}
               />
             </>
           )}
@@ -205,10 +215,13 @@ const FormBuatCampaign = () => {
           {currentStep === 3 && (
             <FormField
               label="Target Donasi"
-              type="number"
+              type="text"
               placeholder="Masukkan Target Donasi"
               value={targetDonasi}
-              onChange={(e) => setTargetDonasi(e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value.replace(/[^0-9]/g, ''); 
+                setTargetDonasi(`Rp ${value}`);
+              }}
             />
           )}
 
@@ -235,8 +248,8 @@ const FormBuatCampaign = () => {
                   className={`bg-white rounded-lg text-black border-2 ${
                   deskripsi.length < 30 && currentStep === 5 ? "border-red-500" : "border-[#5E84C5]"
                 }`}
-                  value={deskripsi}
-                  onChange={setDeskripsi}
+                value={deskripsi}
+                onChange={(value) => setDeskripsi(value)}
                 />
                 <p className="text-sm text-gray-500 mt-2">
                   Minimal panjang deskripsi 30 karakter
@@ -266,9 +279,9 @@ const FormBuatCampaign = () => {
                 <div className="border-b border-gray-300 pb-2">
                   <strong>Kategori: </strong>
                   <span>
-                    {
-                      kategoriOption.find((cat) => cat.id === kategori)?.title || "Kategori tidak ditemukan"
-                    }
+                  {
+                    kategori.find((category) => category._id === selectedCategory)?.title || "Kategori tidak ditemukan"
+                  }
                   </span>
                 </div>
                 <div className="border-b border-gray-300 pb-2">
@@ -285,7 +298,9 @@ const FormBuatCampaign = () => {
                 </div>
                 <div className="flex flex-col border-b border-gray-300 pb-2">
                   <strong>Deskripsi: </strong>
-                  <p className="text-gray-700 mt-1">{deskripsi}</p>
+                  <p className="text-gray-700 mt-1">
+                    {cleanHTML(deskripsi) || 'Belum ada deskripsi.'}
+                  </p>
                 </div>
                 <div className="flex flex-col">
                   <strong>Thumbnail:</strong>
