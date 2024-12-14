@@ -14,7 +14,7 @@ const CampaignDetail = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { getCampaignById } = campaignStore();
-  const { donationByCampaignId } = donationStore();
+  const { donationByCampaignId, getDonationsByCampaignId } = donationStore();
   const [thisCampaign, setThisCampaign] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showFullDescription] = useState(false);
@@ -37,6 +37,7 @@ const CampaignDetail = () => {
 
     if (campaignId) {
       fetchCampaign();
+      getDonationsByCampaignId(campaignId);
     }
   }, [campaignId, getCampaignById]);
 

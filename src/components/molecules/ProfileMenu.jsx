@@ -15,8 +15,8 @@ const ProfileMenu = ({ isLoggedIn }) =>
         <MenuButton className="relative flex rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-[#5E84C5] focus:ring-offset-2 focus:ring-offset-white">
           <span className="absolute -inset-1.5" />
           <img
-            alt="User Profile"
-            src="https://via.placeholder.com/150"
+            alt={`http://localhost:8080/api/v1/files/${isLoggedIn?.photo_url}`}
+            src="Profile"
             className="size-12 rounded-full"
           />
         </MenuButton>
