@@ -15,6 +15,7 @@ import {
   CampaignSaya,
   TentangKami,
   ImageLicensePage,
+  Faq,
 } from "../pages";
 
 export const routes = createBrowserRouter([
@@ -82,5 +83,9 @@ export const routes = createBrowserRouter([
   {
     path: "/tentang-kami",
     element: <TentangKami />,
+  },
+  {
+    path: "/faq",
+    element: <Faq />,
   },
 ]);
