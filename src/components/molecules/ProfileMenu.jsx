@@ -57,7 +57,7 @@ const ProfileMenu = ({ isLoggedIn }) => {
         </MenuItem>
         <MenuItem>
           <Link
-            to="/campaign-saya"
+            to="/campaignsaya"
             className="flex items-center px-4 py-2 text-sm text-black"
           >
             <SpeakerWaveIcon className="w-5 h-5 mr-3 text-[#5E84C5]" />
