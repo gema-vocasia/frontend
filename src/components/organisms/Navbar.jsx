@@ -9,7 +9,7 @@ import MenuLink from "../molecules/MenuLink.";
 import ProfileMenu from "../molecules/ProfileMenu";
 import { LoginButton, RegisterButton } from "../atoms/ButtonIcon";
 import { useAuth } from "../../config/auth";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const navigation = [

@@ -56,9 +56,14 @@ const FormBuatCampaign = () => {
   const handleThumbnailChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      if (file.size > 5 * 1024 * 1024) { 
-        alert("File terlalu besar! Maksimum 5MB.");
-        e.target.value = ""; 
+      if (file.size > 5 * 1024 * 1024) {
+        Swal.fire({
+          icon: "error",
+          title: "Ukuran File Terlalu Besar",
+          text: "Ukuran maksimum file adalah 5MB.",
+          confirmButtonText: "OK",
+        });
+        e.target.value = "";
         return;
       }
       const reader = new FileReader();
@@ -96,6 +101,8 @@ const FormBuatCampaign = () => {
       setCurrentStep(incompleteStep.step);
       return;
     }
+
+    const cleanedDescription = cleanHTML(deskripsi);
     
     const campaignData = {
       title: judul,
@@ -103,7 +110,7 @@ const FormBuatCampaign = () => {
       targetAmount: parseInt(targetDonasi, 10),
       startDate: tanggalMulai,
       endDate: tanggalBerakhir,
-      description: deskripsi,
+      description: cleanedDescription, 
       photo: thumbnail,
     };
 
@@ -165,8 +172,11 @@ const FormBuatCampaign = () => {
   };
 
   const cleanHTML = (html) => {
-    return html.replace(/<\/?p[^>]*>/g, '').replace(/<br\s*\/?>/g, '').trim();
-  };  
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    return doc.body.textContent || ''; // Mengambil teks mentah tanpa tag HTML
+  };
+  
 
   return (
     <div className="flex justify-center items-center p-6 bg-gray-100">
@@ -240,23 +250,27 @@ const FormBuatCampaign = () => {
             </>
           )}
 
-          {currentStep === 5 && (
-            <>
-              <div>
-                <Label>Deskripsi</Label>
-                <ReactQuill
-                  className={`bg-white rounded-lg text-black border-2 ${
-                  deskripsi.length < 30 && currentStep === 5 ? "border-red-500" : "border-[#5E84C5]"
-                }`}
-                value={deskripsi}
-                onChange={(value) => setDeskripsi(value)}
-                />
-                <p className="text-sm text-gray-500 mt-2">
-                  Minimal panjang deskripsi 30 karakter
-                </p>
-              </div>
-            </>
-          )}
+{currentStep === 5 && (
+  <>
+    <div>
+      <Label>Deskripsi</Label>
+      <ReactQuill
+        className={`bg-white rounded-lg text-black border-2 ${
+          deskripsi.length < 30 && currentStep === 5 ? "border-red-500" : "border-[#5E84C5]"
+        }`}
+        value={deskripsi}
+        onChange={(value) => {
+          setDeskripsi(value); // Simpan HTML langsung
+        }}
+      />
+      <p className="text-sm text-gray-500 mt-2">
+        Minimal panjang deskripsi 30 karakter
+      </p>
+    </div>
+  </>
+)}
+
+
 
           {currentStep === 6 && (
             <FileUploadField
@@ -382,18 +396,18 @@ const FormBuatCampaign = () => {
                 </Button>
               )}
 
-              {currentStep === 5 && (
-                <Button
-                  type="button"
-                  onClick={handleNextStep}
-                  className={`bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded ${
-                    !deskripsi || deskripsi.length < 30 ? "bg-gray-400 text-gray-600 cursor-not-allowed" : ""
-                  }`}
-                  disabled={!deskripsi || deskripsi.length < 30}
-                >
-                  Selanjutnya
-                </Button>
-              )}
+                {currentStep === 5 && (
+                  <Button
+                    type="button"
+                    onClick={handleNextStep}
+                    className={`bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded ${
+                      deskripsi.length < 30 ? "bg-gray-400 text-gray-600 cursor-not-allowed" : ""
+                    }`}
+                    disabled={deskripsi.length < 30}
+                  >
+                    Selanjutnya
+                  </Button>
+                )}
 
               {currentStep === 6 && (
                 <Button
