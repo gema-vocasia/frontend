@@ -10,10 +10,28 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../config/auth";
 import { useEffect, useState } from "react";
+import { axiosInstance as api } from "../../config/axiosInstance.js";
+
 const ProfileMenu = ({ isLoggedIn }) => {
   const [userData, setUserData] = useState({});
   const { logout } = useAuth();
   const Navigate = useNavigate();
+
+  const fetchCurrentUser = async () => {
+    try {
+      const response = await api.get("/user/profile");
+      setUserData(response.data); 
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching user:", error.response?.data || error);
+    }
+  };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      fetchCurrentUser(); 
+    }
+  }, [isLoggedIn]);
 
   const buttonLogOut = () => {
     logout();
@@ -27,7 +45,7 @@ const ProfileMenu = ({ isLoggedIn }) => {
           <span className="absolute -inset-1.5" />
           <img
             alt="User Profile"
-            src="{http://localhost:8080/api/v1/files/${userData?.photo_url}"
+            src={`http://localhost:8080/api/v1/files/${userData?.photo_url}`}
             className="size-12 rounded-full"
           />
         </MenuButton>
