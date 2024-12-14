@@ -14,6 +14,7 @@ import CampaignSaya from "./CampaignSaya";
 import TentangKami from "./TentangKami";
 import ImageLicensePage from "./ImageLicensePage";
 
+import Faq from "./Faq";
 export {
   Donasi,
   Profile,
@@ -30,4 +31,5 @@ export {
   Riwayat,
   CampaignSaya,
   TentangKami,
+  Faq,
 };

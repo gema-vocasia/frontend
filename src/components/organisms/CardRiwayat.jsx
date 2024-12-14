@@ -118,7 +118,7 @@ const CardRiwayat = () => {
             </p>
             <button
               className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded shadow-md transition-all"
-              onClick={() => (window.location.href = "/donasi")}
+              onClick={() => (window.location.href = "/all-campaign")}
             >
               Mulai Berdonasi Sekarang
             </button>

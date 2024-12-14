@@ -4,7 +4,7 @@ import CampaignCard from "./CampaignCard";
 
 const CampaignSectionContent = ({ title, cards }) => {
   return (
-    <div>
+    <div className="mx-16">
       <CampaignTitle title={title} />
       <div
         className="grid gap-6 md:grid-cols-3"

@@ -14,7 +14,7 @@ const Hero = ({
 }) => {
   return (
     <div className="relative mt-0">
-      <div className="w-screen h-[500px] overflow-hidden">
+      <div className="w-screen h-[430px] overflow-hidden">
         <img
           src={image}
           alt="hero"
