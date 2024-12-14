@@ -217,10 +217,10 @@ const FormBuatCampaign = () => {
               label="Target Donasi"
               type="text"
               placeholder="Masukkan Target Donasi"
-              value={targetDonasi}
+              value={targetDonasi ? `Rp ${new Intl.NumberFormat("id-ID").format(targetDonasi)}` : ""}
               onChange={(e) => {
                 const value = e.target.value.replace(/[^0-9]/g, ''); 
-                setTargetDonasi(`Rp ${value}`);
+                setTargetDonasi(value ? parseInt(value, 10) : ''); 
               }}
             />
           )}
@@ -286,7 +286,9 @@ const FormBuatCampaign = () => {
                 </div>
                 <div className="border-b border-gray-300 pb-2">
                   <strong>Target Donasi: </strong>
-                  <span>{targetDonasi}</span>
+                  <span>
+                    {targetDonasi ? new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(targetDonasi) : "Rp. 0,00"}
+                  </span>
                 </div>
                 <div className="border-b border-gray-300 pb-2">
                   <strong>Tanggal Mulai: </strong>
