@@ -8,28 +8,22 @@ const ResetPassword = () => {
 
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [message, setMessage] = useState("");
   const [isLinkValid, setIsLinkValid] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    console.log("location :", params.toString());
     const resetString = params.get("resetString");
-    console.log("string :", resetString.toString());
     const email = params.get("email");
 
     if (resetString && email) {
-      // Simpan data ke localStorage
       localStorage.setItem("resetString", resetString);
       localStorage.setItem("email", email);
-
-      // Hapus parameter dari URL
       window.history.replaceState(null, "", location.pathname);
-
-      // Set isLinkValid menjadi true
       setIsLinkValid(true);
     } else {
-      // Cek apakah ada data yang valid di localStorage
       const storedResetString = localStorage.getItem("resetString");
       const storedEmail = localStorage.getItem("email");
 
@@ -58,7 +52,6 @@ const ResetPassword = () => {
       return;
     }
 
-    // Validasi panjang password
     if (newPassword.length < 8) {
       setMessage("Password minimal 8 karakter.");
       return;
@@ -104,33 +97,52 @@ const ResetPassword = () => {
         <h1 className="text-2xl font-bold mb-4 text-center">Reset Password</h1>
         {isLinkValid ? (
           <form onSubmit={handleResetPassword} className="space-y-4">
-            <div>
+            {/* Password Baru */}
+            <div className="relative">
               <label htmlFor="newPassword" className="block text-md mb-1">
                 Password Baru
               </label>
               <input
-                type="password"
+                type={showNewPassword ? "text" : "password"}
                 id="newPassword"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 className="w-full p-2 border rounded"
                 required
               />
+              <span
+                onClick={() => setShowNewPassword(!showNewPassword)}
+                className="absolute right-3 top-9 cursor-pointer text-gray-500"
+              >
+                {showNewPassword ? "🙈" : "👁️"}
+              </span>
             </div>
-            <div>
+
+            {/* Konfirmasi Password */}
+            <div className="relative">
               <label htmlFor="confirmPassword" className="block text-md mb-1">
                 Konfirmasi Password
               </label>
               <input
-                type="password"
+                type={showConfirmPassword ? "text" : "password"}
                 id="confirmPassword"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className="w-full p-2 border rounded"
                 required
               />
+              <span
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3 top-9 cursor-pointer text-gray-500"
+              >
+                {showConfirmPassword ? "🙈" : "👁️"}
+              </span>
             </div>
+
+            {/* Pesan Error */}
             {message && <p className="text-red-500 text-sm">{message}</p>}
+
+            {/* Tombol Submit */}
             <button
               type="submit"
               className="w-full py-2 text-white bg-blue-500 hover:bg-blue-700 rounded"
