@@ -10,7 +10,6 @@ import Select from "../atoms/Select";
 import Button from "../atoms/Button";
 import Label from "../atoms/Label";
 import Swal from "sweetalert2";
-import { useUsersPosts } from "../../config/useUser";
 import axios from "axios";
 
 const FormBuatCampaign = () => {
@@ -24,12 +23,21 @@ const FormBuatCampaign = () => {
   const [deskripsi, setDeskripsi] = useState("");
   const [currentStep, setCurrentStep] = useState(0);
   const { createCampaign, isLoading } = campaignStore();
-  const { isKYC, fetchUser } = useUsersPosts();
+  const { isKYC, setIsKYC } = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchUser();
-  }, [fetchUser]);
+    async function fetchCurrentUser() {
+      try {
+        const { data } = await axios.get("/user/profile");
+        setIsKYC(data.isKYC);
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+      }
+    }
+
+    fetchCurrentUser();
+  }, []);
 
   useEffect(() => {
     axios
@@ -79,7 +87,7 @@ const FormBuatCampaign = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!isKYC) {
+    if (isKYC === false) {
       Swal.fire({
         icon: "error",
         title: "Verifikasi Diperlukan",
@@ -186,7 +194,7 @@ const FormBuatCampaign = () => {
 
   return (
     <div className="flex justify-center items-center p-6 bg-gray-100">
-      <div className="w-full max-w-3xl bg-white m-8 p-8 rounded-lg shadow-xl">
+      <div className="w-full max-w-3xl bg-white m-8 p-8 rounded-lg shadow-xl overflow-hidden">
         {currentStep === 0 && (
           <div className="bg-white p-8 m-8 rounded-lg shadow-lg border-t-4 border-blue-500">
             <h2 className="text-center text-xl font-semibold text-blue-500 mb-4">
@@ -268,6 +276,7 @@ const FormBuatCampaign = () => {
                   onChange={(value) => {
                     setDeskripsi(value); 
                   }}
+                  style={{ maxHeight: '300px', overflowY: 'auto' }}
                 />
                 <p className="text-sm text-gray-500 mt-2">
                   Minimal panjang deskripsi 30 karakter
@@ -320,7 +329,7 @@ const FormBuatCampaign = () => {
                 </div>
                 <div className="flex flex-col border-b border-gray-300 pb-2">
                   <strong>Deskripsi: </strong>
-                  <p className="text-gray-700 mt-1">
+                  <p className="scrollable-text text-gray-700 mt-1">
                     {cleanHTML(deskripsi) || 'Belum ada deskripsi.'}
                   </p>
                 </div>
