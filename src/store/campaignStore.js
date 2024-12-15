@@ -70,19 +70,16 @@ const campaignStore = create((set) => ({
   },
 
   // Update accountNumber
-  updateAccountNumber: async (campaignId, accountNumber) => {
+  updateStatusTransfer: async (campaignId) => {
     try {
       set({ isLoading: true, error: null });
-      const response = await api.put(`/campaign/accountNumber/${campaignId}`, {
-        accountNumber: accountNumber,
-      });
+      const response = await api.put(`/campaign/status/${campaignId}`);
 
       return response;
 
 
     } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "Gagal memperbarui nomor rekening";
+      const errorMessage = error.response?.data?.message || "Gagal Request Penarikan Dana";
       set({ error: errorMessage });
       throw new Error(errorMessage);
     }

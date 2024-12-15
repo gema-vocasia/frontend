@@ -1,4 +1,4 @@
-import HeroCampaignSayaImage from "../../assets/HeroCampaignSaya.jpg";
+import HeroCampaignSayaImage from "../../assets/images/HeroCampaignSaya.jpg";
 
 const Hero = () => {
   return (

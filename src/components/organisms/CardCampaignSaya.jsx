@@ -1,10 +1,8 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import campaignStore from "../../store/campaignStore";
 
 const CardCampaignSaya = () => {
-  const { campaignByUserId, getCampaignByUserId, updateAccountNumber } = campaignStore();
-  const [accountNumber, setAccountNumber] = useState(campaignByUserId.accountNumber); // State untuk nomor rekening
-  console.log(accountNumber)
+  const { campaignByUserId, getCampaignByUserId, updateStatusTransfer } = campaignStore();
 
   function isDatePassed(dateString) {
     const givenDate = new Date(dateString);
@@ -25,103 +23,84 @@ const CardCampaignSaya = () => {
 
   const imageUrl = (photo) => `http://localhost:8080/api/v1/files/${photo}`;
 
-  const handleAccountNumberChange = (e) => {
-    setAccountNumber(e.target.value); // Update state nomor rekening
-  };
-
-  const handleSubmit = (campaignId) => {
-    if (!accountNumber || accountNumber.length < 10) {
-      alert("Nomor rekening tidak valid. Masukkan minimal 10 digit.");
-      return;
-    }
-
-    // Kirim permintaan ke backend untuk memperbarui nomor rekening
-    updateAccountNumber(campaignId, accountNumber);
-  };
-
   return (
-    <main className="pt-20 pb-10 px-4 bg-gradient-to-b from-gray-50 to-gray-100">
-      <div className="max-w-7xl mx-auto space-y-12">
+    <main className="pt-7 pb-7 px-4 bg-gradient-to-b from-gray-50 to-gray-100">
+      <div className="max-w-6xl mx-auto space-y-10">
         {campaignByUserId.map((item) => (
           <div
+            data-aos="fade-right"
             key={item._id}
             className="bg-white shadow-lg rounded-lg overflow-hidden border transition transform hover:scale-105 flex flex-col lg:flex-row"
           >
             {/* Gambar */}
-            <div className="relative w-full h-80 lg:w-1/2 lg:h-96">
+            <div className="relative h-80 lg:w-1/2 lg:h-96">
+              <div></div>
               <div
-                className={`absolute p-2 text-center text-sm font-semibold w-40 ${getStatusStyle(
+                className={`absolute p-4 text-center text-lg font-semibold w-40 ${getStatusStyle(
                   item.statusCampaign
                 )}`}
                 style={{ zIndex: 10 }}
               >
                 {item.statusCampaign}
               </div>
+              <div
+                className="absolute text-center p-4 w-40 right-0 top-0 rounded text-lg text-gray-600 bg-[#5E84C5]"
+                style={{ zIndex: 10 }}
+              >
+                <span className="font-semibold text-white">
+                  {item.categoryId.title}
+                </span>
+              </div>
               <img
                 src={imageUrl(item.photo)}
                 alt={item.title}
-                className="absolute inset-0 w-full h-full object-cover lg:object-contain"
+                className="absolute inset-0 h-full object-cover lg:object-contain"
               />
             </div>
 
             {/* Konten */}
-            <div className="p-4 space-y-8 flex-1 flex flex-col justify-between">
+            <div className="p-4 flex-1 flex flex-col justify-between">
               <div>
-                <h2 className="text-2xl font-extrabold text-gray-900 mb-3">
-                  {item.title}
-                </h2>
-                <div className="text-gray-800 space-y-3 text-lg">
-                  <p>
-                    <span className="font-semibold">Kategori:</span>{" "}
-                    <span className="italic">{item.categoryId.title}</span>
-                  </p>
-
-                  <p className="">
-                    <span className="font-semibold">Tanggal Mulai:</span>{" "}
-                    {new Date(item.startDate).toLocaleDateString("id-ID")}
-                    <br />
-                    <span className="font-semibold">Tanggal Selesai:</span>{" "}
-                    {new Date(item.endDate).toLocaleDateString("id-ID")}
-                  </p>
-
-                  <p>
-                    <span className="font-semibold">Target Donasi:</span>{" "}
-                    {`Rp ${item.targetAmount.toLocaleString("id-ID")}`}
-                  </p>
-
-                  <p>
-                    <span className="font-semibold">Dana Masuk:</span>{" "}
-                    {`Rp ${item.totalDonation}`}
-                  </p>
+                <div className="w-full max-w-lg">
+                  <h2 className="text-2xl font-extrabold text-gray-900 mb-3">
+                    {item.title} ini judul yang sangatlah panjang dan bagus dan
+                    jika ada kekurangan mohon maaf lahir batin dan selamat natal
+                    dan tahun baru 2025
+                  </h2>
                 </div>
+                <p className="">
+                  <span className="font-semibold">Tanggal Mulai:</span>{" "}
+                  {new Date(item.startDate).toLocaleDateString("id-ID")}
+                  <br />
+                  <span className="font-semibold">Tanggal Selesai:</span>{" "}
+                  {new Date(item.endDate).toLocaleDateString("id-ID")}
+                </p>
 
-                {/* Input Nomor Rekening */}
-                {(isDatePassed(item.endDate) ||
-                  item.totalDonation >= item.targetAmount) && (
-                  <div>
-                    <label
-                      htmlFor={`accountNumber-${item._id}`}
-                      className="block font-semibold text-gray-700 mb-2"
-                    >
-                      Isi Nomor Rekening Anda
-                    </label>
-                    <input
-                      type="text"
-                      id={`accountNumber-${item._id}`}
-                      placeholder="Masukkan nomor rekening"
-                      value={accountNumber}
-                      onChange={handleAccountNumberChange}
-                      className="w-full p-2 rounded-lg text-black border-2 border-[#5E84C5] focus:outline-none focus:ring focus:ring-blue-200"
-                    />
-                    <button
-                      onClick={() => handleSubmit(item._id)}
-                      className="mt-4 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                    >
-                      Simpan Nomor Rekening
-                    </button>
-                  </div>
-                )}
+                <p>
+                  <span className="font-semibold">Target Donasi:</span>{" "}
+                  {`Rp ${item.targetAmount.toLocaleString("id-ID")}`}
+                </p>
+
+                <p>
+                  <span className="font-semibold">Dana Masuk:</span>{" "}
+                  {`Rp ${item.totalDonation.toLocaleString("id-ID")}`}
+                </p>
               </div>
+              {/* Tarik Dana */}
+              {(isDatePassed(item.endDate) ||
+                item.totalDonation >= item.targetAmount) && (
+                <div>
+                  <button
+                    onClick={() => updateStatusTransfer(item._id)}
+                    disabled={item.statusTransfer !== null}
+                    className={`text-white mt-4 w-full px-4 py-2 font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-200 ${item.statusTransfer !== null ? "bg-green-600 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600 text-white" } `}
+                  >
+                    {item.statusTransfer === null
+                      ? "Tarik Dana"
+                      : item.statusTransfer}
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         ))}
