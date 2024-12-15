@@ -67,7 +67,9 @@ const FormBuatCampaign = () => {
         return;
       }
       const reader = new FileReader();
-      reader.onloadend = () => setThumbnail(reader.result);
+      reader.onloadend = () => {
+        setThumbnail(reader.result);
+      };
       reader.readAsDataURL(file);
     }
   };
@@ -150,8 +152,8 @@ const FormBuatCampaign = () => {
           return;
         }
         break;
-      case 5:
-        if (!deskripsi) {
+      case 5: 
+        if (countWords < 30) {
           return;
         }
         break;
@@ -174,9 +176,11 @@ const FormBuatCampaign = () => {
   const cleanHTML = (html) => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
-    return doc.body.textContent || ''; // Mengambil teks mentah tanpa tag HTML
+    return doc.body.textContent || ''; 
   };
-  
+  const countWords = (text) => {
+    return text.trim().split(/\s+/).length; 
+  };
 
   return (
     <div className="flex justify-center items-center p-6 bg-gray-100">
@@ -250,35 +254,35 @@ const FormBuatCampaign = () => {
             </>
           )}
 
-{currentStep === 5 && (
-  <>
-    <div>
-      <Label>Deskripsi</Label>
-      <ReactQuill
-        className={`bg-white rounded-lg text-black border-2 ${
-          deskripsi.length < 30 && currentStep === 5 ? "border-red-500" : "border-[#5E84C5]"
-        }`}
-        value={deskripsi}
-        onChange={(value) => {
-          setDeskripsi(value); // Simpan HTML langsung
-        }}
-      />
-      <p className="text-sm text-gray-500 mt-2">
-        Minimal panjang deskripsi 30 karakter
-      </p>
-    </div>
-  </>
-)}
-
-
-
-          {currentStep === 6 && (
-            <FileUploadField
-              label="Unggah Gambar"
-              onChange={handleThumbnailChange}
-              thumbnail={thumbnail}
-            />
+          {currentStep === 5 && (
+            <>
+              <div>
+                <Label>Deskripsi</Label>
+                <ReactQuill
+                  className={`bg-white rounded-lg text-black border-2 ${
+                    countWords(deskripsi) < 30 && currentStep === 5 ? "border-red-500" : "border-[#5E84C5]"
+                  }`}
+                  value={deskripsi}
+                  onChange={(value) => {
+                    setDeskripsi(value); 
+                  }}
+                />
+                <p className="text-sm text-gray-500 mt-2">
+                  Minimal panjang deskripsi 30 karakter
+                </p>
+              </div>
+            </>
           )}
+
+            {currentStep === 6 && (
+              <div>
+                <FileUploadField
+                  label="Unggah Gambar"
+                  onChange={handleThumbnailChange}
+                  thumbnail={thumbnail} 
+                />
+              </div>
+            )}
 
             {/* Preview Data Campaign */}
             {currentStep === 7 && (
@@ -401,9 +405,9 @@ const FormBuatCampaign = () => {
                     type="button"
                     onClick={handleNextStep}
                     className={`bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded ${
-                      deskripsi.length < 30 ? "bg-gray-400 text-gray-600 cursor-not-allowed" : ""
+                      countWords < 30 ? "bg-gray-400 text-gray-600 cursor-not-allowed" : ""
                     }`}
-                    disabled={deskripsi.length < 30}
+                    disabled={countWords < 30}
                   >
                     Selanjutnya
                   </Button>
