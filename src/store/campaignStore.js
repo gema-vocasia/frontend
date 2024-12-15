@@ -69,6 +69,25 @@ const campaignStore = create((set) => ({
     }
   },
 
+  // Update accountNumber
+  updateAccountNumber: async (campaignId, accountNumber) => {
+    try {
+      set({ isLoading: true, error: null });
+      const response = await api.put(`/campaign/accountNumber/${campaignId}`, {
+        accountNumber: accountNumber,
+      });
+
+      return response;
+
+
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || "Gagal memperbarui nomor rekening";
+      set({ error: errorMessage });
+      throw new Error(errorMessage);
+    }
+  },
+
   reset: (fields = []) => {
     if (fields.length === 0) {
       set(initialState);
