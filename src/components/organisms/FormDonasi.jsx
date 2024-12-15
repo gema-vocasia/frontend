@@ -12,7 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const FormDonasi = () => {
   const { campaignId } = useParams();
-  // console.log("id : ", campaignId);
+  // console.log("id: ", campaignId);
   const [currentStep, setCurrentStep] = useState(1);
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [campaignDetails, setCampaignDetails] = useState(null);
@@ -27,7 +27,7 @@ const FormDonasi = () => {
   const navigate = useNavigate();
   const { create } = donation();
 
-  //useEffect midtrans
+  // useEffect for midtrans
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://app.sandbox.midtrans.com/snap/snap.js";
@@ -40,7 +40,7 @@ const FormDonasi = () => {
     };
   }, []);
 
-  //useEffect campaign
+  // useEffect for campaign details
   useEffect(() => {
     let didCancel = false;
     const fetchCampaignDetails = async () => {
@@ -75,7 +75,7 @@ const FormDonasi = () => {
           });
           navigate("/");
           setError(error);
-          console.error("Error fetching kampanye detail:", error);
+          console.error("Error fetching campaign details:", error);
           setLoading(false);
         }
       }
@@ -119,11 +119,9 @@ const FormDonasi = () => {
           draggable: true,
         });
         console.log("Payment successful");
-
         console.log(result);
       },
       onPending: function (result) {
-        // Ganti alert dengan toast.info
         toast.info("Menunggu pembayaran!", {
           position: "top-right",
           autoClose: 4000,
@@ -135,7 +133,6 @@ const FormDonasi = () => {
         console.log(result);
       },
       onError: function (result) {
-        // Ganti alert dengan toast.error
         toast.error("Pembayaran gagal!", {
           position: "top-right",
           autoClose: 4000,
@@ -147,7 +144,6 @@ const FormDonasi = () => {
         console.log(result);
       },
       onClose: function () {
-        // Ganti alert dengan toast.warning
         toast.warning("Anda menutup popup sebelum menyelesaikan pembayaran.", {
           position: "top-right",
           autoClose: 4000,
@@ -210,7 +206,7 @@ const FormDonasi = () => {
       return;
     }
 
-    // Validasi langkah dan lanjutkan jika valid
+    // Validate steps and continue if valid
     if (currentStep === 1 && !isStep1Valid) return;
     if (currentStep === 2 && !isStep2Valid) return;
     setCurrentStep((prev) => prev + 1);
@@ -233,32 +229,36 @@ const FormDonasi = () => {
 
   const imageUrl = `http://localhost:8080/api/v1/files/${campaignDetails.photo}`;
   return (
-    <div className="flex justify-center items-center p-6 bg-gray-100">
+    <div className="flex items-center justify-center p-6 bg-gray-100">
       <ToastContainer />
       <div
-        className="w-full max-w-3xl bg-white m-8 p-8 rounded-lg shadow-xl"
+        className="w-full max-w-3xl p-8 m-8 bg-white rounded-lg shadow-xl"
         data-aos="fade-up"
         data-aos-duration="1000"
       >
         {campaignDetails && (
-          <div className="flex flex-col md:flex-row items-start bg-white shadow-lg rounded-lg p-6 mb-10">
+          <div className="flex flex-col items-start p-6 mb-10 bg-white rounded-lg shadow-lg md:flex-row">
             {campaignDetails.photo && (
               <img
                 src={imageUrl}
                 alt={campaignDetails.title}
-                className="w-full md:w-1/3 h-64 object-cover rounded-lg mb-4 md:mb-0"
+                className="object-cover w-full h-64 mb-4 rounded-lg md:w-1/3 md:mb-0"
               />
             )}
             <div className="flex flex-col items-start w-full md:w-2/3 md:pl-6">
-              <h1 className="text-3xl md:text-4xl font-semibold text-gray-800 mb-4">
+              <h1 className="mb-4 text-3xl font-semibold text-gray-800 md:text-4xl">
                 {campaignDetails.title}
               </h1>
-              <p className="text-lg md:text-xl text-blue-500 font-medium mb-4">
-                Oleh: {campaignDetails.userId?.name || "Tidak diketahui"}
+              <p className="mb-2 text-base text-gray-700 md:text-lg">
+                <strong>Oleh: </strong>
+                <span className="text-lg">
+                  {campaignDetails.userId?.name || "Tidak diketahui"}
+                </span>
               </p>
-              <p className="text-gray-700 text-base md:text-lg mb-2">
+
+              <p className="mb-2 text-base text-gray-700 md:text-lg">
                 <strong>Target Donasi:</strong>{" "}
-                <span className="font-semibold text-green-600">
+                <span className="text-lg">
                   Rp{" "}
                   {new Intl.NumberFormat("id-ID").format(
                     campaignDetails.targetAmount
@@ -292,11 +292,7 @@ const FormDonasi = () => {
                   type="button"
                   onClick={handleNext}
                   disabled={!isStep1Valid}
-                  className={`px-4 py-2 rounded ${
-                    isStep1Valid
-                      ? "bg-blue-500 hover:bg-blue-700 text-white"
-                      : "bg-gray-400 text-gray-600 cursor-not-allowed"
-                  }`}
+                  className="px-4 py-2 mr-4 text-white bg-[#5E84C5] rounded hover:bg-[#5E84C5]"
                 >
                   Lanjut
                 </Button>
@@ -310,12 +306,12 @@ const FormDonasi = () => {
                 label="Jumlah Donasi"
                 type="text"
                 name="amount"
-                value={new Intl.NumberFormat("id-ID").format(
+                value={`Rp ${new Intl.NumberFormat("id-ID").format(
                   formData.amount || ""
-                )}
+                )}`}
                 placeholder="Masukkan Jumlah Donasi Anda"
                 onChange={(e) => {
-                  const angka = e.target.value.replace(/\D/g, "");
+                  const angka = e.target.value.replace(/[^0-9]/g, ""); // Only allow numbers
                   setFormData((prev) => ({ ...prev, amount: angka }));
                 }}
               />
@@ -332,7 +328,7 @@ const FormDonasi = () => {
                 <Button
                   type="button"
                   onClick={handleBack}
-                  className="px-4 py-2 bg-gray-500 hover:bg-gray-700 text-white rounded mr-4"
+                  className="px-4 py-2 mr-4 text-white bg-gray-500 rounded hover:bg-gray-700"
                 >
                   Kembali
                 </Button>
@@ -340,11 +336,7 @@ const FormDonasi = () => {
                   type="button"
                   onClick={handleNext}
                   disabled={!isStep2Valid}
-                  className={`px-4 py-2 rounded ${
-                    isStep2Valid
-                      ? "bg-blue-500 hover:bg-blue-700 text-white"
-                      : "bg-gray-400 text-gray-600 cursor-not-allowed"
-                  }`}
+                  className="px-4 py-2 mr-4 text-white bg-[#5E84C5] rounded hover:bg-[#5E84C5]"
                 >
                   Lihat Ringkasan
                 </Button>
@@ -353,32 +345,32 @@ const FormDonasi = () => {
           )}
           {currentStep === 3 && (
             <div>
-              <h2 className="text-2xl font-semibold text-black mb-6">
+              <h2 className="mb-6 text-2xl font-semibold text-black">
                 Ringkasan Donasi Anda
               </h2>
 
-              <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
+              <div className="p-6 space-y-4 bg-white rounded-lg shadow-md">
                 <div className="flex items-center">
-                  <p className="text-lg font-medium pr-2">
-                    <strong>Kampanye :</strong>
+                  <p className="pr-2 text-lg font-medium">
+                    <strong>Kampanye:</strong>
                   </p>
                   <p className="text-lg">
                     {campaignDetails?.title || "Tidak diketahui"}
                   </p>
                 </div>
 
-                <div className="flex items-center ">
-                  <p className="text-lg font-medium pr-2">
-                    <strong>Nama : </strong>
+                <div className="flex items-center">
+                  <p className="pr-2 text-lg font-medium">
+                    <strong>Nama:</strong>
                   </p>
                   <p className="text-lg">{formData.name || "Belum diisi"}</p>
                 </div>
 
                 <div className="flex items-center">
-                  <p className="text-lg font-medium pr-2">
-                    <strong>Jumlah Donasi :</strong>
+                  <p className="pr-2 text-lg font-medium">
+                    <strong>Jumlah Donasi:</strong>
                   </p>
-                  <p className="text-lg font-semibold text-green-600">
+                  <p className="text-lg">
                     {new Intl.NumberFormat("id-ID", {
                       style: "currency",
                       currency: "IDR",
@@ -386,11 +378,11 @@ const FormDonasi = () => {
                   </p>
                 </div>
 
-                <div className="flex items-center">
-                  <p className="text-lg font-medium pr-2">
-                    <strong>Pesan :</strong>
+                <div className="flex items-start">
+                  <p className="pr-2 text-lg font-medium">
+                    <strong>Pesan:</strong>
                   </p>
-                  <p className="text-lg">
+                  <p className="w-full text-lg break-words">
                     {formData.comment || "Tidak ada pesan"}
                   </p>
                 </div>
@@ -400,18 +392,14 @@ const FormDonasi = () => {
                 <Button
                   type="button"
                   onClick={handleBack}
-                  className="px-4 py-2 bg-gray-500 hover:bg-gray-700 text-white rounded mr-4"
+                  className="px-4 py-2 mr-4 text-white bg-gray-500 rounded hover:bg-gray-700"
                 >
                   Kembali
                 </Button>
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`px-4 py-2 rounded ${
-                    isSubmitting
-                      ? "bg-gray-400 text-gray-600 cursor-not-allowed"
-                      : "bg-blue-500 hover:bg-blue-700 text-white"
-                  }`}
+                  className="px-4 py-2 mr-4 text-white bg-[#5E84C5] rounded hover:bg-[#5E84C5]"
                 >
                   {isSubmitting ? "Mengirim..." : "Konfirmasi dan Donasi"}
                 </Button>
