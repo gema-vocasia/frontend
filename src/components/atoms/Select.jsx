@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 
-const Select = ({ kategori, setKategori, options }) => (
+const Select = ({ kategori, selectedCategory, setSelectedCategory }) => (
   <select
-    value={kategori}
-    onChange={(e) => setKategori(e.target.value)}
+    id="category"
+    value={selectedCategory || ""}
+    onChange={(e) => setSelectedCategory(e.target.value)}
     required
     style={{
       width: '100%',
@@ -17,25 +18,29 @@ const Select = ({ kategori, setKategori, options }) => (
     }}
   >
     <option value="" disabled>
-      Pilih Kategori
+      -- Pilih Kategori --
     </option>
-    {options.map((option) => (
-      <option key={option.value} value={option.value}>
-        {option.label}
+    {kategori.map((category) => (
+      <option key={category._id} value={category._id}>
+        {category.title}
       </option>
     ))}
   </select>
 );
 
 Select.propTypes = {
-  kategori: PropTypes.string.isRequired,
-  setKategori: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(
+  kategori: PropTypes.arrayOf(
     PropTypes.shape({
-      value: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
+      _id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
     })
   ).isRequired,
+  selectedCategory: PropTypes.string,
+  setSelectedCategory: PropTypes.func.isRequired,
+};
+
+Select.defaultProps = {
+  selectedCategory: "", 
 };
 
 export default Select;

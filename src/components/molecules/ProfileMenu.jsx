@@ -5,14 +5,33 @@ import {
   SpeakerWaveIcon,
   DocumentTextIcon,
   ArrowLeftOnRectangleIcon,
+  DocumentPlusIcon
 } from "@heroicons/react/24/solid";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../config/auth";
 import { useEffect, useState } from "react";
+import { axiosInstance as api } from "../../config/axiosInstance.js";
+
 const ProfileMenu = ({ isLoggedIn }) => {
   const [userData, setUserData] = useState({});
   const { logout } = useAuth();
   const Navigate = useNavigate();
+
+  const fetchCurrentUser = async () => {
+    try {
+      const response = await api.get("/user/profile");
+      setUserData(response.data); 
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching user:", error.response?.data || error);
+    }
+  };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      fetchCurrentUser(); 
+    }
+  }, [isLoggedIn]);
 
   const buttonLogOut = () => {
     logout();
@@ -26,7 +45,7 @@ const ProfileMenu = ({ isLoggedIn }) => {
           <span className="absolute -inset-1.5" />
           <img
             alt="User Profile"
-            src="{http://localhost:8080/api/v1/files/${userData?.photo_url}"
+            src={`http://localhost:8080/api/v1/files/${userData?.photo_url}`}
             className="size-12 rounded-full"
           />
         </MenuButton>
@@ -55,6 +74,19 @@ const ProfileMenu = ({ isLoggedIn }) => {
             >
               <SpeakerWaveIcon className="w-5 h-5 mr-3 text-[#5E84C5]" />
               Kampanye Saya
+            </Link>
+          )}
+        </MenuItem>
+        <MenuItem>
+          {({ active }) => (
+            <Link
+              to="/buat-campaign"
+              className={`${
+                active ? "bg-gray-100" : ""
+              } flex items-center px-4 py-2 text-sm text-black`}
+            >
+              <DocumentPlusIcon className="w-5 h-5 mr-3 text-[#5E84C5]" />
+              Buat Kampanye
             </Link>
           )}
         </MenuItem>

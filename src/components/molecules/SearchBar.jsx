@@ -5,7 +5,7 @@ import InputField from "../atoms/InputField";
 
 const SearchBar = ({ searchQuery, setSearchQuery, clearSearch }) => {
   return (
-    <div className="relative mt-4 w-full">
+    <div className="relative mt-4 mx-auto w-6/12 lg:w-4/12">
       <IconSearch />
       <InputField
         value={searchQuery}

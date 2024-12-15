@@ -74,32 +74,35 @@ const FormLogin = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-screen">
+    <div className="flex flex-col h-screen md:flex-row">
       <ToastContainer />
       <Left />
       <div
-        className="flex-1 flex flex-col items-center justify-center p-8"
-        data-aos="fade-down"
-        data-aos-duration="1500"
+        className="flex flex-col items-center justify-center flex-1 p-8"
+        data-aos="fade-up"
+        data-aos-duration="1000"
+        data-aos-delay="200"
       >
         <div
           className="w-full max-w-md p-8 rounded-lg"
           data-aos="fade-up"
           data-aos-duration="1000"
+          data-aos-delay="400"
         >
           <Judul />
           <h1
-            className="text-xl md:text-3xl font-bold text-[#5E84C5] text-center "
-            data-aos="zoom-in"
-            data-aos-duration="1200"
+            className="text-xl md:text-3xl font-bold text-[#5E84C5] text-center"
+            data-aos="fade-up"
+            data-aos-duration="1000"
+            data-aos-delay="600"
           >
             SELAMAT DATANG KEMBALI!
           </h1>
-          <form className="space-y-4 mt-6" onSubmit={handleLogin}>
+          <form className="mt-6 space-y-4" onSubmit={handleLogin}>
             <div
               data-aos="fade-up"
               data-aos-duration="1000"
-              data-aos-delay="200"
+              data-aos-delay="800"
             >
               <FormField
                 label="Email"
@@ -115,13 +118,13 @@ const FormLogin = () => {
             <div
               data-aos="fade-up"
               data-aos-duration="1000"
-              data-aos-delay="400"
+              data-aos-delay="1000"
             >
               <div className="flex items-center justify-between mb-1">
                 <label
                   id="pass"
                   htmlFor="password"
-                  className="block text-black "
+                  className="block text-black"
                 >
                   Password
                 </label>
@@ -145,10 +148,10 @@ const FormLogin = () => {
 
             {errors.general && (
               <p
-                className="text-red-500 text-sm text-center"
+                className="text-sm text-center text-red-500"
                 data-aos="fade-up"
                 data-aos-duration="1000"
-                data-aos-delay="600"
+                data-aos-delay="1200"
               >
                 {errors.general}
               </p>
@@ -158,7 +161,7 @@ const FormLogin = () => {
               className="flex justify-center"
               data-aos="fade-up"
               data-aos-duration="1000"
-              data-aos-delay="800"
+              data-aos-delay="1400"
             >
               <Button
                 type="submit"
@@ -169,7 +172,11 @@ const FormLogin = () => {
               </Button>
             </div>
           </form>
-          <div>
+          <div
+            data-aos="fade-up"
+            data-aos-duration="1000"
+            data-aos-delay="1600"
+          >
             <LinkDaftarMasuk />
           </div>
         </div>

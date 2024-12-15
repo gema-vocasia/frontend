@@ -9,14 +9,14 @@ import MenuLink from "../molecules/MenuLink.";
 import ProfileMenu from "../molecules/ProfileMenu";
 import { LoginRegisterButton } from "../atoms/ButtonIcon";
 import { useAuth } from "../../config/auth";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const navigation = [
   { name: "Beranda", to: "/" },
   { name: "Tentang Kami", to: "/tentang-kami" },
   { name: "Donasikan", to: "/all-campaign" },
-  { name: "Lisensi", to: "/lisensi-gambar" },
+  { name: "FAQ", to: "/faq" },
 ];
 
 const Navbar = () => {

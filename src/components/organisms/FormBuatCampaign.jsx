@@ -10,30 +10,46 @@ import Select from "../atoms/Select";
 import Button from "../atoms/Button";
 import Label from "../atoms/Label";
 import Swal from "sweetalert2";
-import { useUsersPosts } from "../../config/useUser";
+import axios from "axios";
 
 const FormBuatCampaign = () => {
   const [thumbnail, setThumbnail] = useState(null);
   const [judul, setJudul] = useState("");
-  const [kategori, setKategori] = useState("");
+  const [kategori, setKategori] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [targetDonasi, setTargetDonasi] = useState("");
   const [tanggalMulai, setTanggalMulai] = useState("");
   const [tanggalBerakhir, setTanggalBerakhir] = useState("");
   const [deskripsi, setDeskripsi] = useState("");
   const [currentStep, setCurrentStep] = useState(0);
   const { createCampaign, isLoading } = campaignStore();
-  const { isKYC, fetchUser } = useUsersPosts();
+  const { isKYC, setIsKYC } = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchUser();
-  }, [fetchUser]);
+    async function fetchCurrentUser() {
+      try {
+        const { data } = await axios.get("/user/profile");
+        setIsKYC(data.isKYC);
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+      }
+    }
 
-  const kategoriOption = [
-    { title: "Sosial", id: "67493e1d22c8fe05bd73309b" },
-    { title: "Bencana Alam", id: "6751b30817de3ea186db1c91" },
-    { title: "Pendidikan", id: "674898d8df3d64c23abbd922" },
-  ];
+    fetchCurrentUser();
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/v1/categories") 
+      .then((response) => {
+        const fetchedCategories = response.data.data.categories;
+        setKategori(fetchedCategories);
+      })
+      .catch((error) => {
+        console.error("Error fetching categories:", error);
+      });
+  }, []);
 
   const calculateDateDifference = (startDate, endDate) => {
     const start = new Date(startDate);
@@ -51,12 +67,19 @@ const FormBuatCampaign = () => {
     const file = e.target.files[0];
     if (file) {
       if (file.size > 5 * 1024 * 1024) {
-        alert("File terlalu besar! Maksimum 5MB.");
+        Swal.fire({
+          icon: "error",
+          title: "Ukuran File Terlalu Besar",
+          text: "Ukuran maksimum file adalah 5MB.",
+          confirmButtonText: "OK",
+        });
         e.target.value = "";
         return;
       }
       const reader = new FileReader();
-      reader.onloadend = () => setThumbnail(reader.result);
+      reader.onloadend = () => {
+        setThumbnail(reader.result);
+      };
       reader.readAsDataURL(file);
     }
   };
@@ -71,7 +94,7 @@ const FormBuatCampaign = () => {
         text: "Anda harus mengunggah foto KTP di profil sebelum membuat kampanye.",
         confirmButtonText: "Ke Halaman Profil",
       }).then(() => {
-        navigate("/profile");
+        navigate("/profile"); 
       });
       return;
     }
@@ -91,13 +114,15 @@ const FormBuatCampaign = () => {
       return;
     }
 
+    const cleanedDescription = cleanHTML(deskripsi);
+    
     const campaignData = {
       title: judul,
-      categoryId: kategori,
+      categoryId: selectedCategory,
       targetAmount: parseInt(targetDonasi, 10),
       startDate: tanggalMulai,
       endDate: tanggalBerakhir,
-      description: deskripsi,
+      description: cleanedDescription, 
       photo: thumbnail,
     };
 
@@ -109,7 +134,7 @@ const FormBuatCampaign = () => {
         text: "Kampanye Anda telah berhasil dibuat!",
         confirmButtonText: "OK",
       });
-      navigate("/campaignsaya");
+      navigate("/kampanye-saya");
     } catch (error) {
       alert(error || "Terjadi kesalahan saat membuat kampanye");
     }
@@ -137,8 +162,8 @@ const FormBuatCampaign = () => {
           return;
         }
         break;
-      case 5:
-        if (!deskripsi) {
+      case 5: 
+        if (countWords < 30) {
           return;
         }
         break;
@@ -158,9 +183,18 @@ const FormBuatCampaign = () => {
     setCurrentStep(currentStep - 1);
   };
 
+  const cleanHTML = (html) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    return doc.body.textContent || ''; 
+  };
+  const countWords = (text) => {
+    return text.trim().split(/\s+/).length; 
+  };
+
   return (
     <div className="flex justify-center items-center p-6 bg-gray-100">
-      <div className="w-full max-w-3xl bg-white m-8 p-8 rounded-lg shadow-xl">
+      <div className="w-full max-w-3xl bg-white m-8 p-8 rounded-lg shadow-xl overflow-hidden">
         {currentStep === 0 && (
           <div className="bg-white p-8 m-8 rounded-lg shadow-lg border-t-4 border-blue-500">
             <h2 className="text-center text-xl font-semibold text-blue-500 mb-4">
@@ -193,14 +227,11 @@ const FormBuatCampaign = () => {
 
           {currentStep === 2 && (
             <>
-              <Label>Kategori</Label>
+              <label>Kategori</label>
               <Select
                 kategori={kategori}
-                setKategori={setKategori}
-                options={kategoriOption.map((cat) => ({
-                  value: cat.id,
-                  label: cat.title,
-                }))}
+                selectedCategory={selectedCategory}
+                setSelectedCategory={setSelectedCategory}
               />
             </>
           )}
@@ -208,10 +239,13 @@ const FormBuatCampaign = () => {
           {currentStep === 3 && (
             <FormField
               label="Target Donasi"
-              type="number"
+              type="text"
               placeholder="Masukkan Target Donasi"
-              value={targetDonasi}
-              onChange={(e) => setTargetDonasi(e.target.value)}
+              value={targetDonasi ? `Rp ${new Intl.NumberFormat("id-ID").format(targetDonasi)}` : ""}
+              onChange={(e) => {
+                const value = e.target.value.replace(/[^0-9]/g, ''); 
+                setTargetDonasi(value ? parseInt(value, 10) : ''); 
+              }}
             />
           )}
 
@@ -236,12 +270,13 @@ const FormBuatCampaign = () => {
                 <Label>Deskripsi</Label>
                 <ReactQuill
                   className={`bg-white rounded-lg text-black border-2 ${
-                    deskripsi.length < 30 && currentStep === 5
-                      ? "border-red-500"
-                      : "border-[#5E84C5]"
+                    countWords(deskripsi) < 30 && currentStep === 5 ? "border-red-500" : "border-[#5E84C5]"
                   }`}
                   value={deskripsi}
-                  onChange={setDeskripsi}
+                  onChange={(value) => {
+                    setDeskripsi(value); 
+                  }}
+                  style={{ maxHeight: '300px', overflowY: 'auto' }}
                 />
                 <p className="text-sm text-gray-500 mt-2">
                   Minimal panjang deskripsi 30 karakter
@@ -250,57 +285,64 @@ const FormBuatCampaign = () => {
             </>
           )}
 
-          {currentStep === 6 && (
-            <FileUploadField
-              label="Unggah Gambar"
-              onChange={handleThumbnailChange}
-              thumbnail={thumbnail}
-            />
-          )}
-
-          {/* Preview Data Campaign */}
-          {currentStep === 7 && (
-            <div className="border-2 border-blue-500 rounded-lg p-4 space-y-2">
-              <div className="flex justify-center text-xl font-semibold mb-4">
-                <p>Data Kampanye</p>
-              </div>
-              <div className="border-b border-gray-300 pb-2">
-                <strong>Judul Kampanye: </strong>
-                <span>{judul}</span>
-              </div>
-              <div className="border-b border-gray-300 pb-2">
-                <strong>Kategori: </strong>
-                <span>
-                  {kategoriOption.find((cat) => cat.id === kategori)?.title ||
-                    "Kategori tidak ditemukan"}
-                </span>
-              </div>
-              <div className="border-b border-gray-300 pb-2">
-                <strong>Target Donasi: </strong>
-                <span>{targetDonasi}</span>
-              </div>
-              <div className="border-b border-gray-300 pb-2">
-                <strong>Tanggal Mulai: </strong>
-                <span>{tanggalMulai}</span>
-              </div>
-              <div className="border-b border-gray-300 pb-2">
-                <strong>Tanggal Berakhir: </strong>
-                <span>{tanggalBerakhir}</span>
-              </div>
-              <div className="flex flex-col border-b border-gray-300 pb-2">
-                <strong>Deskripsi: </strong>
-                <p className="text-gray-700 mt-1">{deskripsi}</p>
-              </div>
-              <div className="flex flex-col">
-                <strong>Thumbnail:</strong>
-                <img
-                  src={thumbnail}
-                  alt="Thumbnail"
-                  className="w-56 h-48 object-cover mt-2 border border-gray-300 rounded"
+            {currentStep === 6 && (
+              <div>
+                <FileUploadField
+                  label="Unggah Gambar"
+                  onChange={handleThumbnailChange}
+                  thumbnail={thumbnail} 
                 />
               </div>
-            </div>
-          )}
+            )}
+
+            {/* Preview Data Campaign */}
+            {currentStep === 7 && (
+              <div className="border-2 border-blue-500 rounded-lg p-4 space-y-2">
+                <div className="flex justify-center text-xl font-semibold mb-4">
+                  <p>Data Kampanye</p>
+                </div>
+                <div className="border-b border-gray-300 pb-2">
+                  <strong>Judul Kampanye: </strong>
+                  <span>{judul}</span>
+                </div>
+                <div className="border-b border-gray-300 pb-2">
+                  <strong>Kategori: </strong>
+                  <span>
+                  {
+                    kategori.find((category) => category._id === selectedCategory)?.title || "Kategori tidak ditemukan"
+                  }
+                  </span>
+                </div>
+                <div className="border-b border-gray-300 pb-2">
+                  <strong>Target Donasi: </strong>
+                  <span>
+                    {targetDonasi ? new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(targetDonasi) : "Rp. 0,00"}
+                  </span>
+                </div>
+                <div className="border-b border-gray-300 pb-2">
+                  <strong>Tanggal Mulai: </strong>
+                  <span>{tanggalMulai}</span>
+                </div>
+                <div className="border-b border-gray-300 pb-2">
+                  <strong>Tanggal Berakhir: </strong>
+                  <span>{tanggalBerakhir}</span>
+                </div>
+                <div className="flex flex-col border-b border-gray-300 pb-2">
+                  <strong>Deskripsi: </strong>
+                  <p className="scrollable-text text-gray-700 mt-1">
+                    {cleanHTML(deskripsi) || 'Belum ada deskripsi.'}
+                  </p>
+                </div>
+                <div className="flex flex-col">
+                  <strong>Thumbnail:</strong>
+                  <img
+                    src={thumbnail}
+                    alt="Thumbnail"
+                    className="w-56 h-48 object-cover mt-2 border border-gray-300 rounded"
+                  />
+                </div>
+              </div>
+            )}
 
           <div className="flex justify-between mt-6">
             {currentStep > 0 && currentStep <= 7 && (
@@ -377,20 +419,18 @@ const FormBuatCampaign = () => {
               </Button>
             )}
 
-            {currentStep === 5 && (
-              <Button
-                type="button"
-                onClick={handleNextStep}
-                className={`bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded ${
-                  !deskripsi || deskripsi.length < 30
-                    ? "bg-gray-400 text-gray-600 cursor-not-allowed"
-                    : ""
-                }`}
-                disabled={!deskripsi || deskripsi.length < 30}
-              >
-                Selanjutnya
-              </Button>
-            )}
+                {currentStep === 5 && (
+                  <Button
+                    type="button"
+                    onClick={handleNextStep}
+                    className={`bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded ${
+                      countWords < 30 ? "bg-gray-400 text-gray-600 cursor-not-allowed" : ""
+                    }`}
+                    disabled={countWords < 30}
+                  >
+                    Selanjutnya
+                  </Button>
+                )}
 
             {currentStep === 6 && (
               <Button

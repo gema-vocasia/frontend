@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FormField from "../molecules/FormField";
 import Button from "../atoms/Button";
 import Left from "../atoms/login-register/Left";
@@ -23,7 +23,11 @@ const FormRegistrasi = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  AOS.init();
+  // Initialize AOS animation library
+  useEffect(() => {
+    AOS.init({ once: true });
+    AOS.refresh();
+  }, []);
 
   const validate = () => {
     const newErrors = {};
@@ -96,19 +100,19 @@ const FormRegistrasi = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-screen">
+    <div className="flex flex-col w-full h-screen md:flex-row">
       <ToastContainer />
       <Left />
       <div
-        className="flex-1 flex flex-col items-center justify-center p-8 w-full"
+        className="flex flex-col items-center justify-center flex-1 w-full p-8"
         data-aos="fade-up"
         data-aos-duration="1000"
       >
         <div className="w-full max-w-md p-8 rounded-lg">
           <h1
             className="flex justify-center text-2xl md:text-4xl font-bold text-[#5E84C5]"
-            data-aos="fade-in"
-            data-aos-duration="1200"
+            data-aos="fade-up"
+            data-aos-duration="1000"
           >
             REGISTRASI
           </h1>
@@ -179,15 +183,16 @@ const FormRegistrasi = () => {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-10 text-gray-500"
+                className="absolute text-gray-500 right-3 top-10"
               ></button>
             </div>
 
             {errors.general && (
               <p
-                className="text-red-500 text-sm text-center"
-                data-aos="fade-in"
+                className="text-sm text-center text-red-500"
+                data-aos="fade-up"
                 data-aos-duration="1000"
+                data-aos-delay="1000"
               >
                 {errors.general}
               </p>
@@ -197,7 +202,7 @@ const FormRegistrasi = () => {
               className="flex justify-center"
               data-aos="fade-up"
               data-aos-duration="1000"
-              data-aos-delay="1000"
+              data-aos-delay="1200"
             >
               <Button
                 type="submit"
@@ -209,7 +214,12 @@ const FormRegistrasi = () => {
             </div>
           </form>
 
-          <div>
+          <div
+            className="flex justify-center"
+            data-aos="fade-up"
+            data-aos-duration="1000"
+            data-aos-delay="1400"
+          >
             <LinkDaftarMasuk />
           </div>
         </div>
@@ -219,3 +229,4 @@ const FormRegistrasi = () => {
 };
 
 export default FormRegistrasi;
+
