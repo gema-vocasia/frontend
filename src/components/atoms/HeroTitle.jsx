@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 const HeroTitle = ({ title }) => {
   return (
     <h1
-      className="text-5xl font-extrabold text-[#2088CE] drop-shadow-lg"
+      className="text-6xl lg:text-7xl font-extrabold text-white drop-shadow-lg"
       data-aos="fade-down"
       data-aos-duration="1000"
     >

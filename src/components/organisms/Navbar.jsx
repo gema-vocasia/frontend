@@ -16,7 +16,7 @@ const navigation = [
   { name: "Beranda", to: "/" },
   { name: "Tentang Kami", to: "/tentang-kami" },
   { name: "Donasikan", to: "/all-campaign" },
-  { name: "Lisensi", to: "/lisensi-gambar" },
+  { name: "FAQ", to: "/faq" },
 ];
 
 const Navbar = () => {
