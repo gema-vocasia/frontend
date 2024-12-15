@@ -12,6 +12,8 @@ import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import Label from "../atoms/Label";
 
+import { useNavigate } from "react-router-dom";
+
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 const FormEditProfile = () => {
@@ -26,6 +28,7 @@ const FormEditProfile = () => {
   const [oldFile, setOldFile] = useState("");
   const [isKYC, setIsKYC] = useState();
   const [previewUrl, setPreviewUrl] = useState("");
+  const Navigate  = useNavigate()
 
   useEffect(() => {
     setAccessToken(getAccessToken());
@@ -66,10 +69,10 @@ const FormEditProfile = () => {
 
   async function triggerUpdateUser(e) {
     e.preventDefault();
+    
     if (file.length === 0) {
       alert("Mohon masukkan foto KTP Anda!");
-    }
-
+    } 
     try {
       const formDataPayloadUpdate = new FormData();
       for (let [key, val] of Object.entries(formDataPayload)) {
@@ -101,6 +104,7 @@ const FormEditProfile = () => {
       }
 
       console.log(axiosResponse.data);
+      Navigate("/profile")
     } catch (error) {
       console.error("Error fetching user:", error.response?.data || error);
       throw error; // Rethrow to allow error handling in the calling component
