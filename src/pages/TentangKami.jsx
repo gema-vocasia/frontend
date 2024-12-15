@@ -58,7 +58,7 @@ const TentangKami = () => {
         />
       </div>
 
-      <div data-aos="flip-left">
+      <div data-aos="zoom-in">
         <TeamSection
           team={[
             { id: 1, name: 'Sarah Aulia', position: 'Founder & Executive Director', image: 'https://i.pravatar.cc/300?img=11' },
