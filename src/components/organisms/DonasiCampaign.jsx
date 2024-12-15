@@ -10,49 +10,59 @@ const DonationCampaign = () => {
 
   React.useEffect(() => {
     AOS.init({
-      duration: 800,
+      duration: 1000,
       easing: "ease-in-out",
       once: true,
     });
   }, []);
 
   return (
-    <div className="container mx-auto py-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+    <div className="container grid grid-cols-1 gap-8 py-12 mx-auto sm:grid-cols-2">
+      {/* Card Galang Dana */}
       <div
-        className="bg-white rounded-lg shadow-md p-6 ml-16"
+        className="p-8 transition-transform duration-300 transform bg-white rounded-lg shadow-lg hover:scale-105"
         data-aos="fade-right"
       >
-        <div className="flex items-center">
-          <FaHandHoldingHeart className="w-20 h-20 -500 mr-4 text-[#05265F]" />
+        <div className="flex items-start space-x-6">
+          <MdCampaign className="w-14 h-14 text-[#5E84C5]" />
           <div>
-            <h3 className="text-xl font-medium mb-2">
-              Sumbangkan sedikit rejeki kalian untuk mereka yang membutuhkan
+            <h3 className="text-xl font-bold text-[#5E84C5] mb-4">
+              Galang Dana
             </h3>
+            <p className="mb-6 text-sm leading-relaxed text-gray-700">
+              Buat kampanye penggalangan dana, bagikan kisahmu, dan raih dukungan
+              untuk wujudkan tujuanmu bersama komunitas.
+            </p>
             <button
-              onClick={() => navigate(`/all-campaign`)}
-              className="flex-1 px-6 py-2 text-[#5E84C5] bg-white border border-[#5E84C5] rounded-full hover:bg-[#E6ECF5] transition duration-300 flex items-center justify-center"
+              onClick={() => navigate(`/buat-campaign`)}
+              className="px-5 py-2 text-white bg-[#5E84C5] rounded-full shadow-md hover:bg-[#3C5A99] hover:shadow-lg transition duration-300"
             >
-              Donasi Sekarang
+              Galang Dana
             </button>
           </div>
         </div>
       </div>
+
+      {/* Card Mulai Donasi */}
       <div
-        className="bg-white rounded-lg shadow-md p-6 mr-16"
+        className="p-8 transition-transform duration-300 transform bg-white rounded-lg shadow-lg hover:scale-105"
         data-aos="fade-left"
       >
-        <div className="flex items-center">
-          <MdCampaign className="w-20 h-20 -500 mr-4  text-[#05265F]" />
+        <div className="flex items-start space-x-6">
+          <FaHandHoldingHeart className="w-14 h-14 text-[#5E84C5]" />
           <div>
-            <h3 className="text-xl font-medium mb-2">
-              GEMA galang dana untuk membantu orang yang membutuhkan di luar
-              sana
+            <h3 className="text-xl font-bold text-[#5E84C5] mb-4">
+              Mulai Donasi
             </h3>
+            <p className="mb-6 text-sm leading-relaxed text-gray-700">
+              Donasi sekarang untuk mendukung kampanye pilihanmu dan jadilah bagian
+              dari perubahan nyata yang membawa harapan.
+            </p>
             <button
-              onClick={() => navigate(`/buat-campaign`)}
-              className="flex-1 px-6 py-2 text-[#5E84C5] bg-white border border-[#5E84C5] rounded-full hover:bg-[#E6ECF5] transition duration-300 flex items-center justify-center"
+              onClick={() => navigate(`/all-campaign`)}
+              className="px-5 py-2 text-white bg-[#5E84C5] rounded-full shadow-md hover:bg-[#3C5A99] hover:shadow-lg transition duration-300"
             >
-              Galang Dana
+              Donasi Sekarang
             </button>
           </div>
         </div>
@@ -62,3 +72,5 @@ const DonationCampaign = () => {
 };
 
 export default DonationCampaign;
+
+
