@@ -6,6 +6,7 @@ import SearchBar from "../molecules/SearchBar";
 const Hero = ({
   title,
   subtitle,
+  subtitleUnderSearch,
   searchQuery,
   setSearchQuery,
   clearSearch,
@@ -13,7 +14,7 @@ const Hero = ({
   showSearch,
 }) => {
   return (
-    <div className="relative mt-0">
+    <div className="relative mt-0 mb-12">
       <div className="w-screen h-[430px] overflow-hidden">
         <img
           src={image}
@@ -25,12 +26,17 @@ const Hero = ({
         <HeroTitle title={title} />
         <HeroSubtitle subtitle={subtitle} />
         {showSearch && (
-          <div data-aos="fade-down" data-aos-duration="1000">
+          <div data-aos="fade-down" data-aos-duration="1000" className="w-full">
             <SearchBar
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
               clearSearch={clearSearch}
             />
+            {subtitleUnderSearch && (
+              <p className="mt-4 text-sm text-gray-300">
+                {subtitleUnderSearch}
+              </p>
+            )}
           </div>
         )}
       </div>
@@ -41,6 +47,7 @@ const Hero = ({
 Hero.propTypes = {
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.string.isRequired,
+  subtitleUnderSearch: PropTypes.string,
   searchQuery: PropTypes.string,
   setSearchQuery: PropTypes.func,
   clearSearch: PropTypes.func,
@@ -49,3 +56,4 @@ Hero.propTypes = {
 };
 
 export default Hero;
+
