@@ -8,7 +8,7 @@ import campaignStore from "../store/campaignStore";
 import cerita from "../assets/images/cerita.png";
 import herohome from "../assets/images/heroHome.png";
 import DonationCampaign from "../components/organisms/DonasiCampaign";
-import DonationCta from "../components/organisms/DonasiCta.jsx";
+// import DonationCta from "../components/organisms/DonasiCta.jsx";
 
 const Home = () => {
   const { campaign, getCampaigns } = campaignStore();

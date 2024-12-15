@@ -20,7 +20,7 @@ const DonationCampaign = () => {
     <div className="container grid grid-cols-1 gap-8 py-12 mx-auto sm:grid-cols-2">
       {/* Card Galang Dana */}
       <div
-        className="p-8 transition-transform duration-300 transform bg-white rounded-lg shadow-lg hover:scale-105"
+        className="p-8 transition-transform duration-300 transform bg-white rounded-lg shadow-lg hover:scale-105 md:ml-16 m-auto"
         data-aos="fade-right"
       >
         <div className="flex items-start space-x-6">
@@ -30,8 +30,8 @@ const DonationCampaign = () => {
               Galang Dana
             </h3>
             <p className="mb-6 text-sm leading-relaxed text-gray-700">
-              Buat kampanye penggalangan dana, bagikan kisahmu, dan raih dukungan
-              untuk wujudkan tujuanmu bersama komunitas.
+              Buat kampanye penggalangan dana, bagikan kisahmu, dan raih
+              dukungan untuk wujudkan tujuanmu bersama komunitas.
             </p>
             <button
               onClick={() => navigate(`/buat-campaign`)}
@@ -45,7 +45,7 @@ const DonationCampaign = () => {
 
       {/* Card Mulai Donasi */}
       <div
-        className="p-8 transition-transform duration-300 transform bg-white rounded-lg shadow-lg hover:scale-105"
+        className="p-8 transition-transform duration-300 transform bg-white rounded-lg shadow-lg hover:scale-105  md:mr-16 m-auto"
         data-aos="fade-left"
       >
         <div className="flex items-start space-x-6">
@@ -55,8 +55,8 @@ const DonationCampaign = () => {
               Mulai Donasi
             </h3>
             <p className="mb-6 text-sm leading-relaxed text-gray-700">
-              Donasi sekarang untuk mendukung kampanye pilihanmu dan jadilah bagian
-              dari perubahan nyata yang membawa harapan.
+              Donasi sekarang untuk mendukung kampanye pilihanmu dan jadilah
+              bagian dari perubahan nyata yang membawa harapan.
             </p>
             <button
               onClick={() => navigate(`/all-campaign`)}
@@ -72,5 +72,3 @@ const DonationCampaign = () => {
 };
 
 export default DonationCampaign;
-
-
