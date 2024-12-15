@@ -26,12 +26,12 @@ const campaignStore = create((set) => ({
   },
 
   // Get Campaign By User ID
-  getCampaignByUserId: async (userId) => {
+  getCampaignByUserId: async () => {
     try {
-      const res = await api.get(`/campaigns/user/${userId}`);
+      const res = await api.get(`/campaigns/user`);
       set({ campaignByUserId: res.data });
     } catch (error) {
-      console.error(`Error fetching campaigns for user ${userId}:`, error);
+      console.error(`Error fetching campaigns for user :`, error);
     }
   },
 

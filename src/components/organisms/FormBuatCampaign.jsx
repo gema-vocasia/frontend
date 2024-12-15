@@ -9,7 +9,7 @@ import DateField from "../molecules/DateField";
 import Select from "../atoms/Select";
 import Button from "../atoms/Button";
 import Label from "../atoms/Label";
-import Swal from "sweetalert2"
+import Swal from "sweetalert2";
 import { useUsersPosts } from "../../config/useUser";
 import axios from "axios";
 
@@ -50,8 +50,10 @@ const FormBuatCampaign = () => {
     const daysDiff = timeDiff / (1000 * 3600 * 24);
     return daysDiff;
   };
-  const isDateValid = tanggalMulai && tanggalBerakhir && 
-  calculateDateDifference(tanggalMulai, tanggalBerakhir) >= 30;
+  const isDateValid =
+    tanggalMulai &&
+    tanggalBerakhir &&
+    calculateDateDifference(tanggalMulai, tanggalBerakhir) >= 30;
 
   const handleThumbnailChange = (e) => {
     const file = e.target.files[0];
@@ -84,7 +86,7 @@ const FormBuatCampaign = () => {
         text: "Anda harus mengunggah foto KTP di profil sebelum membuat kampanye.",
         confirmButtonText: "Ke Halaman Profil",
       }).then(() => {
-        navigate("/profile"); 
+        navigate("/profile");
       });
       return;
     }
@@ -97,7 +99,7 @@ const FormBuatCampaign = () => {
       { field: deskripsi, step: 5 },
       { field: thumbnail, step: 6 },
     ];
-  
+
     const incompleteStep = steps.find((item) => !item.field);
     if (incompleteStep) {
       setCurrentStep(incompleteStep.step);
@@ -119,10 +121,10 @@ const FormBuatCampaign = () => {
     try {
       await createCampaign(campaignData);
       Swal.fire({
-        icon: 'success',
-        title: 'Kampanye Berhasil Dibuat',
-        text: 'Kampanye Anda telah berhasil dibuat!',
-        confirmButtonText: 'OK'
+        icon: "success",
+        title: "Kampanye Berhasil Dibuat",
+        text: "Kampanye Anda telah berhasil dibuat!",
+        confirmButtonText: "OK",
       });
       navigate("/kampanye-saya");
     } catch (error) {
@@ -165,10 +167,10 @@ const FormBuatCampaign = () => {
       default:
         break;
     }
-  
+
     setCurrentStep(currentStep + 1);
   };
-  
+
   const handleBack = () => {
     setCurrentStep(currentStep - 1);
   };
@@ -186,23 +188,24 @@ const FormBuatCampaign = () => {
     <div className="flex justify-center items-center p-6 bg-gray-100">
       <div className="w-full max-w-3xl bg-white m-8 p-8 rounded-lg shadow-xl">
         {currentStep === 0 && (
-        <div className="bg-white p-8 m-8 rounded-lg shadow-lg border-t-4 border-blue-500">
-          <h2 className="text-center text-xl font-semibold text-blue-500 mb-4">
-            Persyaratan Sebelum Membuat Kampanye
-          </h2>
-          <p className="text-center text-gray-600 mb-6">
-            Sebelum melanjutkan, pastikan Anda telah melakukan verifikasi KTP dengan mengunggahnya di profil Anda.
-          </p>
-          <div className="flex justify-center">
-            <Button
-              onClick={() => setCurrentStep(1)}
-              className=" mt-4 bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-700 focus:outline-none"
-            >
-              Mulai Isi Data
-            </Button>
+          <div className="bg-white p-8 m-8 rounded-lg shadow-lg border-t-4 border-blue-500">
+            <h2 className="text-center text-xl font-semibold text-blue-500 mb-4">
+              Persyaratan Sebelum Membuat Kampanye
+            </h2>
+            <p className="text-center text-gray-600 mb-6">
+              Sebelum melanjutkan, pastikan Anda telah melakukan verifikasi KTP
+              dengan mengunggahnya di profil Anda.
+            </p>
+            <div className="flex justify-center">
+              <Button
+                onClick={() => setCurrentStep(1)}
+                className=" mt-4 bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-700 focus:outline-none"
+              >
+                Mulai Isi Data
+              </Button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
         <form className="space-y-6" onSubmit={handleSubmit}>
           {currentStep === 1 && (
             <FormField
@@ -212,7 +215,6 @@ const FormBuatCampaign = () => {
               value={judul}
               onChange={(e) => setJudul(e.target.value)}
             />
-            
           )}
 
           {currentStep === 2 && (
@@ -333,72 +335,80 @@ const FormBuatCampaign = () => {
               </div>
             )}
 
-            <div className="flex justify-between mt-6">
-              {currentStep > 0 && currentStep <= 7 && (
-                <Button
-                  type="button"
-                  onClick={handleBack}
-                  className="px-4 py-2 bg-gray-500 hover:bg-gray-700 text-white rounded mr-4"
-                >
-                  Kembali
-                </Button>
-              )}
+          <div className="flex justify-between mt-6">
+            {currentStep > 0 && currentStep <= 7 && (
+              <Button
+                type="button"
+                onClick={handleBack}
+                className="px-4 py-2 bg-gray-500 hover:bg-gray-700 text-white rounded mr-4"
+              >
+                Kembali
+              </Button>
+            )}
 
-              {currentStep === 1 && (
-                  <Button
-                    type="button"
-                    onClick={handleNextStep}
-                    className={`bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded ${
-                      currentStep === 1 && !judul ? "bg-gray-400 text-gray-600 cursor-not-allowed" : ""
-                    }`}
-                    disabled={currentStep === 1 && !judul}
-                  >
-                    Selanjutnya
-                  </Button>
-              )}
+            {currentStep === 1 && (
+              <Button
+                type="button"
+                onClick={handleNextStep}
+                className={`bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded ${
+                  currentStep === 1 && !judul
+                    ? "bg-gray-400 text-gray-600 cursor-not-allowed"
+                    : ""
+                }`}
+                disabled={currentStep === 1 && !judul}
+              >
+                Selanjutnya
+              </Button>
+            )}
 
-              {currentStep === 2 && (
-                <Button
-                  type="button"
-                  onClick={handleNextStep}
-                  className={`bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded ${
-                    !kategori ? "bg-gray-400 text-gray-600 cursor-not-allowed" : ""
-                  }`}
-                  disabled={!kategori}
-                >
-                  Selanjutnya
-                </Button>
-              )}
+            {currentStep === 2 && (
+              <Button
+                type="button"
+                onClick={handleNextStep}
+                className={`bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded ${
+                  !kategori
+                    ? "bg-gray-400 text-gray-600 cursor-not-allowed"
+                    : ""
+                }`}
+                disabled={!kategori}
+              >
+                Selanjutnya
+              </Button>
+            )}
 
-              {currentStep === 3 && (
-                <Button
-                  type="button"
-                  onClick={handleNextStep}
-                  className={`bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded ${
-                    !targetDonasi ? "bg-gray-400 text-gray-600 cursor-not-allowed" : ""
-                  }`}
-                  disabled={!targetDonasi}
-                >
-                  Selanjutnya
-                </Button>
-              )}
+            {currentStep === 3 && (
+              <Button
+                type="button"
+                onClick={handleNextStep}
+                className={`bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded ${
+                  !targetDonasi
+                    ? "bg-gray-400 text-gray-600 cursor-not-allowed"
+                    : ""
+                }`}
+                disabled={!targetDonasi}
+              >
+                Selanjutnya
+              </Button>
+            )}
 
-              {currentStep === 4 && (
-                <Button
-                  type="button"
-                  onClick={() => {
-                    if (isDateValid) {
-                      handleNextStep();
-                    }
-                  }}
-                  className={`bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded ${
-                    !isDateValid ? "bg-gray-400 text-gray-600 cursor-not-allowed" : ""
-                  }`}
-                  disabled={!isDateValid}
-                >
-                  Selanjutnya
-                </Button>
-              )}
+            {currentStep === 4 && (
+              <Button
+                type="button"
+                onClick={() => {
+                  if (isDateValid) {
+                    handleNextStep();
+                  }
+                }}
+                className={`bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded ${
+                  !isDateValid
+                    ? "bg-gray-400 text-gray-600 cursor-not-allowed"
+                    : ""
+                }`}
+                disabled={!isDateValid}
+              >
+                Selanjutnya
+              </Button>
+            )}
 
                 {currentStep === 5 && (
                   <Button
@@ -413,25 +423,27 @@ const FormBuatCampaign = () => {
                   </Button>
                 )}
 
-              {currentStep === 6 && (
-                <Button
-                  type="button"
-                  onClick={handleNextStep}
-                  className={`bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded ${
-                    !thumbnail ? "bg-gray-400 text-gray-600 cursor-not-allowed" : ""
-                  }`}
-                  disabled={!thumbnail}
-                >
-                  Selanjutnya
-                </Button>
-              )}
+            {currentStep === 6 && (
+              <Button
+                type="button"
+                onClick={handleNextStep}
+                className={`bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded ${
+                  !thumbnail
+                    ? "bg-gray-400 text-gray-600 cursor-not-allowed"
+                    : ""
+                }`}
+                disabled={!thumbnail}
+              >
+                Selanjutnya
+              </Button>
+            )}
 
-              {currentStep === 7 && (
-                <Button type="submit" disabled={isLoading}>
-                  {isLoading ? "Mengirim..." : "Kirim"}
-                </Button>
-              )}
-            </div>
+            {currentStep === 7 && (
+              <Button type="submit" disabled={isLoading}>
+                {isLoading ? "Mengirim..." : "Kirim"}
+              </Button>
+            )}
+          </div>
         </form>
       </div>
     </div>

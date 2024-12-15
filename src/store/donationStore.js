@@ -21,7 +21,8 @@ const donationStore = create((set) => ({
     try {
       const res = await api.get(`/donations/${campaignId}`);
       console.log(res.data);
-      set({ donationsByCampaignId: res.data.donations }); // Menyimpan donations berdasarkan campaignId
+      set({ donationByCampaignId: res.data });
+      
     } catch (error) {
       console.error(error);
     }
