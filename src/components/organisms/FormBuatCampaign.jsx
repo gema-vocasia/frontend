@@ -79,14 +79,14 @@ const FormBuatCampaign = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (isKYC == false) {
+    if (!isKYC) {
       Swal.fire({
         icon: "error",
         title: "Verifikasi Diperlukan",
         text: "Anda harus mengunggah foto KTP di profil sebelum membuat kampanye.",
         confirmButtonText: "Ke Halaman Profil",
       }).then(() => {
-        navigate("/profile");
+        navigate("/profile"); 
       });
       return;
     }
