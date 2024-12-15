@@ -22,8 +22,8 @@ const FormBuatCampaign = () => {
   const [tanggalBerakhir, setTanggalBerakhir] = useState("");
   const [deskripsi, setDeskripsi] = useState("");
   const [currentStep, setCurrentStep] = useState(0);
-  const { createCampaign, isLoading } = campaignStore();
-  const { isKYC, setIsKYC } = useState();
+  const { createCampaign, isLoading} = campaignStore();
+  const [userKYCStatus, setIsKYC] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -86,15 +86,12 @@ const FormBuatCampaign = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (isKYC === false) {
+ 
+    if (userKYCStatus === false) {
       Swal.fire({
-        icon: "error",
-        title: "Verifikasi Diperlukan",
-        text: "Anda harus mengunggah foto KTP di profil sebelum membuat kampanye.",
-        confirmButtonText: "Ke Halaman Profil",
-      }).then(() => {
-        navigate("/profile"); 
+        icon: 'error',
+        title: 'Verifikasi KYC Diperlukan',
+        text: 'Anda harus melakukan verifikasi KTP sebelum membuat kampanye.',
       });
       return;
     }
@@ -136,7 +133,22 @@ const FormBuatCampaign = () => {
       });
       navigate("/kampanye-saya");
     } catch (error) {
-      alert(error || "Terjadi kesalahan saat membuat kampanye");
+      if (error.response && error.response.data.name === "KYC_ERROR") {
+        Swal.fire({
+          icon: "error",
+          title: "Verifikasi KTP Diperlukan",
+          text: error.response.data.message, 
+          confirmButtonText: "OK",
+        });
+      } else {
+        
+        Swal.fire({
+          icon: "error",
+          title: "Terjadi Kesalahan",
+          text: error.response?.data?.message || error.message || "Terjadi kesalahan saat membuat kampanye",
+          confirmButtonText: "OK",
+        });
+      }
     }
   };
 
