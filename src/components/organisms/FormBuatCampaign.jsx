@@ -63,26 +63,23 @@ const FormBuatCampaign = () => {
     tanggalBerakhir &&
     calculateDateDifference(tanggalMulai, tanggalBerakhir) >= 30;
 
-  const handleThumbnailChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        Swal.fire({
-          icon: "error",
-          title: "Ukuran File Terlalu Besar",
-          text: "Ukuran maksimum file adalah 5MB.",
-          confirmButtonText: "OK",
-        });
-        e.target.value = "";
-        return;
-      }
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setThumbnail(reader.result);
-      };
-      reader.readAsDataURL(file);
+const handleThumbnailChange = (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    if (file.size > 5 * 1024 * 1024) {
+      // Maksimal 5MB
+      Swal.fire({
+        icon: "error",
+        title: "Ukuran File Terlalu Besar",
+        text: "Ukuran maksimum file adalah 5MB.",
+        confirmButtonText: "OK",
+      });
+      e.target.value = ""; // Reset input
+      return;
     }
-  };
+    setThumbnail(file); // Simpan file (bukan base64)
+  }
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -94,14 +91,10 @@ const FormBuatCampaign = () => {
         text: "Anda harus melakukan verifikasi KTP sebelum membuat kampanye.",
         confirmButtonText: "OK",
       });
-      // setTimeout(() => {
-      //   navigate("/profile");
-      // }, 2000);
-      console.log(userKYCStatus);
       return;
     }
 
-    // Validasi langkah-langkah form
+    // Validasi form
     const steps = [
       { field: judul, step: 1 },
       { field: kategori, step: 2 },
@@ -114,24 +107,21 @@ const FormBuatCampaign = () => {
     const incompleteStep = steps.find((item) => !item.field);
     if (incompleteStep) {
       setCurrentStep(incompleteStep.step);
-      return; // Menghentikan eksekusi jika form belum lengkap
+      return;
     }
 
-    // Membersihkan deskripsi HTML sebelum dikirim
-    const cleanedDescription = cleanHTML(deskripsi);
-
+    // Siapkan data untuk dikirim
     const campaignData = {
       title: judul,
       categoryId: selectedCategory,
       targetAmount: parseInt(targetDonasi, 10),
       startDate: tanggalMulai,
       endDate: tanggalBerakhir,
-      description: cleanedDescription,
-      photo: thumbnail,
+      description: cleanHTML(deskripsi),
     };
 
     try {
-      await createCampaign(campaignData);
+      await createCampaign(campaignData, thumbnail); // Panggil store
       Swal.fire({
         icon: "success",
         title: "Kampanye Berhasil Dibuat",
@@ -143,13 +133,12 @@ const FormBuatCampaign = () => {
       Swal.fire({
         icon: "error",
         title: "Terjadi Kesalahan",
-        text:
-          error.response?.data?.message ||
-          "Terjadi kesalahan saat membuat kampanye. Silakan coba lagi.",
+        text: error.message || "Terjadi kesalahan saat membuat kampanye.",
         confirmButtonText: "OK",
       });
     }
   };
+
 
   const handleNextStep = () => {
     switch (currentStep) {

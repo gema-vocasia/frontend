@@ -48,23 +48,42 @@ const campaignStore = create((set) => ({
   },
 
   // Membuat kampanye baru
-  createCampaign: async (campaignData) => {
+  // Membuat kampanye baru
+  createCampaign: async (campaignData, photoFile) => {
     try {
       set({ isLoading: true, error: null });
-      const response = await api.post("/campaign", campaignData);
 
+      // Membuat objek FormData untuk data campaign dan foto
+      const formData = new FormData();
+      Object.keys(campaignData).forEach((key) => {
+        formData.append(key, campaignData[key]);
+      });
+      if (photoFile) {
+        formData.append("photo", photoFile); // Tambahkan file foto jika ada
+      }
+
+      // Kirim data campaign ke server menggunakan POST
+      const response = await api.post("/campaign", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      // Memperbarui state dengan campaign yang baru dibuat
       set((state) => ({
-        campaigns: [...state.campaigns, response],
+        campaigns: [...state.campaigns, response.data],
         error: null,
       }));
 
-      return response;
+      return response.data; // Mengembalikan data campaign yang berhasil dibuat
     } catch (error) {
+      // Menangani error jika ada
       const errorMessage =
         error.response?.data?.message || "Gagal membuat kampanye";
       set({ error: errorMessage });
-      throw new Error(errorMessage);
+      throw new Error(errorMessage); // Melempar error untuk penanganan lebih lanjut
     } finally {
+      // Menyelesaikan status loading
       set({ isLoading: false });
     }
   },
@@ -76,10 +95,9 @@ const campaignStore = create((set) => ({
       const response = await api.put(`/campaign/status/${campaignId}`);
 
       return response;
-
-
     } catch (error) {
-      const errorMessage = error.response?.data?.message || "Gagal Request Penarikan Dana";
+      const errorMessage =
+        error.response?.data?.message || "Gagal Request Penarikan Dana";
       set({ error: errorMessage });
       throw new Error(errorMessage);
     }
