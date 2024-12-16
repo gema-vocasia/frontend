@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useHistory } from "../../store/history";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import RumahBaca from "../../assets/BantuRumahBaca.png";
 import { credential } from "../../config/credential/const";
 
 const CardRiwayat = () => {

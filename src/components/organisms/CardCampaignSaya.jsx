@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import campaignStore from "../../store/campaignStore";
+import Swal from "sweetalert2";
 
 const CardCampaignSaya = () => {
-  const { campaignByUserId, getCampaignByUserId, updateStatusTransfer } = campaignStore();
+  const { campaignByUserId, getCampaignByUserId, updateStatusTransfer } =
+    campaignStore();
 
   function isDatePassed(dateString) {
     const givenDate = new Date(dateString);
@@ -47,6 +49,24 @@ const CardCampaignSaya = () => {
     );
   }
 
+  const handleWithdraw = (campaignId) => {
+    Swal.fire({
+      title: "Apakah Anda yakin ingin tarik dana?",
+      text: "Pastikan semua data sudah benar sebelum melanjutkan!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya, tarik dana!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await updateStatusTransfer(campaignId); // Proses tarik dana
+        Swal.fire("Berhasil!", "Dana telah ditarik.", "success");
+        // Setelah konfirmasi sukses, refresh halaman
+        window.location.reload();
+      }
+    });
+  };
 
   return (
     <main className="pt-7 pb-7 px-4 bg-gradient-to-b from-gray-50 to-gray-100">
@@ -92,10 +112,10 @@ const CardCampaignSaya = () => {
                   </h2>
                 </div>
 
-                 {/* Tanggal Mulai dan Tanggal Selesai Targert Donasi dan Dana Terkumpul */}
-                <div className="flex flex-row  justify-between">
+                {/* Tanggal Mulai dan Tanggal Selesai Targert Donasi dan Dana Terkumpul */}
+                <div className="flex flex-row justify-between">
                   <div className="flex flex-col w-48 h-auto text-center border-2 border-[#5E84C5]">
-                    <span className="font-semibold p-1 bg-[#5E84C5] text-white  -mt-[1px]">
+                    <span className="font-semibold p-1 bg-[#5E84C5] text-white -mt-[1px]">
                       Tanggal Mulai
                     </span>
                     <p className="p-0 m-auto">
@@ -103,7 +123,7 @@ const CardCampaignSaya = () => {
                     </p>
                   </div>
                   <div className="flex flex-col w-48 h-auto text-center border-2 border-[#5E84C5]">
-                    <span className="font-semibold p-1 bg-[#5E84C5] text-white  -mt-[1px]">
+                    <span className="font-semibold p-1 bg-[#5E84C5] text-white -mt-[1px]">
                       Tanggal Selesai
                     </span>
                     <p className="p-0 m-auto">
@@ -114,7 +134,7 @@ const CardCampaignSaya = () => {
 
                 <div className="flex flex-row mt-5 justify-between">
                   <div className="flex flex-col w-48 h-auto text-center border-2 border-[#5E84C5]">
-                    <span className="font-semibold p-1 bg-[#5E84C5] text-white  -mt-[1px]">
+                    <span className="font-semibold p-1 bg-[#5E84C5] text-white -mt-[1px]">
                       Target Donasi
                     </span>
                     <p className="p-0 m-auto">
@@ -122,7 +142,7 @@ const CardCampaignSaya = () => {
                     </p>
                   </div>
                   <div className="flex flex-col w-48 h-auto text-center border-2 border-[#5E84C5]">
-                    <span className="font-semibold p-1 bg-[#5E84C5] text-white  -mt-[1px]">
+                    <span className="font-semibold p-1 bg-[#5E84C5] text-white -mt-[1px]">
                       Dana Masuk
                     </span>
                     <p className="p-0 m-auto">
@@ -130,20 +150,20 @@ const CardCampaignSaya = () => {
                     </p>
                   </div>
                 </div>
-
               </div>
+
               {/* Tarik Dana */}
               {(isDatePassed(item.endDate) ||
                 item.totalDonation >= item.targetAmount) && (
                 <div>
                   <button
-                    onClick={() => updateStatusTransfer(item._id)}
+                    onClick={() => handleWithdraw(item._id)} // Menggunakan handleWithdraw dengan SweetAlert
                     disabled={item.statusTransfer !== null}
                     className={`text-white mt-4 w-full px-4 py-2 font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-200 ${
                       item.statusTransfer !== null
                         ? "bg-green-600 cursor-not-allowed"
                         : "bg-blue-500 hover:bg-blue-600 text-white"
-                    } `}
+                    }`}
                   >
                     {item.statusTransfer === null
                       ? "Tarik Dana"
