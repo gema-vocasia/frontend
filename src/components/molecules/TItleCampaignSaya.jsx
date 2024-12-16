@@ -2,8 +2,7 @@ const TitleCampainSaya = () => {
   return (
     <div className="relative flex flex-col items-center justify-center h-full px-4 text-center">
       <h1
-        className="text-4xl font-bold sm:text-5xl text-[#2088CE]
- uppercase"
+        className="text-4xl font-bold sm:text-5xl text-[#2088CE] uppercase"
       >
         Campaign Saya
       </h1>

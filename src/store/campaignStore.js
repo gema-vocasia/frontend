@@ -69,6 +69,22 @@ const campaignStore = create((set) => ({
     }
   },
 
+  // Update accountNumber
+  updateStatusTransfer: async (campaignId) => {
+    try {
+      set({ isLoading: true, error: null });
+      const response = await api.put(`/campaign/status/${campaignId}`);
+
+      return response;
+
+
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || "Gagal Request Penarikan Dana";
+      set({ error: errorMessage });
+      throw new Error(errorMessage);
+    }
+  },
+
   reset: (fields = []) => {
     if (fields.length === 0) {
       set(initialState);

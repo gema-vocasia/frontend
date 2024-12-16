@@ -1,5 +1,5 @@
-import HeroCampaignSayaImage from "../../assets/CampaignSayaHero.jpeg";
-import TitleCampainSaya from "../molecules/TItleCampaignSaya";
+import HeroCampaignSayaImage from "../../assets/images/HeroCampaignSaya.jpg";
+import TitleCampaignSaya from "../molecules/TitleCampaignSaya";
 
 const Hero = () => {
   return (
@@ -9,7 +9,7 @@ const Hero = () => {
         alt="Hero"
         className="absolute top-0 left-0 object-cover w-full h-full opacity-50"
       />
-      <TitleCampainSaya />
+      <TitleCampaignSaya />
     </section>
   );
 };
