@@ -24,6 +24,7 @@ const FormBuatCampaign = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const { createCampaign, isLoading } = campaignStore();
   const [userKYCStatus, setIsKYC] = useState(null);
+  const [thumbnailPreview, setThumbnailPreview] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -67,7 +68,6 @@ const handleThumbnailChange = (e) => {
   const file = e.target.files[0];
   if (file) {
     if (file.size > 5 * 1024 * 1024) {
-      // Maksimal 5MB
       Swal.fire({
         icon: "error",
         title: "Ukuran File Terlalu Besar",
@@ -77,9 +77,11 @@ const handleThumbnailChange = (e) => {
       e.target.value = ""; // Reset input
       return;
     }
-    setThumbnail(file); // Simpan file (bukan base64)
+    setThumbnail(file); // Simpan file
+    setThumbnailPreview(URL.createObjectURL(file)); // Simpan URL preview
   }
 };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -296,7 +298,7 @@ const handleThumbnailChange = (e) => {
               <FileUploadField
                 label="Unggah Gambar"
                 onChange={handleThumbnailChange}
-                thumbnail={thumbnail}
+                thumbnail={thumbnailPreview}
               />
             </div>
           )}
@@ -347,7 +349,7 @@ const handleThumbnailChange = (e) => {
               <div className="flex flex-col">
                 <strong>Thumbnail:</strong>
                 <img
-                  src={thumbnail}
+                  src={thumbnailPreview}
                   alt="Thumbnail"
                   className="w-56 h-48 object-cover mt-2 border border-gray-300 rounded"
                 />
