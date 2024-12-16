@@ -87,16 +87,17 @@ const FormBuatCampaign = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!userKYCStatus) {
+    if (userKYCStatus === false) {
       Swal.fire({
         icon: "error",
         title: "Verifikasi KTP Diperlukan",
         text: "Anda harus melakukan verifikasi KTP sebelum membuat kampanye.",
         confirmButtonText: "OK",
       });
-      setTimeout(() => {
-        navigate("/profile");
-      }, 2000);
+      // setTimeout(() => {
+      //   navigate("/profile");
+      // }, 2000);
+      console.log(userKYCStatus);
       return;
     }
 
