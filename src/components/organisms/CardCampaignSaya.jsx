@@ -23,6 +23,31 @@ const CardCampaignSaya = () => {
 
   const imageUrl = (photo) => `http://localhost:8080/api/v1/files/${photo}`;
 
+  if (campaignByUserId.length === 0) {
+    return (
+      <div className="w-full flex justify-center items-center my-10">
+        <div className="relative flex-shrink-0 w-96 p-6 text-black bg-white shadow-lg rounded-lg border border-gray-200">
+          <div className="absolute top-0 left-0 w-full bg-blue-500 text-white text-xl text-center py-2 rounded-t-lg font-bold">
+            Belum Ada Kampanye
+          </div>
+          <div className="w-full h-80 flex flex-col justify-center items-center">
+            <p className="text-gray-500 text-center mb-4 text-lg">
+              Kebaikan Anda adalah harapan bagi mereka yang membutuhkan. Jadilah
+              bagian dari perubahan!
+            </p>
+            <button
+              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded shadow-md transition-all"
+              onClick={() => (window.location.href = "/buat-campaign")}
+            >
+              Mulai Kampanye Sekarang
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+
   return (
     <main className="pt-7 pb-7 px-4 bg-gradient-to-b from-gray-50 to-gray-100">
       <div className="max-w-6xl mx-auto space-y-10">
