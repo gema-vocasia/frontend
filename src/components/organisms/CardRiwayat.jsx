@@ -151,11 +151,10 @@ const CardRiwayat = () => {
         >
           {item.campaignId?.title || "Donation Campaign"}
         </div>
-
         {/* Gambar Kampanye */}
         <div className="w-full h-48 mt-4 mb-4 overflow-hidden rounded-lg">
           <img
-            src={item.campaignId?.photo || RumahBaca}
+            src={`http://localhost:8080/api/v1/files/${item.campaignId.photo}`}
             alt="Donation Campaign"
             className="w-full h-full object-cover"
           />

@@ -92,7 +92,9 @@ const campaignStore = create((set) => ({
   updateStatusTransfer: async (campaignId) => {
     try {
       set({ isLoading: true, error: null });
-      const response = await api.put(`/campaign/status/${campaignId}`);
+      const response = await api.patch(
+        `/campaign/statusTransfer/${campaignId}`
+      );
 
       return response;
     } catch (error) {

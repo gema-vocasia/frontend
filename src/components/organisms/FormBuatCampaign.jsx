@@ -28,16 +28,22 @@ const FormBuatCampaign = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    async function fetchCurrentUser() {
+    function fetchCurrentUserFromLocalStorage() {
       try {
-        const { data } = await axios.get("/user/profile");
-        setIsKYC(data.isKYC);
+        const userProfile = localStorage.getItem("user");
+        if (userProfile) {
+          const parsedProfile = JSON.parse(userProfile);
+          setIsKYC(parsedProfile.isKYC);
+          console.log("data", parsedProfile.isKYC);
+        } else {
+          console.warn("User profile not found in localStorage");
+        }
       } catch (error) {
-        console.error("Error fetching user profile:", error);
+        console.error("Error parsing user profile from localStorage:", error);
       }
     }
 
-    fetchCurrentUser();
+    fetchCurrentUserFromLocalStorage();
   }, []);
 
   useEffect(() => {
@@ -64,27 +70,27 @@ const FormBuatCampaign = () => {
     tanggalBerakhir &&
     calculateDateDifference(tanggalMulai, tanggalBerakhir) >= 30;
 
-const handleThumbnailChange = (e) => {
-  const file = e.target.files[0];
-  if (file) {
-    if (file.size > 5 * 1024 * 1024) {
-      Swal.fire({
-        icon: "error",
-        title: "Ukuran File Terlalu Besar",
-        text: "Ukuran maksimum file adalah 5MB.",
-        confirmButtonText: "OK",
-      });
-      e.target.value = ""; // Reset input
-      return;
+  const handleThumbnailChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        Swal.fire({
+          icon: "error",
+          title: "Ukuran File Terlalu Besar",
+          text: "Ukuran maksimum file adalah 5MB.",
+          confirmButtonText: "OK",
+        });
+        e.target.value = ""; // Reset input
+        return;
+      }
+      setThumbnail(file); // Simpan file
+      setThumbnailPreview(URL.createObjectURL(file)); // Simpan URL preview
     }
-    setThumbnail(file); // Simpan file
-    setThumbnailPreview(URL.createObjectURL(file)); // Simpan URL preview
-  }
-};
-
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("userKYCStatus:", userKYCStatus);
 
     if (userKYCStatus === false) {
       Swal.fire({
@@ -93,6 +99,7 @@ const handleThumbnailChange = (e) => {
         text: "Anda harus melakukan verifikasi KTP sebelum membuat kampanye.",
         confirmButtonText: "OK",
       });
+      navigate("/edit-profile");
       return;
     }
 
@@ -140,7 +147,6 @@ const handleThumbnailChange = (e) => {
       });
     }
   };
-
 
   const handleNextStep = () => {
     switch (currentStep) {
