@@ -22,7 +22,7 @@ const FormBuatCampaign = () => {
   const [tanggalBerakhir, setTanggalBerakhir] = useState("");
   const [deskripsi, setDeskripsi] = useState("");
   const [currentStep, setCurrentStep] = useState(0);
-  const { createCampaign, isLoading} = campaignStore();
+  const { createCampaign, isLoading } = campaignStore();
   const [userKYCStatus, setIsKYC] = useState(null);
   const navigate = useNavigate();
 
@@ -41,7 +41,7 @@ const FormBuatCampaign = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/v1/categories") 
+      .get("http://localhost:8080/api/v1/categories")
       .then((response) => {
         const fetchedCategories = response.data.data.categories;
         setKategori(fetchedCategories);
@@ -86,16 +86,21 @@ const FormBuatCampaign = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
- 
-    if (userKYCStatus === false) {
+
+    if (!userKYCStatus) {
       Swal.fire({
-        icon: 'error',
-        title: 'Verifikasi KYC Diperlukan',
-        text: 'Anda harus melakukan verifikasi KTP sebelum membuat kampanye.',
+        icon: "error",
+        title: "Verifikasi KTP Diperlukan",
+        text: "Anda harus melakukan verifikasi KTP sebelum membuat kampanye.",
+        confirmButtonText: "OK",
       });
+      setTimeout(() => {
+        navigate("/profile");
+      }, 2000);
       return;
     }
 
+    // Validasi langkah-langkah form
     const steps = [
       { field: judul, step: 1 },
       { field: kategori, step: 2 },
@@ -108,18 +113,19 @@ const FormBuatCampaign = () => {
     const incompleteStep = steps.find((item) => !item.field);
     if (incompleteStep) {
       setCurrentStep(incompleteStep.step);
-      return;
+      return; // Menghentikan eksekusi jika form belum lengkap
     }
 
+    // Membersihkan deskripsi HTML sebelum dikirim
     const cleanedDescription = cleanHTML(deskripsi);
-    
+
     const campaignData = {
       title: judul,
       categoryId: selectedCategory,
       targetAmount: parseInt(targetDonasi, 10),
       startDate: tanggalMulai,
       endDate: tanggalBerakhir,
-      description: cleanedDescription, 
+      description: cleanedDescription,
       photo: thumbnail,
     };
 
@@ -133,22 +139,14 @@ const FormBuatCampaign = () => {
       });
       navigate("/kampanye-saya");
     } catch (error) {
-      if (error.response && error.response.data.name === "KYC_ERROR") {
-        Swal.fire({
-          icon: "error",
-          title: "Verifikasi KTP Diperlukan",
-          text: error.response.data.message, 
-          confirmButtonText: "OK",
-        });
-      } else {
-        
-        Swal.fire({
-          icon: "error",
-          title: "Terjadi Kesalahan",
-          text: error.response?.data?.message || error.message || "Terjadi kesalahan saat membuat kampanye",
-          confirmButtonText: "OK",
-        });
-      }
+      Swal.fire({
+        icon: "error",
+        title: "Terjadi Kesalahan",
+        text:
+          error.response?.data?.message ||
+          "Terjadi kesalahan saat membuat kampanye. Silakan coba lagi.",
+        confirmButtonText: "OK",
+      });
     }
   };
 
@@ -174,7 +172,7 @@ const FormBuatCampaign = () => {
           return;
         }
         break;
-      case 5: 
+      case 5:
         if (countWords < 30) {
           return;
         }
@@ -197,11 +195,11 @@ const FormBuatCampaign = () => {
 
   const cleanHTML = (html) => {
     const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
-    return doc.body.textContent || ''; 
+    const doc = parser.parseFromString(html, "text/html");
+    return doc.body.textContent || "";
   };
   const countWords = (text) => {
-    return text.trim().split(/\s+/).length; 
+    return text.trim().split(/\s+/).length;
   };
 
   return (
@@ -253,10 +251,14 @@ const FormBuatCampaign = () => {
               label="Target Donasi"
               type="text"
               placeholder="Masukkan Target Donasi"
-              value={targetDonasi ? `Rp ${new Intl.NumberFormat("id-ID").format(targetDonasi)}` : ""}
+              value={
+                targetDonasi
+                  ? `Rp ${new Intl.NumberFormat("id-ID").format(targetDonasi)}`
+                  : ""
+              }
               onChange={(e) => {
-                const value = e.target.value.replace(/[^0-9]/g, ''); 
-                setTargetDonasi(value ? parseInt(value, 10) : ''); 
+                const value = e.target.value.replace(/[^0-9]/g, "");
+                setTargetDonasi(value ? parseInt(value, 10) : "");
               }}
             />
           )}
@@ -282,13 +284,15 @@ const FormBuatCampaign = () => {
                 <Label>Deskripsi</Label>
                 <ReactQuill
                   className={`bg-white rounded-lg text-black border-2 ${
-                    countWords(deskripsi) < 30 && currentStep === 5 ? "border-red-500" : "border-[#5E84C5]"
+                    countWords(deskripsi) < 30 && currentStep === 5
+                      ? "border-red-500"
+                      : "border-[#5E84C5]"
                   }`}
                   value={deskripsi}
                   onChange={(value) => {
-                    setDeskripsi(value); 
+                    setDeskripsi(value);
                   }}
-                  style={{ maxHeight: '300px', overflowY: 'auto' }}
+                  style={{ maxHeight: "300px", overflowY: "auto" }}
                 />
                 <p className="text-sm text-gray-500 mt-2">
                   Minimal panjang deskripsi 30 karakter
@@ -297,64 +301,69 @@ const FormBuatCampaign = () => {
             </>
           )}
 
-            {currentStep === 6 && (
-              <div>
-                <FileUploadField
-                  label="Unggah Gambar"
-                  onChange={handleThumbnailChange}
-                  thumbnail={thumbnail} 
+          {currentStep === 6 && (
+            <div>
+              <FileUploadField
+                label="Unggah Gambar"
+                onChange={handleThumbnailChange}
+                thumbnail={thumbnail}
+              />
+            </div>
+          )}
+
+          {/* Preview Data Campaign */}
+          {currentStep === 7 && (
+            <div className="border-2 border-blue-500 rounded-lg p-4 space-y-2">
+              <div className="flex justify-center text-xl font-semibold mb-4">
+                <p>Data Kampanye</p>
+              </div>
+              <div className="border-b border-gray-300 pb-2">
+                <strong>Judul Kampanye: </strong>
+                <span>{judul}</span>
+              </div>
+              <div className="border-b border-gray-300 pb-2">
+                <strong>Kategori: </strong>
+                <span>
+                  {kategori.find(
+                    (category) => category._id === selectedCategory
+                  )?.title || "Kategori tidak ditemukan"}
+                </span>
+              </div>
+              <div className="border-b border-gray-300 pb-2">
+                <strong>Target Donasi: </strong>
+                <span>
+                  {targetDonasi
+                    ? new Intl.NumberFormat("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                      }).format(targetDonasi)
+                    : "Rp. 0,00"}
+                </span>
+              </div>
+              <div className="border-b border-gray-300 pb-2">
+                <strong>Tanggal Mulai: </strong>
+                <span>{tanggalMulai}</span>
+              </div>
+              <div className="border-b border-gray-300 pb-2">
+                <strong>Tanggal Berakhir: </strong>
+                <span>{tanggalBerakhir}</span>
+              </div>
+              <div className="flex flex-col border-b border-gray-300 pb-2">
+                <strong>Deskripsi: </strong>
+                <p className="scrollable-text text-gray-700 mt-1">
+                  {cleanHTML(deskripsi) || "Belum ada deskripsi."}
+                </p>
+              </div>
+              <div className="flex flex-col">
+                <strong>Thumbnail:</strong>
+                <img
+                  src={thumbnail}
+                  alt="Thumbnail"
+                  className="w-56 h-48 object-cover mt-2 border border-gray-300 rounded"
                 />
               </div>
-            )}
-
-            {/* Preview Data Campaign */}
-            {currentStep === 7 && (
-              <div className="border-2 border-blue-500 rounded-lg p-4 space-y-2">
-                <div className="flex justify-center text-xl font-semibold mb-4">
-                  <p>Data Kampanye</p>
-                </div>
-                <div className="border-b border-gray-300 pb-2">
-                  <strong>Judul Kampanye: </strong>
-                  <span>{judul}</span>
-                </div>
-                <div className="border-b border-gray-300 pb-2">
-                  <strong>Kategori: </strong>
-                  <span>
-                  {
-                    kategori.find((category) => category._id === selectedCategory)?.title || "Kategori tidak ditemukan"
-                  }
-                  </span>
-                </div>
-                <div className="border-b border-gray-300 pb-2">
-                  <strong>Target Donasi: </strong>
-                  <span>
-                    {targetDonasi ? new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(targetDonasi) : "Rp. 0,00"}
-                  </span>
-                </div>
-                <div className="border-b border-gray-300 pb-2">
-                  <strong>Tanggal Mulai: </strong>
-                  <span>{tanggalMulai}</span>
-                </div>
-                <div className="border-b border-gray-300 pb-2">
-                  <strong>Tanggal Berakhir: </strong>
-                  <span>{tanggalBerakhir}</span>
-                </div>
-                <div className="flex flex-col border-b border-gray-300 pb-2">
-                  <strong>Deskripsi: </strong>
-                  <p className="scrollable-text text-gray-700 mt-1">
-                    {cleanHTML(deskripsi) || 'Belum ada deskripsi.'}
-                  </p>
-                </div>
-                <div className="flex flex-col">
-                  <strong>Thumbnail:</strong>
-                  <img
-                    src={thumbnail}
-                    alt="Thumbnail"
-                    className="w-56 h-48 object-cover mt-2 border border-gray-300 rounded"
-                  />
-                </div>
-              </div>
-            )}
+            </div>
+          )}
 
           <div className="flex justify-between mt-6">
             {currentStep > 0 && currentStep <= 7 && (
@@ -431,18 +440,20 @@ const FormBuatCampaign = () => {
               </Button>
             )}
 
-                {currentStep === 5 && (
-                  <Button
-                    type="button"
-                    onClick={handleNextStep}
-                    className={`bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded ${
-                      countWords < 30 ? "bg-gray-400 text-gray-600 cursor-not-allowed" : ""
-                    }`}
-                    disabled={countWords < 30}
-                  >
-                    Selanjutnya
-                  </Button>
-                )}
+            {currentStep === 5 && (
+              <Button
+                type="button"
+                onClick={handleNextStep}
+                className={`bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded ${
+                  countWords < 30
+                    ? "bg-gray-400 text-gray-600 cursor-not-allowed"
+                    : ""
+                }`}
+                disabled={countWords < 30}
+              >
+                Selanjutnya
+              </Button>
+            )}
 
             {currentStep === 6 && (
               <Button
