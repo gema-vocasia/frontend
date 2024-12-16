@@ -142,28 +142,32 @@ const CardRiwayat = () => {
     return data.map((item) => (
       <div
         key={item._id}
-        className={`relative flex-shrink-0 w-96 p-4 text-black bg-white shadow-md rounded-lg border border-gray-200 hover:shadow-xl hover:bg-[#f0f4ff] transition-all duration-300 ${
-          item.statusPayment === "Pending" ? "cursor-pointer" : ""
-        }`}
-        style={{ margin: "0 16px 16px 0" }}
+        className="relative flex flex-col w-full sm:w-64 md:w-80 lg:w-96 p-4 text-black bg-white shadow-md rounded-lg border border-gray-200 hover:shadow-2xl hover:scale-105 transition-transform duration-300"
         onClick={() => handleCardClick(item)}
       >
-        <div className="absolute top-0 left-0 w-full bg-[#5E84C5] text-white text-xl text-center py-2 rounded-t-lg font-bold">
+        {/* Header Card */}
+        <div
+          className={`w-full ${statusColor} text-white text-center py-2 rounded-t-lg font-bold`}
+        >
           {item.campaignId?.title || "Donation Campaign"}
         </div>
-        <div className="w-full h-1/2 mt-10 mb-5 overflow-hidden rounded-lg">
+
+        {/* Gambar Kampanye */}
+        <div className="w-full h-48 mt-4 mb-4 overflow-hidden rounded-lg">
           <img
             src={item.campaignId?.photo || RumahBaca}
             alt="Donation Campaign"
-            className="w-full h-full object-contain"
+            className="w-full h-full object-cover"
           />
         </div>
-        <div className="space-y-2">
-          <p className="text-lg text-gray-600">
+
+        {/* Informasi Donasi */}
+        <div className="flex-1 space-y-2">
+          <p className="text-gray-700">
             <span className="font-medium">Nama:</span>{" "}
             {item.name || "Unknown User"}
           </p>
-          <p className="text-lg text-gray-600">
+          <p className="text-gray-700">
             <span className="font-medium">Tanggal:</span>{" "}
             {new Date(item.donateDate).toLocaleDateString("id-ID", {
               day: "numeric",
@@ -171,18 +175,22 @@ const CardRiwayat = () => {
               year: "numeric",
             })}
           </p>
-          <p className="text-lg text-gray-600">
+          <p className="text-gray-700">
             <span className="font-medium">Jumlah Donasi:</span> Rp{" "}
             {item.amount.toLocaleString()}
           </p>
-          <div className="text-center bg-gray-100 border border-gray-300 p-2 rounded">
-            <p className="text-lg font-medium text-gray-800 italic">
+
+          {/* Pesan Donasi */}
+          <div className="bg-gray-50 border border-gray-200 p-2 rounded">
+            <p className="text-sm text-gray-600 italic">
               {item.comment || "Tidak ada pesan"}
             </p>
           </div>
         </div>
+
+        {/* Footer Status */}
         <div
-          className={`absolute bottom-0 left-0 w-full ${statusColor} text-white text-center py-2 rounded-b-lg font-bold`}
+          className={`w-full ${statusColor} text-white text-center py-2 rounded-b-lg font-bold mt-4`}
         >
           {statusText}
         </div>
@@ -191,38 +199,46 @@ const CardRiwayat = () => {
   };
 
   return (
-    <main className="pt-10 pb-10 px-4">
-      <ToastContainer />{" "}
-      <div className="mb-8">
-        <div className="flex gap-10 sm:flex-wrap sm:justify-center">
+    <main className="container mx-auto px-4 py-10">
+      <ToastContainer />
+
+      {/* Section Donasi */}
+      <section className="mb-8">
+        <h2 className="text-2xl font-bold mb-4 text-center">Donasi Pending</h2>
+        <div className="flex flex-wrap justify-center gap-6">
           {pendingDonations.length > 0 ? (
             renderCards(pendingDonations, "bg-yellow-500", "Pending")
           ) : (
-            <p className="text-gray-500">Tidak ada donasi pending.</p>
+            <p className="text-gray-500 text-center">
+              Tidak ada donasi pending.
+            </p>
           )}
         </div>
-      </div>
-      <div className="max-w-full overflow-x-auto">
-        <div className="mb-8">
-          <div className="flex gap-10 sm:flex-wrap sm:justify-center">
-            {successDonations.length > 0 ? (
-              renderCards(successDonations, "bg-green-500", "Success")
-            ) : (
-              <p className="text-gray-500">Tidak ada donasi berhasil.</p>
-            )}
-          </div>
-        </div>
+      </section>
 
-        <div className="mb-8">
-          <div className="flex gap-10 sm:flex-wrap sm:justify-center">
-            {failedDonations.length > 0 ? (
-              renderCards(failedDonations, "bg-red-500", "Failed")
-            ) : (
-              <p className="text-gray-500">Tidak ada donasi gagal.</p>
-            )}
-          </div>
+      <section className="mb-8">
+        <h2 className="text-2xl font-bold mb-4 text-center">Donasi Berhasil</h2>
+        <div className="flex flex-wrap justify-center gap-6">
+          {successDonations.length > 0 ? (
+            renderCards(successDonations, "bg-green-500", "Success")
+          ) : (
+            <p className="text-gray-500 text-center">
+              Tidak ada donasi berhasil.
+            </p>
+          )}
         </div>
-      </div>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-bold mb-4 text-center">Donasi Gagal</h2>
+        <div className="flex flex-wrap justify-center gap-6">
+          {failedDonations.length > 0 ? (
+            renderCards(failedDonations, "bg-red-500", "Failed")
+          ) : (
+            <p className="text-gray-500 text-center">Tidak ada donasi gagal.</p>
+          )}
+        </div>
+      </section>
     </main>
   );
 };
