@@ -63,28 +63,49 @@ const CardCampaignSaya = () => {
               <div>
                 <div className="w-full max-w-lg">
                   <h2 className="text-2xl font-extrabold text-gray-900 mb-3">
-                    {item.title} ini judul yang sangatlah panjang dan bagus dan
-                    jika ada kekurangan mohon maaf lahir batin dan selamat natal
-                    dan tahun baru 2025
+                    {item.title}
                   </h2>
                 </div>
-                <p className="">
-                  <span className="font-semibold">Tanggal Mulai:</span>{" "}
-                  {new Date(item.startDate).toLocaleDateString("id-ID")}
-                  <br />
-                  <span className="font-semibold">Tanggal Selesai:</span>{" "}
-                  {new Date(item.endDate).toLocaleDateString("id-ID")}
-                </p>
 
-                <p>
-                  <span className="font-semibold">Target Donasi:</span>{" "}
-                  {`Rp ${item.targetAmount.toLocaleString("id-ID")}`}
-                </p>
+                 {/* Tanggal Mulai dan Tanggal Selesai Targert Donasi dan Dana Terkumpul */}
+                <div className="flex flex-row  justify-between">
+                  <div className="flex flex-col w-48 h-auto text-center border-2 border-[#5E84C5]">
+                    <span className="font-semibold p-1 bg-[#5E84C5] text-white  -mt-[1px]">
+                      Tanggal Mulai
+                    </span>
+                    <p className="p-0 m-auto">
+                      {new Date(item.startDate).toLocaleDateString("id-ID")}
+                    </p>
+                  </div>
+                  <div className="flex flex-col w-48 h-auto text-center border-2 border-[#5E84C5]">
+                    <span className="font-semibold p-1 bg-[#5E84C5] text-white  -mt-[1px]">
+                      Tanggal Selesai
+                    </span>
+                    <p className="p-0 m-auto">
+                      {new Date(item.endDate).toLocaleDateString("id-ID")}
+                    </p>
+                  </div>
+                </div>
 
-                <p>
-                  <span className="font-semibold">Dana Masuk:</span>{" "}
-                  {`Rp ${item.totalDonation.toLocaleString("id-ID")}`}
-                </p>
+                <div className="flex flex-row mt-5 justify-between">
+                  <div className="flex flex-col w-48 h-auto text-center border-2 border-[#5E84C5]">
+                    <span className="font-semibold p-1 bg-[#5E84C5] text-white  -mt-[1px]">
+                      Target Donasi
+                    </span>
+                    <p className="p-0 m-auto">
+                      {`Rp ${item.targetAmount.toLocaleString("id-ID")}`}
+                    </p>
+                  </div>
+                  <div className="flex flex-col w-48 h-auto text-center border-2 border-[#5E84C5]">
+                    <span className="font-semibold p-1 bg-[#5E84C5] text-white  -mt-[1px]">
+                      Dana Masuk
+                    </span>
+                    <p className="p-0 m-auto">
+                      {`Rp ${item.totalDonation.toLocaleString("id-ID")}`}
+                    </p>
+                  </div>
+                </div>
+
               </div>
               {/* Tarik Dana */}
               {(isDatePassed(item.endDate) ||
@@ -93,7 +114,11 @@ const CardCampaignSaya = () => {
                   <button
                     onClick={() => updateStatusTransfer(item._id)}
                     disabled={item.statusTransfer !== null}
-                    className={`text-white mt-4 w-full px-4 py-2 font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-200 ${item.statusTransfer !== null ? "bg-green-600 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600 text-white" } `}
+                    className={`text-white mt-4 w-full px-4 py-2 font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-200 ${
+                      item.statusTransfer !== null
+                        ? "bg-green-600 cursor-not-allowed"
+                        : "bg-blue-500 hover:bg-blue-600 text-white"
+                    } `}
                   >
                     {item.statusTransfer === null
                       ? "Tarik Dana"
