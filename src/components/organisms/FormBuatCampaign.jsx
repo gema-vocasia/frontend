@@ -64,29 +64,30 @@ const FormBuatCampaign = () => {
     tanggalBerakhir &&
     calculateDateDifference(tanggalMulai, tanggalBerakhir) >= 30;
 
-const handleThumbnailChange = (e) => {
-  const file = e.target.files[0];
-  if (file) {
-    if (file.size > 5 * 1024 * 1024) {
-      Swal.fire({
-        icon: "error",
-        title: "Ukuran File Terlalu Besar",
-        text: "Ukuran maksimum file adalah 5MB.",
-        confirmButtonText: "OK",
-      });
-      e.target.value = ""; // Reset input
-      return;
+  const handleThumbnailChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        Swal.fire({
+          icon: "error",
+          title: "Ukuran File Terlalu Besar",
+          text: "Ukuran maksimum file adalah 5MB.",
+          confirmButtonText: "OK",
+        });
+        e.target.value = ""; // Reset input
+        return;
+      }
+      setThumbnail(file); // Simpan file
+      setThumbnailPreview(URL.createObjectURL(file)); // Simpan URL preview
     }
-    setThumbnail(file); // Simpan file
-    setThumbnailPreview(URL.createObjectURL(file)); // Simpan URL preview
-  }
-};
-
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (userKYCStatus === false) {
+    const userKYCStatus = localStorage.getItem("userKYCStatus") === "true";
+
+    if (!userKYCStatus) {
       Swal.fire({
         icon: "error",
         title: "Verifikasi KTP Diperlukan",
@@ -140,7 +141,6 @@ const handleThumbnailChange = (e) => {
       });
     }
   };
-
 
   const handleNextStep = () => {
     switch (currentStep) {
