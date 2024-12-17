@@ -1,17 +1,17 @@
 import FormField from "../molecules/FormField";
 import Button from "../atoms/Button";
-import { CameraIcon } from "@heroicons/react/24/solid";
-import { useEffect, useState } from "react";
-import { getAccessToken } from "../../utils/tokenManager.js";
-import { axiosInstance as api } from "../../config/axiosInstance.js";
-import { FilePond, registerPlugin } from "react-filepond";
+import {CameraIcon} from "@heroicons/react/24/solid";
+import {useEffect, useState} from "react";
+import {getAccessToken} from "../../utils/tokenManager.js";
+import {axiosInstance as api} from "../../config/axiosInstance.js";
+import {FilePond, registerPlugin} from "react-filepond";
 import "filepond/dist/filepond.min.css";
 
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import Label from "../atoms/Label";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import Swal from "sweetalert2"
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
@@ -25,10 +25,10 @@ const FormEditProfile = () => {
   });
   const [accessToken, setAccessToken] = useState("");
   const [file, setFile] = useState();
-  const [setOldFile] = useState("");
+  const [oldFile, setOldFile] = useState("");
   const [isKYC, setIsKYC] = useState();
   const [previewUrl, setPreviewUrl] = useState("");
-  const Navigate  = useNavigate()
+  const Navigate = useNavigate()
 
   useEffect(() => {
     setAccessToken(getAccessToken());
@@ -51,7 +51,7 @@ const FormEditProfile = () => {
         setFile([
           {
             source: `http://localhost:8080/api/v1/files/${data.data.nationalIdentityCard}`,
-            options: { type: "input" },
+            options: {type: "input"},
             name: data.data.name,
           },
         ]);
@@ -69,19 +69,19 @@ const FormEditProfile = () => {
 
   async function triggerUpdateUser(e) {
     e.preventDefault();
-    
+
     try {
       const formDataPayloadUpdate = new FormData();
       for (let [key, val] of Object.entries(formDataPayload)) {
         formDataPayloadUpdate.set(key, val);
       }
-  
+
       await api.put("/user/profile", formDataPayloadUpdate, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-  
+
       Swal.fire({
         icon: "success",
         title: "Profil berhasil diperbarui",
@@ -92,16 +92,16 @@ const FormEditProfile = () => {
       // Jika KTP sudah pernah diupload, blokir upload ulang
       if (isKYC) {
         Swal.fire({
-        icon: "info",
-        title: "KTP sudah diverifikasi",
-        text: "KTP Anda sudah terverifikasi. Tidak dapat diubah lagi.",
-        confirmButtonText: "OK",
-      });
+          icon: "info",
+          title: "KTP sudah diverifikasi",
+          text: "KTP Anda sudah terverifikasi. Tidak dapat diubah lagi.",
+          confirmButtonText: "OK",
+        });
       } else if (file && file.length > 0) {
         // Jika user belum KYC dan file baru diunggah, upload file KTP
         const formDataFile = new FormData();
         formDataFile.append("nationalIdentityCard", file[0]?.file);
-  
+
         const axiosUploadFileResponse = await api.post("/user/upload", formDataFile, {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -121,12 +121,12 @@ const FormEditProfile = () => {
       Navigate("/profile");
     } catch (error) {
       console.error("Error fetching user:", error.response?.data || error);
-      throw error; 
+      throw error;
     }
   }
 
   const onChangeHandler = (e) => {
-    const { name, value } = e.target;
+    const {name, value} = e.target;
     setFormDataPayload((prevState) => {
       return {
         ...prevState,
@@ -170,7 +170,7 @@ const FormEditProfile = () => {
                 className="absolute bottom-0 right-0 p-2 rounded-full shadow cursor-pointer bg-[#5E84C5] text-white hover:text-[#5E84C5] hover:bg-white border-2 border-[#5E84C5]
               transition-transform duration-300 transform hover:scale-105"
               >
-                <CameraIcon className="w-5 h-5" />
+                <CameraIcon className="w-5 h-5"/>
                 <input
                   type="file"
                   accept="image/*"
