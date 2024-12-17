@@ -62,6 +62,26 @@ const FormLogin = () => {
           draggable: true,
           progress: undefined,
         });
+      } else if (error.message === "Wrong Email or Password") {
+        toast.error("Password atau email yang Anda masukkan salah!", {
+          position: "top-right",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      } else {
+        toast.error("Terjadi kesalahan, silakan coba lagi.", {
+          position: "top-right",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
 
       setLoginAttempts((prev) => prev + 1);

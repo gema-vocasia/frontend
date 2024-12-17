@@ -16,7 +16,7 @@ const Home = () => {
 
   // Fetch data campaigns saat komponen di-mount
   useEffect(() => {
-    getCampaigns();
+    getCampaigns(true);
   }, []);
 
   // Filter kampanye berdasarkan pencarian
@@ -80,7 +80,7 @@ const Home = () => {
       )}
 
       {/* Story Section */}
-      <section className="mt-6 pt-6 pb-6 bg-white">
+      <section className="pt-6 pb-6 mt-6 bg-white">
         <StorySection image={cerita} title="Cerita Kami" />
       </section>
 

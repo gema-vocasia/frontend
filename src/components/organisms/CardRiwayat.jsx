@@ -105,18 +105,18 @@ const CardRiwayat = () => {
 
   if (error) {
     return (
-      <div className="w-full flex justify-center items-center my-10">
-        <div className="relative flex-shrink-0 w-96 p-6 text-black bg-white shadow-lg rounded-lg border border-gray-200">
-          <div className="absolute top-0 left-0 w-full bg-blue-500 text-white text-xl text-center py-2 rounded-t-lg font-bold">
+      <div className="flex items-center justify-center w-full my-10">
+        <div className="relative flex-shrink-0 p-6 text-black bg-white border border-gray-200 rounded-lg shadow-lg w-96">
+          <div className="absolute top-0 left-0 w-full py-2 text-xl font-bold text-center text-white bg-blue-500 rounded-t-lg">
             Belum Berdonasi
           </div>
-          <div className="w-full h-80 flex flex-col justify-center items-center">
-            <p className="text-gray-500 text-center mb-4 text-lg">
+          <div className="flex flex-col items-center justify-center w-full h-80">
+            <p className="mb-4 text-lg text-center text-gray-500">
               Sedikit kebaikan dari Anda dapat membawa perubahan besar bagi
               mereka yang membutuhkan.
             </p>
             <button
-              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded shadow-md transition-all"
+              className="px-6 py-2 font-bold text-white transition-all bg-blue-500 rounded shadow-md hover:bg-blue-600"
               onClick={() => (window.location.href = "/all-campaign")}
             >
               Mulai Berdonasi Sekarang
@@ -141,7 +141,7 @@ const CardRiwayat = () => {
     return data.map((item) => (
       <div
         key={item._id}
-        className="relative flex flex-col w-full sm:w-64 md:w-80 lg:w-96 p-4 text-black bg-white shadow-md rounded-lg border border-gray-200 hover:shadow-2xl hover:scale-105 transition-transform duration-300"
+        className="relative flex flex-col w-full p-4 text-black transition-transform duration-300 bg-white border border-gray-200 rounded-lg shadow-md sm:w-64 md:w-80 lg:w-96 hover:shadow-2xl hover:scale-105"
         onClick={() => handleCardClick(item)}
       >
         {/* Header Card */}
@@ -153,9 +153,9 @@ const CardRiwayat = () => {
         {/* Gambar Kampanye */}
         <div className="w-full h-48 mt-4 mb-4 overflow-hidden rounded-lg">
           <img
-            src={`http://localhost:8080/api/v1/files/${item.campaignId.photo}`}
+            src={`http://localhost:8080/api/v1/files/${item.campaignId?.photo}`}
             alt="Donation Campaign"
-            className="w-full h-full object-cover"
+            className="object-cover w-full h-full"
           />
         </div>
 
@@ -179,8 +179,8 @@ const CardRiwayat = () => {
           </p>
 
           {/* Pesan Donasi */}
-          <div className="bg-gray-50 border border-gray-200 p-2 rounded">
-            <p className="text-sm text-gray-600 italic">
+          <div className="p-2 border border-gray-200 rounded bg-gray-50">
+            <p className="text-sm italic text-gray-600">
               {item.comment || "Tidak ada pesan"}
             </p>
           </div>
@@ -197,17 +197,17 @@ const CardRiwayat = () => {
   };
 
   return (
-    <main className="container mx-auto px-4 py-10">
+    <main className="container px-4 py-10 mx-auto">
       <ToastContainer />
 
       {/* Section Donasi */}
       <section className="mb-8">
-        <h2 className="text-2xl font-bold mb-4 text-center">Donasi Pending</h2>
+        <h2 className="mb-4 text-2xl font-bold text-center">Donasi Pending</h2>
         <div className="flex flex-wrap justify-center gap-6">
           {pendingDonations.length > 0 ? (
             renderCards(pendingDonations, "bg-yellow-500", "Pending")
           ) : (
-            <p className="text-gray-500 text-center">
+            <p className="text-center text-gray-500">
               Tidak ada donasi pending.
             </p>
           )}
@@ -215,12 +215,12 @@ const CardRiwayat = () => {
       </section>
 
       <section className="mb-8">
-        <h2 className="text-2xl font-bold mb-4 text-center">Donasi Berhasil</h2>
+        <h2 className="mb-4 text-2xl font-bold text-center">Donasi Berhasil</h2>
         <div className="flex flex-wrap justify-center gap-6">
           {successDonations.length > 0 ? (
             renderCards(successDonations, "bg-green-500", "Success")
           ) : (
-            <p className="text-gray-500 text-center">
+            <p className="text-center text-gray-500">
               Tidak ada donasi berhasil.
             </p>
           )}
@@ -228,12 +228,12 @@ const CardRiwayat = () => {
       </section>
 
       <section>
-        <h2 className="text-2xl font-bold mb-4 text-center">Donasi Gagal</h2>
+        <h2 className="mb-4 text-2xl font-bold text-center">Donasi Gagal</h2>
         <div className="flex flex-wrap justify-center gap-6">
           {failedDonations.length > 0 ? (
             renderCards(failedDonations, "bg-red-500", "Failed")
           ) : (
-            <p className="text-gray-500 text-center">Tidak ada donasi gagal.</p>
+            <p className="text-center text-gray-500">Tidak ada donasi gagal.</p>
           )}
         </div>
       </section>
