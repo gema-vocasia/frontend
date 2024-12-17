@@ -3,7 +3,7 @@ import TitleCampaignSaya from "../molecules/TitleCampaignSaya";
 
 const Hero = () => {
   return (
-    <section className="relative w-full h-[400px] mt-[70px] bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 text-white">
+    <section className="relative w-full h-[400px] bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 text-white">
       <img
         src={HeroCampaignSayaImage}
         alt="Hero"
@@ -13,4 +13,5 @@ const Hero = () => {
     </section>
   );
 };
+
 export default Hero;

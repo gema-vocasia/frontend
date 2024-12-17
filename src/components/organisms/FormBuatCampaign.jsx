@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import {useState, useEffect} from "react";
+import {useNavigate} from "react-router-dom";
 import campaignStore from "../../store/campaignStore";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -22,7 +22,7 @@ const FormBuatCampaign = () => {
   const [tanggalBerakhir, setTanggalBerakhir] = useState("");
   const [deskripsi, setDeskripsi] = useState("");
   const [currentStep, setCurrentStep] = useState(0);
-  const { createCampaign, isLoading } = campaignStore();
+  const {createCampaign, isLoading} = campaignStore();
   const [userKYCStatus, setIsKYC] = useState(null);
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
   const navigate = useNavigate();
@@ -92,9 +92,7 @@ const FormBuatCampaign = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const userKYCStatus = localStorage.getItem("userKYCStatus") === "true";
-
-    if (!userKYCStatus) {
+    console.log(userKYCStatus);
     if (!userKYCStatus) {
       Swal.fire({
         icon: "error",
@@ -111,12 +109,12 @@ const FormBuatCampaign = () => {
 
     // Validasi form
     const steps = [
-      { field: judul, step: 1 },
-      { field: kategori, step: 2 },
-      { field: targetDonasi, step: 3 },
-      { field: tanggalMulai && tanggalBerakhir, step: 4 },
-      { field: deskripsi, step: 5 },
-      { field: thumbnail, step: 6 },
+      {field: judul, step: 1},
+      {field: kategori, step: 2},
+      {field: targetDonasi, step: 3},
+      {field: tanggalMulai && tanggalBerakhir, step: 4},
+      {field: deskripsi, step: 5},
+      {field: thumbnail, step: 6},
     ];
 
     const incompleteStep = steps.find((item) => !item.field);
@@ -207,25 +205,27 @@ const FormBuatCampaign = () => {
   };
 
   return (
-    <div className="flex justify-center items-center p-6 bg-gray-100">
-      <div className="w-full max-w-3xl bg-white m-8 p-8 rounded-lg shadow-xl overflow-hidden">
+    <div className="flex items-center justify-center p-6 bg-gray-100">
+      <div className="w-full max-w-3xl p-8 m-8 overflow-hidden bg-white rounded-lg shadow-xl">
         {currentStep === 0 && (
-          <div className="bg-white p-8 m-8 rounded-lg shadow-lg border-t-4 border-blue-500">
-            <h2 className="text-center text-xl font-semibold text-blue-500 mb-4">
+          <div className="p-8 m-8 bg-white border-t-4" style={{ borderColor: '#5E84C5' }}>
+            <h2 className="mb-4 text-xl font-semibold text-center" style={{ color: '#5E84C5' }}>
               Persyaratan Sebelum Membuat Kampanye
             </h2>
-            <p className="text-center text-gray-600 mb-6">
+            <p className="mb-6 text-center text-gray-600">
               Sebelum melanjutkan, pastikan Anda telah melakukan verifikasi KTP
               dengan mengunggahnya di profil Anda.
             </p>
             <div className="flex justify-center">
-              <Button
-                onClick={() => setCurrentStep(1)}
-                className=" mt-4 bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-700 focus:outline-none"
-              >
-                Mulai Isi Data
-              </Button>
+                <Button
+                    onClick={() => setCurrentStep(1)}
+                    className="px-6 py-2 mt-4 text-white rounded-lg hover:bg-[#4A6BA9] focus:outline-none"
+                    style={{ backgroundColor: "#5E84C5" }}
+                >
+                    Mulai Isi Data
+                </Button>
             </div>
+
           </div>
         )}
         <form className="space-y-6" onSubmit={handleSubmit}>
@@ -296,9 +296,9 @@ const FormBuatCampaign = () => {
                   onChange={(value) => {
                     setDeskripsi(value);
                   }}
-                  style={{ maxHeight: "300px", overflowY: "auto" }}
+                  style={{maxHeight: "300px", overflowY: "auto"}}
                 />
-                <p className="text-sm text-gray-500 mt-2">
+                <p className="mt-2 text-sm text-gray-500">
                   Minimal panjang deskripsi 30 karakter
                 </p>
               </div>
@@ -317,15 +317,15 @@ const FormBuatCampaign = () => {
 
           {/* Preview Data Campaign */}
           {currentStep === 7 && (
-            <div className="border-2 border-blue-500 rounded-lg p-4 space-y-2">
-              <div className="flex justify-center text-xl font-semibold mb-4">
+            <div className="p-4 space-y-2 border-2 border-blue-500 rounded-lg">
+              <div className="flex justify-center mb-4 text-xl font-semibold">
                 <p>Data Kampanye</p>
               </div>
-              <div className="border-b border-gray-300 pb-2">
+              <div className="pb-2 border-b border-gray-300">
                 <strong>Judul Kampanye: </strong>
                 <span>{judul}</span>
               </div>
-              <div className="border-b border-gray-300 pb-2">
+              <div className="pb-2 border-b border-gray-300">
                 <strong>Kategori: </strong>
                 <span>
                   {kategori.find(
@@ -333,28 +333,28 @@ const FormBuatCampaign = () => {
                   )?.title || "Kategori tidak ditemukan"}
                 </span>
               </div>
-              <div className="border-b border-gray-300 pb-2">
+              <div className="pb-2 border-b border-gray-300">
                 <strong>Target Donasi: </strong>
                 <span>
                   {targetDonasi
                     ? new Intl.NumberFormat("id-ID", {
-                        style: "currency",
-                        currency: "IDR",
-                      }).format(targetDonasi)
+                      style: "currency",
+                      currency: "IDR",
+                    }).format(targetDonasi)
                     : "Rp. 0,00"}
                 </span>
               </div>
-              <div className="border-b border-gray-300 pb-2">
+              <div className="pb-2 border-b border-gray-300">
                 <strong>Tanggal Mulai: </strong>
                 <span>{tanggalMulai}</span>
               </div>
-              <div className="border-b border-gray-300 pb-2">
+              <div className="pb-2 border-b border-gray-300">
                 <strong>Tanggal Berakhir: </strong>
                 <span>{tanggalBerakhir}</span>
               </div>
-              <div className="flex flex-col border-b border-gray-300 pb-2">
+              <div className="flex flex-col pb-2 border-b border-gray-300">
                 <strong>Deskripsi: </strong>
-                <p className="scrollable-text text-gray-700 mt-1">
+                <p className="mt-1 text-gray-700 scrollable-text">
                   {cleanHTML(deskripsi) || "Belum ada deskripsi."}
                 </p>
               </div>
@@ -363,7 +363,7 @@ const FormBuatCampaign = () => {
                 <img
                   src={thumbnailPreview}
                   alt="Thumbnail"
-                  className="w-56 h-48 object-cover mt-2 border border-gray-300 rounded"
+                  className="object-cover w-56 h-48 mt-2 border border-gray-300 rounded"
                 />
               </div>
             </div>
@@ -374,7 +374,7 @@ const FormBuatCampaign = () => {
               <Button
                 type="button"
                 onClick={handleBack}
-                className="px-4 py-2 bg-gray-500 hover:bg-gray-700 text-white rounded mr-4"
+                className="px-4 py-2 mr-4 text-white bg-gray-500 rounded hover:bg-gray-700"
               >
                 Kembali
               </Button>
