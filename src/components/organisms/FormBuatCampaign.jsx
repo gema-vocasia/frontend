@@ -95,6 +95,7 @@ const FormBuatCampaign = () => {
     const userKYCStatus = localStorage.getItem("userKYCStatus") === "true";
 
     if (!userKYCStatus) {
+    if (!userKYCStatus) {
       Swal.fire({
         icon: "error",
         title: "Verifikasi KTP Diperlukan",
