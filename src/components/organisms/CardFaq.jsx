@@ -17,7 +17,7 @@ const Faq = () => {
       </div>
 
       {/* Kolom Kanan: Card FAQ */}
-      <div className="w-full md:w-1/2 flex flex-col items-start gap-5 px-5 mt-5 md:mt-0">
+      <div className="w-full md:w-1/2 flex flex-col items-start gap-5 px-5 mt-5 md:mt-0 mr-12">
         <div className="w-full max-w-screen-xl">
           <div className="grid divide-y divide-gray-300">
             {FaqData.map((item, index) => (

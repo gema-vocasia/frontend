@@ -48,7 +48,6 @@ const campaignStore = create((set) => ({
   },
 
   // Membuat kampanye baru
-  // Membuat kampanye baru
   createCampaign: async (campaignData, photoFile) => {
     try {
       set({ isLoading: true, error: null });
@@ -90,18 +89,24 @@ const campaignStore = create((set) => ({
 
   // Update accountNumber
   updateStatusTransfer: async (campaignId) => {
-    try {
-      set({ isLoading: true, error: null });
-      const response = await api.put(`/campaign/status/${campaignId}`);
+  try {
+    set({ isLoading: true, error: null });
 
-      return response;
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "Gagal Request Penarikan Dana";
-      set({ error: errorMessage });
-      throw new Error(errorMessage);
-    }
-  },
+    // Kirim permintaan API untuk update status ke "On Progress"
+    const response = await api.patch( `/campaign/${campaignId}/transfer/On%20Progress` );
+
+
+    // Kembalikan response dari server
+    set({ isLoading: false });
+    return response.data;
+  } catch (error) {
+    const errorMessage =
+      error.response?.data?.message || "Gagal Request Penarikan Dana";
+    set({ isLoading: false, error: errorMessage });
+    throw new Error(errorMessage);
+  }
+},
+
 
   reset: (fields = []) => {
     if (fields.length === 0) {

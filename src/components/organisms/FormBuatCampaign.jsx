@@ -28,16 +28,23 @@ const FormBuatCampaign = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    async function fetchCurrentUser() {
+    function fetchCurrentUserFromLocalStorage() {
       try {
-        const { data } = await axios.get("/user/profile");
-        setIsKYC(data.isKYC);
+        const userProfile = localStorage.getItem("user");
+        if (userProfile) {
+          const parsedProfile = JSON.parse(userProfile);
+          setIsKYC(parsedProfile.isKYC);
+          console.log("data", parsedProfile.isKYC);
+        } else {
+          console.warn("User profile not found in localStorage");
+        }
       } catch (error) {
-        console.error("Error fetching user profile:", error);
+        console.error("Error parsing user profile from localStorage:", error);
       }
     }
-
-    fetchCurrentUser();
+    const isKYC = true;
+    localStorage.setItem("userKYCStatus", isKYC.toString());
+    fetchCurrentUserFromLocalStorage();
   }, []);
 
   useEffect(() => {
@@ -94,6 +101,10 @@ const FormBuatCampaign = () => {
         text: "Anda harus melakukan verifikasi KTP sebelum membuat kampanye.",
         confirmButtonText: "OK",
       });
+      setTimeout(() => {
+        navigate("/edit-profile");
+      }, 2000);
+
       return;
     }
 

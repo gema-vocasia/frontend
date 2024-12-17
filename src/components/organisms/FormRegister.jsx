@@ -76,9 +76,9 @@ const FormRegistrasi = () => {
 
       console.log("Registered user:", user);
       Swal.fire({
-        position: "top-end",
+        position: "middle",
         icon: "success",
-        title: "Your work has been saved",
+        title: "Akun berhasil dibuat, silakan cek email untuk verifikasi",
         showConfirmButton: false,
         timer: 1500,
       });
@@ -229,4 +229,3 @@ const FormRegistrasi = () => {
 };
 
 export default FormRegistrasi;
-

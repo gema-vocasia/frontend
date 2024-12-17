@@ -1,17 +1,21 @@
 import ProfileCard from "../molecules/ProfileCard";
-import {EnvelopeIcon, LockClosedIcon, PhoneIcon} from "@heroicons/react/24/solid";
+import {
+  EnvelopeIcon,
+  LockClosedIcon,
+  PhoneIcon,
+} from "@heroicons/react/24/solid";
 import Button from "../atoms/Button";
-import {useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {getAccessToken} from "../../utils/tokenManager.js";
-import {axiosInstance as api} from "../../config/axiosInstance.js";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getAccessToken } from "../../utils/tokenManager.js";
+import { axiosInstance as api } from "../../config/axiosInstance.js";
 
 const ProfileContent = () => {
   const [userData, setUserData] = useState({});
-  const [accessToken, setAccessToken] = useState('');
+  const [accessToken, setAccessToken] = useState("");
   useEffect(() => {
     setAccessToken(getAccessToken());
-  }, [])
+  }, []);
 
   async function fetchCurrentUser() {
     try {
@@ -26,7 +30,7 @@ const ProfileContent = () => {
   }
 
   useEffect(() => {
-    fetchCurrentUser()
+    fetchCurrentUser();
   }, [accessToken]);
 
   const navigate = useNavigate();
@@ -39,27 +43,32 @@ const ProfileContent = () => {
             alt="Profile"
             className="w-40 h-40 border-4 border-gray-200 rounded-full shadow-lg"
           />
-          <h1 className="mt-4 mb-8 text-3xl font-semibold text-white">{userData?.name}</h1>
+          <h1 className="mt-4 mb-8 text-3xl font-semibold text-white">
+            {userData?.name}
+          </h1>
         </div>
         <div className="w-full">
           <ProfileCard
-            icon={<EnvelopeIcon className="w-6 h-6 text-[#5E84C5] mr-4"/>}
+            icon={<EnvelopeIcon className="w-6 h-6 text-[#5E84C5] mr-4" />}
             text={`${userData?.email}`}
           />
-          <div className="mb-4"/>
+          <div className="mb-4" />
           {/* Spacer */}
           <ProfileCard
-            icon={<PhoneIcon className="w-6 h-6 text-[#5E84C5] mr-4"/>}
+            icon={<PhoneIcon className="w-6 h-6 text-[#5E84C5] mr-4" />}
             text={`${userData?.phoneNumber}`}
           />
-          <div className="mb-4"/>
+          <div className="mb-4" />
           {/* Spacer */}
           <ProfileCard
-            icon={<LockClosedIcon className="w-6 h-6 text-[#5E84C5] mr-4"/>}
+            icon={<LockClosedIcon className="w-6 h-6 text-[#5E84C5] mr-4" />}
             text="*********"
           />
         </div>
-        <Button onClick={() => navigate("/edit-profile")} className="w-2/3 mt-6">
+        <Button
+          onClick={() => navigate("/edit-profile")}
+          className="w-2/3 mt-6"
+        >
           Edit Profile
         </Button>
       </div>

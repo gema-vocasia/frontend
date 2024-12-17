@@ -28,7 +28,7 @@ const FormEditProfile = () => {
   const [oldFile, setOldFile] = useState("");
   const [isKYC, setIsKYC] = useState();
   const [previewUrl, setPreviewUrl] = useState("");
-  const Navigate  = useNavigate()
+  const Navigate = useNavigate();
 
   useEffect(() => {
     setAccessToken(getAccessToken());
@@ -69,45 +69,51 @@ const FormEditProfile = () => {
 
   async function triggerUpdateUser(e) {
     e.preventDefault();
-    
-    if (file.length === 0) {
-      alert("Mohon masukkan foto KTP Anda!");
-    } 
+
     try {
+      // Buat payload data profil
       const formDataPayloadUpdate = new FormData();
       for (let [key, val] of Object.entries(formDataPayload)) {
         formDataPayloadUpdate.set(key, val);
       }
       delete formDataPayloadUpdate["photoUrl"];
+
+      // Kirim update profil
       const axiosResponse = await api.put(
         "/user/profile",
         formDataPayloadUpdate,
         {
           headers: {
-            "Content-Type": "multipart/form-data", // Pastikan ini otomatis ditangani
+            "Content-Type": "multipart/form-data",
           },
         }
       );
-      const formDataFile = new FormData();
-      if (oldFile === "" || file[0].file.name !== oldFile) {
+
+      // Jika file KTP tidak diubah, lewati proses upload file
+      if (file && file[0]?.file && oldFile !== file[0]?.file.name) {
+        const formDataFile = new FormData();
         formDataFile.append("nationalIdentityCard", file[0].file);
+
+        // Kirim file KTP yang baru diunggah
         const axiosUploadFileResponse = await api.post(
           "/user/upload",
           formDataFile,
           {
             headers: {
-              "Content-Type": "multipart/form-data", // Pastikan ini otomatis ditangani
+              "Content-Type": "multipart/form-data",
             },
           }
         );
-        console.log(axiosUploadFileResponse);
+        console.log("Upload KTP berhasil:", axiosUploadFileResponse.data);
       }
 
-      console.log(axiosResponse.data);
-      Navigate("/profile")
+      console.log("Profil berhasil diupdate:", axiosResponse.data);
+      Navigate("/profile");
     } catch (error) {
-      console.error("Error fetching user:", error.response?.data || error);
-      throw error; // Rethrow to allow error handling in the calling component
+      console.error(
+        "Error saat mengupdate profil:",
+        error.response?.data || error
+      );
     }
   }
 
