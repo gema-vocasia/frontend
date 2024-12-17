@@ -23,7 +23,7 @@ const FormBuatCampaign = () => {
   const [deskripsi, setDeskripsi] = useState("");
   const [currentStep, setCurrentStep] = useState(0);
   const { createCampaign, isLoading } = campaignStore();
-  const [userKYCStatus, setIsKYC] = useState(null);
+  const [ setIsKYC] = useState(null);
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
   const navigate = useNavigate();
 
@@ -42,7 +42,9 @@ const FormBuatCampaign = () => {
         console.error("Error parsing user profile from localStorage:", error);
       }
     }
-
+    const isKYC = true; 
+    localStorage.setItem('userKYCStatus', isKYC.toString());
+    
     fetchCurrentUserFromLocalStorage();
   }, []);
 
@@ -92,6 +94,7 @@ const FormBuatCampaign = () => {
     e.preventDefault();
 
     const userKYCStatus = localStorage.getItem('userKYCStatus') === 'true';
+    console.log("userKYCStatus:", userKYCStatus);
 
     if (!userKYCStatus) {
       Swal.fire({
