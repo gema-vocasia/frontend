@@ -11,8 +11,8 @@ import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orien
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import Label from "../atoms/Label";
-
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2"
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
@@ -25,7 +25,7 @@ const FormEditProfile = () => {
   });
   const [accessToken, setAccessToken] = useState("");
   const [file, setFile] = useState();
-  const [oldFile, setOldFile] = useState("");
+  const [setOldFile] = useState("");
   const [isKYC, setIsKYC] = useState();
   const [previewUrl, setPreviewUrl] = useState("");
   const Navigate  = useNavigate()
@@ -59,7 +59,7 @@ const FormEditProfile = () => {
       return data;
     } catch (error) {
       console.error("Error fetching user:", error.response?.data || error);
-      throw error; // Rethrow to allow error handling in the calling component
+      throw error;
     }
   }
 
@@ -70,44 +70,58 @@ const FormEditProfile = () => {
   async function triggerUpdateUser(e) {
     e.preventDefault();
     
-    if (file.length === 0) {
-      alert("Mohon masukkan foto KTP Anda!");
-    } 
     try {
       const formDataPayloadUpdate = new FormData();
       for (let [key, val] of Object.entries(formDataPayload)) {
         formDataPayloadUpdate.set(key, val);
       }
-      delete formDataPayloadUpdate["photoUrl"];
-      const axiosResponse = await api.put(
-        "/user/profile",
-        formDataPayloadUpdate,
-        {
+  
+      await api.put("/user/profile", formDataPayloadUpdate, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+  
+      Swal.fire({
+        icon: "success",
+        title: "Profil berhasil diperbarui",
+        text: "Data profil Anda berhasil diperbarui.",
+        confirmButtonText: "OK",
+      });
+
+      // Jika KTP sudah pernah diupload, blokir upload ulang
+      if (isKYC) {
+        Swal.fire({
+        icon: "info",
+        title: "KTP sudah diverifikasi",
+        text: "KTP Anda sudah terverifikasi. Tidak dapat diubah lagi.",
+        confirmButtonText: "OK",
+      });
+      } else if (file && file.length > 0) {
+        // Jika user belum KYC dan file baru diunggah, upload file KTP
+        const formDataFile = new FormData();
+        formDataFile.append("nationalIdentityCard", file[0]?.file);
+  
+        const axiosUploadFileResponse = await api.post("/user/upload", formDataFile, {
           headers: {
-            "Content-Type": "multipart/form-data", // Pastikan ini otomatis ditangani
+            "Content-Type": "multipart/form-data",
           },
-        }
-      );
-      const formDataFile = new FormData();
-      if (oldFile === "" || file[0].file.name !== oldFile) {
-        formDataFile.append("nationalIdentityCard", file[0].file);
-        const axiosUploadFileResponse = await api.post(
-          "/user/upload",
-          formDataFile,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data", // Pastikan ini otomatis ditangani
-            },
-          }
-        );
-        console.log(axiosUploadFileResponse);
+        });
+
+        Swal.fire({
+          icon: "success",
+          title: "KTP berhasil diupload",
+          text: "KTP Anda berhasil diunggah ke sistem.",
+          confirmButtonText: "OK",
+        });
+
+        console.log("KTP berhasil diupload:", axiosUploadFileResponse.data);
       }
 
-      console.log(axiosResponse.data);
-      Navigate("/profile")
+      Navigate("/profile");
     } catch (error) {
       console.error("Error fetching user:", error.response?.data || error);
-      throw error; // Rethrow to allow error handling in the calling component
+      throw error; 
     }
   }
 
