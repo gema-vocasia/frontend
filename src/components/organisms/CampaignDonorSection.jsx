@@ -1,11 +1,7 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import DonorList from "../molecules/DonorList";
 
-const CampaignDonorSection = ({
-  donors,
-  showDonors,
-  toggleShowDonors,
-}) => {
+const CampaignDonorSection = ({ donors, showDonors, toggleShowDonors }) => {
   return (
     <div className="w-full p-4">
       <DonorList

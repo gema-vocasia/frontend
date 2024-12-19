@@ -4,7 +4,7 @@ import { axiosInstance as api } from "../config/axiosInstance";
 const donationStore = create((set) => ({
   donationByUserId: [], // Menyimpan donations berdasarkan user ID
   donationByCampaignId: [], // Menyimpan donations berdasarkan campaign ID
-  
+
   // Mendapatkan donations berdasarkan User ID
   getDonationsByUserId: async (userId) => {
     try {
@@ -20,9 +20,14 @@ const donationStore = create((set) => ({
   getDonationsByCampaignId: async (campaignId) => {
     try {
       const res = await api.get(`/donations/${campaignId}`);
-      console.log(res.data);
-      set({ donationByCampaignId: res.data });
-      
+
+      // Filter data agar statusPayment !== "Pending"
+      const filteredDonations = res.data.filter(
+        (donation) => donation.statusPayment !== "Pending"
+      );
+
+      console.log(filteredDonations);
+      set({ donationByCampaignId: filteredDonations });
     } catch (error) {
       console.error(error);
     }
