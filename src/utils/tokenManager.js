@@ -12,6 +12,10 @@ export const removeAccessToken = () => {
   localStorage.removeItem("accessToken");
 };
 
+export const removeSnapToken = () => {
+  localStorage.removeItem("donation");
+};
+
 export const decodeToken = (token) => {
   return jwtDecode(token);
 };

@@ -39,10 +39,11 @@ const ProfileContent = () => {
       <div className="flex flex-col items-center w-full max-w-2xl p-6 m-6 bg-white rounded-lg shadow-lg">
         <div className="bg-[#5E84C5] p-6 rounded-lg shadow-lg w-full flex flex-col items-center mb-8">
           <img
-            src={`http://localhost:8080/api/v1/files/${userData?.photo_url}`}
-            alt="Profile"
+            alt="User Profile"
+            src={`http://localhost:8080/api/v1/files/${userData.photo_url}`}
             className="w-40 h-40 border-4 border-gray-200 rounded-full shadow-lg"
           />
+
           <h1 className="mt-4 mb-8 text-3xl font-semibold text-white">
             {userData?.name}
           </h1>

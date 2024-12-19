@@ -9,6 +9,7 @@ import Button from "../atoms/Button";
 import { credential } from "../../config/credential/const";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { removeSnapToken } from "../../utils/tokenManager";
 
 const FormDonasi = () => {
   const { campaignId } = useParams();
@@ -118,6 +119,7 @@ const FormDonasi = () => {
           pauseOnHover: true,
           draggable: true,
         });
+        removeSnapToken();
         console.log("Payment successful");
         console.log(result);
       },
@@ -130,6 +132,7 @@ const FormDonasi = () => {
           pauseOnHover: true,
           draggable: true,
         });
+        removeSnapToken();
         console.log(result);
       },
       onError: function (result) {
@@ -141,6 +144,7 @@ const FormDonasi = () => {
           pauseOnHover: true,
           draggable: true,
         });
+        removeSnapToken();
         console.log(result);
       },
       onClose: function () {
@@ -152,6 +156,7 @@ const FormDonasi = () => {
           pauseOnHover: true,
           draggable: true,
         });
+        removeSnapToken();
       },
     });
     navigate("/");

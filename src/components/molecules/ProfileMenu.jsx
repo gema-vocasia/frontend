@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
-import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/react";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import {
-  UserIcon,
-  SpeakerWaveIcon,
-  DocumentTextIcon,
   ArrowLeftOnRectangleIcon,
-  DocumentPlusIcon
+  DocumentPlusIcon,
+  DocumentTextIcon,
+  SpeakerWaveIcon,
+  UserIcon,
 } from "@heroicons/react/24/solid";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../config/auth";
@@ -20,7 +20,7 @@ const ProfileMenu = ({ isLoggedIn }) => {
   const fetchCurrentUser = async () => {
     try {
       const response = await api.get("/user/profile");
-      setUserData(response.data); 
+      setUserData(response.data);
       console.log(response.data);
     } catch (error) {
       console.error("Error fetching user:", error.response?.data || error);
@@ -29,7 +29,7 @@ const ProfileMenu = ({ isLoggedIn }) => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      fetchCurrentUser(); 
+      fetchCurrentUser();
     }
   }, [isLoggedIn]);
 

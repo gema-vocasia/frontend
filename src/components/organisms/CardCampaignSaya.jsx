@@ -1,10 +1,9 @@
 import { useEffect } from "react";
 import campaignStore from "../../store/campaignStore";
-import Swal from "sweetalert2";
+import WithdrawForm from "./WithDraw";
 
 const CardCampaignSaya = () => {
-  const { campaignByUserId, getCampaignByUserId, updateStatusTransfer } =
-    campaignStore();
+  const { campaignByUserId, getCampaignByUserId } = campaignStore();
 
   function isDatePassed(dateString) {
     const givenDate = new Date(dateString);
@@ -48,25 +47,6 @@ const CardCampaignSaya = () => {
       </div>
     );
   }
-
-  const handleWithdraw = (campaignId) => {
-    Swal.fire({
-      title: "Apakah Anda yakin ingin tarik dana?",
-      text: "Pastikan semua data sudah benar sebelum melanjutkan!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Ya, tarik dana!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        await updateStatusTransfer(campaignId); // Proses tarik dana
-        Swal.fire("Berhasil!", "Dana telah ditarik.", "success");
-        // Setelah konfirmasi sukses, refresh halaman
-        window.location.reload();
-      }
-    });
-  };
 
   return (
     <main className="pt-7 pb-7 px-4 bg-gradient-to-b from-gray-50 to-gray-100">
@@ -155,20 +135,8 @@ const CardCampaignSaya = () => {
               {/* Tarik Dana */}
               {(isDatePassed(item.endDate) ||
                 item.totalDonation >= item.targetAmount) && (
-                <div>
-                  <button
-                    onClick={() => handleWithdraw(item._id)} // Menggunakan handleWithdraw dengan SweetAlert
-                    disabled={item.statusTransfer !== null}
-                    className={`text-white mt-4 w-full px-4 py-2 font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-200 ${
-                      item.statusTransfer !== null
-                        ? "bg-green-600 cursor-not-allowed"
-                        : "bg-blue-500 hover:bg-blue-600 text-white"
-                    }`}
-                  >
-                    {item.statusTransfer === null
-                      ? "Tarik Dana"
-                      : item.statusTransfer}
-                  </button>
+                <div className="mt-4">
+                  <WithdrawForm campaignId={item._id} />
                 </div>
               )}
             </div>
