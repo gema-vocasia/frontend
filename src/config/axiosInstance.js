@@ -2,7 +2,7 @@ import axios from "axios";
 import { getAccessToken } from "../utils/tokenManager";
 
 const config = {
-  baseURL: "http://localhost:8080/api/v1",
+  baseURL: import.meta.env.VITE_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },

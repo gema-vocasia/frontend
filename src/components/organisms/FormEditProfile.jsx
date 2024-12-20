@@ -39,8 +39,8 @@ const FormEditProfile = () => {
       const data = await api.get("/user/profile");
       setPreviewUrl(
         data.data.photo_url
-          ? `http://localhost:8080/api/v1/files/${data.data.photo_url}`
-          : "http://localhost:8080/public/images/defaultProfile.png"
+          ? `${import.meta.env.VITE_BASE_URL}/files/${data.data.photo_url}`
+          : "${import.meta.env.VITE_BASE_URL}/public/images/defaultProfile.png"
       );
       setFormDataPayload({
         name: data.data.name,
@@ -52,7 +52,7 @@ const FormEditProfile = () => {
       if (data.data.nationalIdentityCard) {
         setFile([
           {
-            source: `http://localhost:8080/api/v1/files/${data.data.nationalIdentityCard}`,
+            source: `${import.meta.env.VITE_BASE_URL}/files/${data.data.nationalIdentityCard}`,
             options: { type: "input" },
             name: data.data.name,
           },
@@ -90,7 +90,7 @@ const FormEditProfile = () => {
         });
   
         // Reset previewUrl ke default dan update state
-        setPreviewUrl("http://localhost:8080/public/images/defaultProfile.png");
+        setPreviewUrl("${import.meta.env.VITE_BASE_URL}/public/images/defaultProfile.png");
         setFormDataPayload((prevState) => ({
           ...prevState,
           profilePhoto: null,
@@ -180,7 +180,7 @@ const FormEditProfile = () => {
     if (!file && oldFile) {
       setFile([
         {
-          source: `http://localhost:8080/api/v1/files/${oldFile}`,
+          source: `${import.meta.env.VITE_BASE_URL}/files/${oldFile}`,
           options: { type: "input" },
         },
       ]);
@@ -228,7 +228,7 @@ const FormEditProfile = () => {
                 src={
                   previewUrl
                     ? previewUrl
-                    : "http://localhost:8080/public/images/defaultProfile.png"
+                    : "${import.meta.env.VITE_BASE_URL}/public/images/defaultProfile.png"
                 }
                 alt="Profile"
                 className="w-32 h-32 rounded-full shadow-lg border-4 border-[#5E84C5]"
@@ -245,7 +245,7 @@ const FormEditProfile = () => {
                   onChange={onChangeFileHandler}
                 />
               </label>
-            {previewUrl !== "http://localhost:8080/public/images/defaultProfile.png" && (
+            {previewUrl !== "${import.meta.env.VITE_BASE_URL}/public/images/defaultProfile.png" && (
               <button
               className="absolute top-0 right-0 bg-red-600 text-white rounded-full p-1"
                 onClick={handleDeleteProfilePhoto}

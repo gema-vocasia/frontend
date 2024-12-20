@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import { donation } from "../../config/donation";
 import { useNavigate } from "react-router-dom";
 import FormField from "../molecules/FormField";
@@ -10,10 +9,11 @@ import { credential } from "../../config/credential/const";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { removeSnapToken } from "../../utils/tokenManager";
+import axios from "axios";
 
 const FormDonasi = () => {
   const { campaignId } = useParams();
-  // console.log("id: ", campaignId);
+  console.log("id: ", campaignId);
   const [currentStep, setCurrentStep] = useState(1);
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [campaignDetails, setCampaignDetails] = useState(null);
@@ -48,7 +48,7 @@ const FormDonasi = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `http://localhost:8080/api/v1/campaign/${campaignId}`,
+          `${import.meta.env.VITE_BASE_URL}/campaign/${campaignId}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -216,7 +216,9 @@ const FormDonasi = () => {
     return <div>{error}</div>;
   }
 
-  const imageUrl = `http://localhost:8080/api/v1/files/${campaignDetails.photo}`;
+  const imageUrl = campaignDetails?.photo
+  ? `${import.meta.env.VITE_BASE_URL}/files/${campaignDetails.photo}`
+  : "/default-image.png";
   return (
     <div className="flex items-center justify-center p-6 bg-gray-100">
       <ToastContainer />

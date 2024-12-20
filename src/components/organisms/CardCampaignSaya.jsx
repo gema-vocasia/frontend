@@ -22,7 +22,7 @@ const CardCampaignSaya = () => {
     if (status === "Done") return "bg-green-500 text-white rounded-lg";
   };
 
-  const imageUrl = (photo) => `http://localhost:8080/api/v1/files/${photo}`;
+  const imageUrl = (photo) => `${import.meta.env.VITE_BASE_URL}/files/${photo}`;
 
   if (campaignByUserId.length === 0) {
     return (

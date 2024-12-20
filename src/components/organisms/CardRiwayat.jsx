@@ -153,7 +153,7 @@ const CardRiwayat = () => {
         {/* Gambar Kampanye */}
         <div className="w-full h-48 mt-4 mb-4 overflow-hidden rounded-lg">
           <img
-            src={`http://localhost:8080/api/v1/files/${item.campaignId?.photo}`}
+            src={`${import.meta.env.VITE_BASE_URL}/files/${item.campaignId?.photo}`}
             alt="Donation Campaign"
             className="object-cover w-full h-full"
           />

@@ -15,7 +15,7 @@ const campaignStore = create((set) => ({
   ...initialState,
 
   // Get All Campaigns
-  getCampaigns: async (isHome) => {
+  getCampaigns: async (isHome = false) => {
     try {
       const res = await api.get(`/campaigns?isHome=${isHome}`);
       console.log("Data Kampanye:", res.data);

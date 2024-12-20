@@ -6,7 +6,7 @@ import FundraiserInfo from "../atoms/FundraiserInfo";
 import CampaignDescription from "../molecules/CampaignDescription";
 
 const CampaignDetailContent = ({ campaign, showFullDescription }) => {
-  const imageUrl = `http://localhost:8080/api/v1/files/${campaign.photo}`;
+  const imageUrl = `${import.meta.env.VITE_BASE_URL}/files/${campaign.photo}`;
   console.log("Campaign user:", campaign.userId.name);
   return (
     <div className="w-full p-4">

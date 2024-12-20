@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 const CampaignCard = ({ campaign }) => {
   console.log(campaign.photo);
   const navigate = useNavigate();
-  const imageUrl = `http://localhost:8080/api/v1/files/${campaign.photo}`;
+  const imageUrl = `${import.meta.env.VITE_BASE_URL}/files/${campaign.photo}`;
 
   return (
     <div
@@ -90,7 +90,10 @@ const CampaignCard = ({ campaign }) => {
         {/* Tombol */}
         <div className="flex w-full mt-auto divide-x">
           <button
-            onClick={() => navigate(`/donasi/${campaign._id}`)}
+            onClick={() => {
+              console.log("Navigasi ke:", `/donasi/${campaign._id}`);
+              navigate(`/donasi/${campaign._id}`);
+            }}
             className="flex-1 py-5 text-md  box-border  border  hover:bg-[#E6ECF5] transition duration-300 flex items-center justify-center rounded-bl-lg"
           >
             Donasi Sekarang

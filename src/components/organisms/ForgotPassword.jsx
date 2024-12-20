@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import axios from "axios";
+import { axiosInstance } from "../../config/axiosInstance";
 
 const ForgotPassword = () => {
   const location = useLocation();
@@ -19,8 +19,8 @@ const ForgotPassword = () => {
   const handleSendEmail = async (email) => {
     try {
       // Kirim request ke API backend untuk reset password
-      const response = await axios.post(
-        "http://localhost:8080/api/v1/user/requestResetPassword",
+      const response = await axiosInstance.post(
+        "/user/requestResetPassword",
         {
           email,
           redirectUrl: "http://localhost:5173/reset-password",

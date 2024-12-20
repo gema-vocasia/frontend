@@ -7,13 +7,20 @@ import categoryStore from "../store/categoryStore";
 
 const AllKampanye = () => {
   const { campaign, getCampaigns } = campaignStore();
-  const { category, getCategories } = categoryStore();
+  const { categories, getCategories } = categoryStore();
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   // Fetch campaigns and categories when the component mounts
   useEffect(() => {
-    getCampaigns();
-    getCategories();
+    const fetchData = async () => {
+      await getCampaigns();
+      await getCategories();
+
+    console.log("Campaign Data:", campaign);
+    console.log("Category Data:", categories);
+    };
+  
+    fetchData();
   }, [getCampaigns, getCategories]);
 
   const filteredCategories = campaign.filter(
@@ -57,19 +64,23 @@ const AllKampanye = () => {
             >
               All
             </button>
-            {category?.map((cat) => (
-              <button
-                key={cat._id}
-                onClick={() => setSelectedCategory(cat._id)}
-                className={`px-6 py-2 text-sm font-semibold rounded-full transition duration-300 ${
-                  selectedCategory === cat._id
-                    ? "bg-[#5E84C5] text-white"
-                    : "bg-white text-[#5E84C5] border border-[#5E84C5] hover:bg-[#E6ECF5]"
-                }`}
-              >
-                {cat.title}
-              </button>
-            ))}
+            {Array.isArray(categories) && categories.length > 0 ? (
+              categories.map((cat) => (
+                <button
+                  key={cat._id}
+                  onClick={() => setSelectedCategory(cat._id)}
+                  className={`px-6 py-2 text-sm font-semibold rounded-full transition duration-300 ${
+                    selectedCategory === cat._id
+                      ? "bg-[#5E84C5] text-white"
+                      : "bg-white text-[#5E84C5] border border-[#5E84C5] hover:bg-[#E6ECF5]"
+                  }`}
+                >
+                  {cat.title}
+                </button>
+              ))
+            ) : (
+              <p>No categories available</p>
+            )}
           </div>
         </div>
 
@@ -80,7 +91,7 @@ const AllKampanye = () => {
               Kampanye yang Anda cari tidak ditemukan.
             </p>
           ) : (
-            category.map((cat) => {
+            categories.map((cat) => {
               const filteredItems = filteredCategories.filter(
                 (item) => item.categoryId && item.categoryId._id === cat._id
               );

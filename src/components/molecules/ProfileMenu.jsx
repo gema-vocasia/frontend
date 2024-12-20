@@ -47,8 +47,8 @@ const ProfileMenu = ({ isLoggedIn }) => {
             alt="User Profile"
             src={
               userData.photo_url
-                ? `http://localhost:8080/api/v1/files/${userData.photo_url}`
-                : "http://localhost:8080/public/images/defaultProfile.png"
+                ? `${import.meta.env.VITE_BASE_URL}/files/${userData.photo_url}`
+                : "${import.meta.env.VITE_BASE_URL}/public/images/defaultProfile.png"
             }
             className="size-12 rounded-full"
           />

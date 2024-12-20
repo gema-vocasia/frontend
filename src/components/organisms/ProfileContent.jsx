@@ -42,8 +42,8 @@ const ProfileContent = () => {
             alt="User Profile"
             src={
               userData.photo_url
-                ? `http://localhost:8080/api/v1/files/${userData.photo_url}`
-                : "http://localhost:8080/public/images/defaultProfile.png"
+                ? `${import.meta.env.VITE_BASE_URL}/v1/files/${userData.photo_url}`
+                : "${import.meta.env.VITE_BASE_URL}/public/images/defaultProfile.png"
             }
             className="w-40 h-40 border-4 border-gray-200 rounded-full shadow-lg"
           />
