@@ -1,6 +1,7 @@
 import {useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import campaignStore from "../../store/campaignStore";
+import categoryStore from "../../store/categoryStore";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import FormField from "../molecules/FormField";
@@ -10,7 +11,7 @@ import Select from "../atoms/Select";
 import Button from "../atoms/Button";
 import Label from "../atoms/Label";
 import Swal from "sweetalert2";
-import axios from "axios";
+import { axiosInstance } from "../../config/axiosInstance";
 
 const FormBuatCampaign = () => {
   const [thumbnail, setThumbnail] = useState(null);
@@ -25,7 +26,12 @@ const FormBuatCampaign = () => {
   const {createCampaign, isLoading} = campaignStore();
   const [userKYCStatus, setIsKYC] = useState(null);
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
+  const { categories, getCategories } = categoryStore();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    getCategories(); 
+  }, [getCategories]);
 
   useEffect(() => {
     function fetchCurrentUserFromLocalStorage() {
@@ -48,10 +54,12 @@ const FormBuatCampaign = () => {
   }, []);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/v1/categories")
+    axiosInstance
+      .get("/categories")
       .then((response) => {
+        console.log("Respons dari API:", response.data);
         const fetchedCategories = response.data.data.categories;
+        categoryStore.setCategories(fetchedCategories);
         setKategori(fetchedCategories);
       })
       .catch((error) => {
@@ -258,7 +266,7 @@ const FormBuatCampaign = () => {
             <>
               <label>Kategori</label>
               <Select
-                kategori={kategori}
+                categories={categories}
                 selectedCategory={selectedCategory}
                 setSelectedCategory={setSelectedCategory}
               />
@@ -343,7 +351,7 @@ const FormBuatCampaign = () => {
               <div className="pb-2 border-b border-gray-300">
                 <strong>Kategori: </strong>
                 <span>
-                  {kategori.find(
+                  {categories.find(
                     (category) => category._id === selectedCategory
                   )?.title || "Kategori tidak ditemukan"}
                 </span>

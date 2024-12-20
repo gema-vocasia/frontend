@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const Select = ({ kategori, selectedCategory, setSelectedCategory }) => (
+const Select = ({ categories, selectedCategory, setSelectedCategory }) => (
   <select
     id="category"
     value={selectedCategory || ""}
@@ -20,7 +20,7 @@ const Select = ({ kategori, selectedCategory, setSelectedCategory }) => (
     <option value="" disabled>
       -- Pilih Kategori --
     </option>
-    {kategori.map((category) => (
+    {categories.map((category) => (
       <option key={category._id} value={category._id}>
         {category.title}
       </option>
@@ -29,7 +29,7 @@ const Select = ({ kategori, selectedCategory, setSelectedCategory }) => (
 );
 
 Select.propTypes = {
-  kategori: PropTypes.arrayOf(
+  categories: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
