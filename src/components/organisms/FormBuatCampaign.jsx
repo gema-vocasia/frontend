@@ -22,8 +22,8 @@ const FormBuatCampaign = () => {
   const [tanggalBerakhir, setTanggalBerakhir] = useState("");
   const [deskripsi, setDeskripsi] = useState("");
   const [currentStep, setCurrentStep] = useState(0);
-  const { createCampaign, isLoading } = campaignStore();
-  const [ setIsKYC] = useState(null);
+  const {createCampaign, isLoading} = campaignStore();
+  const [userKYCStatus, setIsKYC] = useState(null);
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
   const navigate = useNavigate();
 
@@ -42,9 +42,8 @@ const FormBuatCampaign = () => {
         console.error("Error parsing user profile from localStorage:", error);
       }
     }
-    const isKYC = true; 
-    localStorage.setItem('userKYCStatus', isKYC.toString());
-    
+    const isKYC = true;
+    localStorage.setItem("userKYCStatus", isKYC.toString());
     fetchCurrentUserFromLocalStorage();
   }, []);
 
@@ -93,9 +92,7 @@ const FormBuatCampaign = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const userKYCStatus = localStorage.getItem('userKYCStatus') === 'true';
-    console.log("userKYCStatus:", userKYCStatus);
-
+    console.log(userKYCStatus);
     if (!userKYCStatus) {
       Swal.fire({
         icon: "error",
@@ -231,6 +228,21 @@ const FormBuatCampaign = () => {
 
           </div>
         )}
+        <div className="mb-4">
+          <div className="relative w-full h-2 bg-gray-300 rounded-full">
+            <div
+              className="absolute top-0 h-2 rounded-full"
+              style={{
+                width: `${(currentStep / 7) * 100}%`,
+                backgroundColor: '#5E84C5',
+              }}
+            />
+          </div>
+          <p className="mt-2 text-sm text-center text-gray-600">
+            Langkah {currentStep} dari 7
+          </p>
+        </div>
+
         <form className="space-y-6" onSubmit={handleSubmit}>
           {currentStep === 1 && (
             <FormField
@@ -320,7 +332,7 @@ const FormBuatCampaign = () => {
 
           {/* Preview Data Campaign */}
           {currentStep === 7 && (
-            <div className="p-4 space-y-2 border-2 border-blue-500 rounded-lg">
+            <div className="p-4 space-y-2 border-2 border-[#5E84C5] rounded-lg">
               <div className="flex justify-center mb-4 text-xl font-semibold">
                 <p>Data Kampanye</p>
               </div>
@@ -385,96 +397,108 @@ const FormBuatCampaign = () => {
 
             {currentStep === 1 && (
               <Button
-                type="button"
-                onClick={handleNextStep}
-                className={`bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded ${
-                  currentStep === 1 && !judul
-                    ? "bg-gray-400 text-gray-600 cursor-not-allowed"
-                    : ""
-                }`}
-                disabled={currentStep === 1 && !judul}
-              >
-                Selanjutnya
-              </Button>
+              type="button"
+              onClick={handleNextStep}
+              className={`bg-[#5E84C5] hover:bg-[#4a6ea6] text-white px-4 py-2 rounded ${
+                currentStep === 1 && !judul
+                  ? "bg-gray-400 text-gray-600 cursor-not-allowed"
+                  : ""
+              }`}
+              disabled={currentStep === 1 && !judul}
+            >
+              Selanjutnya
+            </Button>
+            
             )}
 
             {currentStep === 2 && (
               <Button
-                type="button"
-                onClick={handleNextStep}
-                className={`bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded ${
-                  !kategori
-                    ? "bg-gray-400 text-gray-600 cursor-not-allowed"
-                    : ""
-                }`}
-                disabled={!kategori}
-              >
-                Selanjutnya
-              </Button>
+              type="button"
+              onClick={handleNextStep}
+              className={`text-white px-4 py-2 rounded ${
+                !kategori ? "bg-gray-400 text-gray-600 cursor-not-allowed" : ""
+              }`}
+              style={{
+                backgroundColor: kategori ? "#5E84C5" : "#D1D5DB", // Default gray jika `kategori` kosong
+                cursor: kategori ? "pointer" : "not-allowed",
+              }}
+              disabled={!kategori}
+            >
+              Selanjutnya
+            </Button>
+            
             )}
 
             {currentStep === 3 && (
               <Button
-                type="button"
-                onClick={handleNextStep}
-                className={`bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded ${
-                  !targetDonasi
-                    ? "bg-gray-400 text-gray-600 cursor-not-allowed"
-                    : ""
-                }`}
-                disabled={!targetDonasi}
-              >
-                Selanjutnya
-              </Button>
+              type="button"
+              onClick={handleNextStep}
+              className={`text-white px-4 py-2 rounded ${
+                !targetDonasi ? "bg-gray-400 text-gray-600 cursor-not-allowed" : ""
+              }`}
+              style={{
+                backgroundColor: targetDonasi ? "#5E84C5" : "#D1D5DB", // #D1D5DB untuk disable
+                cursor: targetDonasi ? "pointer" : "not-allowed",
+              }}
+              disabled={!targetDonasi}
+            >
+              Selanjutnya
+            </Button>            
             )}
 
             {currentStep === 4 && (
               <Button
-                type="button"
-                onClick={() => {
-                  if (isDateValid) {
-                    handleNextStep();
-                  }
-                }}
-                className={`bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded ${
-                  !isDateValid
-                    ? "bg-gray-400 text-gray-600 cursor-not-allowed"
-                    : ""
-                }`}
-                disabled={!isDateValid}
-              >
-                Selanjutnya
-              </Button>
+              type="button"
+              onClick={() => {
+                if (isDateValid) {
+                  handleNextStep();
+                }
+              }}
+              className={`text-white px-4 py-2 rounded`}
+              style={{
+                backgroundColor: isDateValid ? "#5E84C5" : "#D1D5DB", // Tombol aktif vs nonaktif
+                cursor: isDateValid ? "pointer" : "not-allowed", // Gaya kursor untuk status
+                transition: "background-color 0.3s", // Efek transisi untuk perubahan warna
+              }}
+              disabled={!isDateValid}
+            >
+              Selanjutnya
+            </Button>
+            
             )}
 
             {currentStep === 5 && (
               <Button
-                type="button"
-                onClick={handleNextStep}
-                className={`bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded ${
-                  countWords < 30
-                    ? "bg-gray-400 text-gray-600 cursor-not-allowed"
-                    : ""
-                }`}
-                disabled={countWords < 30}
-              >
-                Selanjutnya
-              </Button>
+              type="button"
+              onClick={handleNextStep}
+              className={`text-white px-4 py-2 rounded`}
+              style={{
+                backgroundColor: countWords >= 30 ? "#5E84C5" : "#D1D5DB", // Warna tombol aktif vs nonaktif
+                cursor: countWords >= 30 ? "pointer" : "not-allowed", // Gaya kursor
+                transition: "background-color 0.3s", // Transisi warna
+              }}
+              disabled={countWords < 30}
+            >
+              Selanjutnya
+            </Button>
+            
             )}
 
             {currentStep === 6 && (
               <Button
                 type="button"
                 onClick={handleNextStep}
-                className={`bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded ${
-                  !thumbnail
-                    ? "bg-gray-400 text-gray-600 cursor-not-allowed"
-                    : ""
-                }`}
+                className={`text-white px-4 py-2 rounded`}
+                style={{
+                  backgroundColor: thumbnail ? "#5E84C5" : "#D1D5DB", // Warna tombol aktif vs nonaktif
+                  cursor: thumbnail ? "pointer" : "not-allowed", // Gaya kursor
+                  transition: "background-color 0.3s", // Transisi warna
+                }}
                 disabled={!thumbnail}
               >
                 Selanjutnya
               </Button>
+
             )}
 
             {currentStep === 7 && (

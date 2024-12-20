@@ -193,23 +193,7 @@ const FormDonasi = () => {
   };
 
   const handleNext = () => {
-    const accessToken = localStorage.getItem("accessToken");
 
-    if (!accessToken) {
-      toast.error("Anda belum login, silakan masuk untuk berdonasi.", {
-        position: "top-right",
-        autoClose: 2500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
-
-      setTimeout(() => {
-        window.location.href = "/login";
-      }, 3100);
-      return;
-    }
 
     // Validate steps and continue if valid
     if (currentStep === 1 && !isStep1Valid) return;
