@@ -69,9 +69,53 @@ const FormEditProfile = () => {
     fetchCurrentUser();
   }, [accessToken]);
 
+  async function handleDeleteProfilePhoto(e) {
+    e.preventDefault();
+  
+    try {
+      const confirmation = await Swal.fire({
+        icon: "warning",
+        title: "Yakin ingin menghapus foto profil?",
+        text: "Tindakan ini tidak dapat dibatalkan.",
+        showCancelButton: true,
+        confirmButtonText: "Ya, hapus",
+        cancelButtonText: "Batal",
+      });
+  
+      if (confirmation.isConfirmed) {
+        await api.delete("/user/profile/photo", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+  
+        // Reset previewUrl ke default dan update state
+        setPreviewUrl("http://localhost:8080/public/images/defaultProfile.png");
+        setFormDataPayload((prevState) => ({
+          ...prevState,
+          profilePhoto: null,
+        }));
+  
+        Swal.fire({
+          icon: "success",
+          title: "Foto profil berhasil dihapus",
+          text: "Foto profil Anda telah dihapus.",
+          confirmButtonText: "OK",
+        });
+      }
+    } catch (error) {
+      console.error("Gagal menghapus foto profil:", error.response?.data || error);
+      Swal.fire({
+        icon: "error",
+        title: "Gagal menghapus foto profil",
+        text: "Terjadi kesalahan saat menghapus foto profil Anda.",
+        confirmButtonText: "OK",
+      });
+    }
+  }
+
   async function triggerUpdateUser(e) {
     e.preventDefault();
-
     try {
       // Buat payload data profil
       const formDataPayloadUpdate = new FormData();
@@ -170,13 +214,14 @@ const FormEditProfile = () => {
     }
   };
 
+
   return (
     <div className="flex flex-col items-center justify-center p-6 bg-gray-100">
       <div className="w-full max-w-xl p-6 bg-white rounded-lg shadow-xl">
         <div className="flex items-center justify-center mb-8">
           <h1 className="text-2xl font-semibold text-black">Edit Profile</h1>
         </div>
-        <form className="space-y-6">
+        <form  onSubmit={triggerUpdateUser} className="space-y-6">
           <div className="flex justify-center mb-6">
             <div className="relative">
               <img
@@ -200,6 +245,14 @@ const FormEditProfile = () => {
                   onChange={onChangeFileHandler}
                 />
               </label>
+            {previewUrl !== "http://localhost:8080/public/images/defaultProfile.png" && (
+              <button
+              className="absolute top-0 right-0 bg-red-600 text-white rounded-full p-1"
+                onClick={handleDeleteProfilePhoto}
+              >
+                Hapus
+              </button>
+            )}
             </div>
           </div>
           <FormField

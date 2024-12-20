@@ -45,7 +45,11 @@ const ProfileMenu = ({ isLoggedIn }) => {
           <span className="absolute -inset-1.5" />
           <img
             alt="User Profile"
-            src={`http://localhost:8080/api/v1/files/${userData?.photo_url}`}
+            src={
+              userData.photo_url
+                ? `http://localhost:8080/api/v1/files/${userData.photo_url}`
+                : "http://localhost:8080/public/images/defaultProfile.png"
+            }
             className="size-12 rounded-full"
           />
         </MenuButton>

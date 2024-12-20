@@ -40,7 +40,11 @@ const ProfileContent = () => {
         <div className="bg-[#5E84C5] p-6 rounded-lg shadow-lg w-full flex flex-col items-center mb-8">
           <img
             alt="User Profile"
-            src={`http://localhost:8080/api/v1/files/${userData.photo_url}`}
+            src={
+              userData.photo_url
+                ? `http://localhost:8080/api/v1/files/${userData.photo_url}`
+                : "http://localhost:8080/public/images/defaultProfile.png"
+            }
             className="w-40 h-40 border-4 border-gray-200 rounded-full shadow-lg"
           />
 
