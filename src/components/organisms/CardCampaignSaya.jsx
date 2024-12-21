@@ -14,7 +14,7 @@ const CardCampaignSaya = () => {
 
   useEffect(() => {
     getCampaignByUserId();
-  }, []);
+  }, [getCampaignByUserId]);
 
   const getStatusStyle = (status) => {
     if (status === "Unpublished") return "bg-red-500 text-white rounded-lg";
@@ -23,6 +23,14 @@ const CardCampaignSaya = () => {
   };
 
   const imageUrl = (photo) => `${import.meta.env.VITE_BASE_URL}/files/${photo}`;
+
+  const getStatus = (item) => {
+    // Jika tanggal selesai sudah lewat dan status masih "On Going", ubah menjadi "Done"
+    if (isDatePassed(item.endDate) && item.statusCampaign === "On Going") {
+      return "Done";
+    }
+    return item.statusCampaign;
+  };
 
   if (campaignByUserId.length === 0) {
     return (
@@ -61,11 +69,11 @@ const CardCampaignSaya = () => {
             <div className="relative h-80 lg:w-1/2 lg:h-96">
               <div
                 className={`absolute p-2 text-center text-lg font-semibold w-40 ${getStatusStyle(
-                  item.statusCampaign
+                  getStatus(item)
                 )}`}
                 style={{ zIndex: 10 }}
               >
-                {item.statusCampaign}
+                {getStatus(item)}
               </div>
               <div
                 className="absolute text-center p-2 w-40 right-0 top-0 rounded text-lg text-gray-600 bg-[#5E84C5]"
@@ -131,7 +139,7 @@ const CardCampaignSaya = () => {
               </div>
 
               {/* Tarik Dana */}
-              {(isDatePassed(item.endDate) ||
+              {(getStatus(item) === "Done" ||
                 item.totalDonation >= item.targetAmount) && (
                 <div className="mt-6">
                   <WithdrawForm campaignId={item._id} />
