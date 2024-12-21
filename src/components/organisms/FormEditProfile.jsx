@@ -6,28 +6,31 @@ import { getAccessToken } from "../../utils/tokenManager.js";
 import { axiosInstance as api } from "../../config/axiosInstance.js";
 import { FilePond, registerPlugin } from "react-filepond";
 import "filepond/dist/filepond.min.css";
-
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import Label from "../atoms/Label";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import defaultProfile from "../../assets/defaultProfile.png";
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 const FormEditProfile = () => {
+  const DEFAULT_PROFILE_PHOTO = defaultProfile;
+
   const [formDataPayload, setFormDataPayload] = useState({
     name: "",
     email: "",
     phoneNumber: "",
     password: "",
+    profilePhoto: null,
   });
+  const [previewUrl, setPreviewUrl] = useState(DEFAULT_PROFILE_PHOTO);
   const [accessToken, setAccessToken] = useState("");
   const [file, setFile] = useState();
   const [oldFile, setOldFile] = useState("");
   const [isKYC, setIsKYC] = useState();
-  const [previewUrl, setPreviewUrl] = useState("");
   const Navigate = useNavigate();
 
   useEffect(() => {
@@ -37,11 +40,11 @@ const FormEditProfile = () => {
   async function fetchCurrentUser() {
     try {
       const data = await api.get("/user/profile");
-      setPreviewUrl(
-        data.data.photo_url
-          ? `${import.meta.env.VITE_BASE_URL}/files/${data.data.photo_url}`
-          : "${import.meta.env.VITE_BASE_URL}/public/images/defaultProfile.png"
-      );
+      const photoUrl = data.data.photo_url
+        ? `${import.meta.env.VITE_BASE_URL}/files/${data.data.photo_url}`
+        : DEFAULT_PROFILE_PHOTO;
+
+      setPreviewUrl(photoUrl);
       setFormDataPayload({
         name: data.data.name,
         email: data.data.email,
@@ -52,7 +55,9 @@ const FormEditProfile = () => {
       if (data.data.nationalIdentityCard) {
         setFile([
           {
-            source: `${import.meta.env.VITE_BASE_URL}/files/${data.data.nationalIdentityCard}`,
+            source: `${import.meta.env.VITE_BASE_URL}/files/${
+              data.data.nationalIdentityCard
+            }`,
             options: { type: "input" },
             name: data.data.name,
           },
@@ -61,6 +66,7 @@ const FormEditProfile = () => {
       return data;
     } catch (error) {
       console.error("Error fetching user:", error.response?.data || error);
+      setPreviewUrl(DEFAULT_PROFILE_PHOTO);
       throw error;
     }
   }
@@ -69,9 +75,16 @@ const FormEditProfile = () => {
     fetchCurrentUser();
   }, [accessToken]);
 
+  const getValidImageUrl = (url) => {
+    if (!url || url === "null" || url === "undefined") {
+      return DEFAULT_PROFILE_PHOTO;
+    }
+    return url;
+  };
+
   async function handleDeleteProfilePhoto(e) {
     e.preventDefault();
-  
+
     try {
       const confirmation = await Swal.fire({
         icon: "warning",
@@ -81,21 +94,25 @@ const FormEditProfile = () => {
         confirmButtonText: "Ya, hapus",
         cancelButtonText: "Batal",
       });
-  
+
       if (confirmation.isConfirmed) {
         await api.delete("/user/profile/photo", {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-  
-        // Reset previewUrl ke default dan update state
-        setPreviewUrl("${import.meta.env.VITE_BASE_URL}/public/images/defaultProfile.png");
+
+        // Langsung set ke default photo
+        setPreviewUrl(DEFAULT_PROFILE_PHOTO);
+
         setFormDataPayload((prevState) => ({
           ...prevState,
           profilePhoto: null,
         }));
-  
+
+        // Refresh data user setelah hapus foto
+        await fetchCurrentUser();
+
         Swal.fire({
           icon: "success",
           title: "Foto profil berhasil dihapus",
@@ -104,7 +121,10 @@ const FormEditProfile = () => {
         });
       }
     } catch (error) {
-      console.error("Gagal menghapus foto profil:", error.response?.data || error);
+      console.error(
+        "Gagal menghapus foto profil:",
+        error.response?.data || error
+      );
       Swal.fire({
         icon: "error",
         title: "Gagal menghapus foto profil",
@@ -113,6 +133,11 @@ const FormEditProfile = () => {
       });
     }
   }
+
+  // Effect untuk memastikan preview URL selalu valid
+  useEffect(() => {
+    setPreviewUrl(getValidImageUrl(previewUrl));
+  }, [previewUrl]);
 
   async function triggerUpdateUser(e) {
     e.preventDefault();
@@ -214,23 +239,22 @@ const FormEditProfile = () => {
     }
   };
 
-
   return (
     <div className="flex flex-col items-center justify-center p-6 bg-gray-100">
       <div className="w-full max-w-xl p-6 bg-white rounded-lg shadow-xl">
         <div className="flex items-center justify-center mb-8">
           <h1 className="text-2xl font-semibold text-black">Edit Profile</h1>
         </div>
-        <form  onSubmit={triggerUpdateUser} className="space-y-6">
+        <form onSubmit={triggerUpdateUser} className="space-y-6">
           <div className="flex justify-center mb-6">
             <div className="relative">
               <img
-                src={
-                  previewUrl
-                    ? previewUrl
-                    : "${import.meta.env.VITE_BASE_URL}/public/images/defaultProfile.png"
-                }
+                src={getValidImageUrl(previewUrl)}
                 alt="Profile"
+                onError={(e) => {
+                  console.log("Image error, falling back to default");
+                  e.target.src = DEFAULT_PROFILE_PHOTO;
+                }}
                 className="w-32 h-32 rounded-full shadow-lg border-4 border-[#5E84C5]"
               />
               <label
@@ -245,14 +269,15 @@ const FormEditProfile = () => {
                   onChange={onChangeFileHandler}
                 />
               </label>
-            {previewUrl !== "${import.meta.env.VITE_BASE_URL}/public/images/defaultProfile.png" && (
-              <button
-              className="absolute top-0 right-0 bg-red-600 text-white rounded-full p-1"
-                onClick={handleDeleteProfilePhoto}
-              >
-                Hapus
-              </button>
-            )}
+              {previewUrl !==
+                "${import.meta.env.VITE_BASE_URL}/public/images/defaultProfile.png" && (
+                <button
+                  className="absolute top-0 right-0 bg-red-600 text-white rounded-full p-1"
+                  onClick={handleDeleteProfilePhoto}
+                >
+                  Hapus
+                </button>
+              )}
             </div>
           </div>
           <FormField

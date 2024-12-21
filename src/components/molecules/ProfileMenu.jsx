@@ -11,8 +11,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../config/auth";
 import { useEffect, useState } from "react";
 import { axiosInstance as api } from "../../config/axiosInstance.js";
+import defaultProfile from "../../assets/defaultProfile.png";
 
 const ProfileMenu = ({ isLoggedIn }) => {
+  const DEFAULT_PROFILE_PHOTO = defaultProfile;
   const [userData, setUserData] = useState({});
   const { logout } = useAuth();
   const Navigate = useNavigate();
@@ -48,7 +50,7 @@ const ProfileMenu = ({ isLoggedIn }) => {
             src={
               userData.photo_url
                 ? `${import.meta.env.VITE_BASE_URL}/files/${userData.photo_url}`
-                : "${import.meta.env.VITE_BASE_URL}/public/images/defaultProfile.png"
+                : DEFAULT_PROFILE_PHOTO
             }
             className="size-12 rounded-full"
           />

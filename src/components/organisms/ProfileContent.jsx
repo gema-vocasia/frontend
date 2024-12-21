@@ -9,8 +9,10 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getAccessToken } from "../../utils/tokenManager.js";
 import { axiosInstance as api } from "../../config/axiosInstance.js";
+import defaultProfile from "../../assets/defaultProfile.png";
 
 const ProfileContent = () => {
+  const DEFAULT_PROFILE_PHOTO = defaultProfile;
   const [userData, setUserData] = useState({});
   const [accessToken, setAccessToken] = useState("");
   useEffect(() => {
@@ -43,7 +45,7 @@ const ProfileContent = () => {
             src={
               userData.photo_url
                 ? `${import.meta.env.VITE_BASE_URL}/files/${userData.photo_url}`
-                : "${import.meta.env.VITE_BASE_URL}/public/images/defaultProfile.png"
+                : DEFAULT_PROFILE_PHOTO
             }
             className="w-40 h-40 border-4 border-gray-200 rounded-full shadow-lg"
           />
