@@ -47,6 +47,9 @@ const ProfileContent = () => {
                 ? `${import.meta.env.VITE_BASE_URL}/files/${userData.photo_url}`
                 : DEFAULT_PROFILE_PHOTO
             }
+            onError={(e) => {
+              e.target.src = DEFAULT_PROFILE_PHOTO;
+            }}
             className="w-40 h-40 border-4 border-gray-200 rounded-full shadow-lg"
           />
 

@@ -252,7 +252,6 @@ const FormEditProfile = () => {
                 src={getValidImageUrl(previewUrl)}
                 alt="Profile"
                 onError={(e) => {
-                  console.log("Image error, falling back to default");
                   e.target.src = DEFAULT_PROFILE_PHOTO;
                 }}
                 className="w-32 h-32 rounded-full shadow-lg border-4 border-[#5E84C5]"

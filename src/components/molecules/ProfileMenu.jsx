@@ -52,6 +52,9 @@ const ProfileMenu = ({ isLoggedIn }) => {
                 ? `${import.meta.env.VITE_BASE_URL}/files/${userData.photo_url}`
                 : DEFAULT_PROFILE_PHOTO
             }
+            onError={(e) => {
+              e.target.src = DEFAULT_PROFILE_PHOTO;
+            }}
             className="size-12 rounded-full"
           />
         </MenuButton>
